@@ -54,8 +54,8 @@ sigma0_sq = sigma0^2;
 tau0 = 0.01;
 tau0_sq_inv = 1/tau0^2;
 V0_inv = ones(M, 1); 
-T = 30000;
-burn_in = 25000;
-thin = 5;
+T = 60000;
+burn_in = 20000;
+thin = 40;
 post_samples = Gibbs_sampler(A, ATA, Y, ATY, fj_sq, nu, sigma0_sq, tau0_sq_inv, V0_inv, T, burn_in, thin);
     
