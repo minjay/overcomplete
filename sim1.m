@@ -47,10 +47,15 @@ end
 
 Y = A*c+randn(N, 1)*tau;
 
+ATY = A'*Y;
+
 sigma0 = 1;
+sigma0_sq = sigma0^2;
 tau0 = 0.01;
-V0 = ones(M, 1); 
-T = 5000;
-burn_in = 1000;
-post_samples = Gibbs_sampler(A, ATA, Y, fj_sq, nu, sigma0, tau0, V0, T, burn_in);
+tau0_sq_inv = 1/tau0^2;
+V0_inv = ones(M, 1); 
+T = 30000;
+burn_in = 25000;
+thin = 5;
+post_samples = Gibbs_sampler(A, ATA, Y, ATY, fj_sq, nu, sigma0_sq, tau0_sq_inv, V0_inv, T, burn_in, thin);
     
