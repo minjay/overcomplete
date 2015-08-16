@@ -7,6 +7,10 @@ post_samples_V_inv = zeros(M, sample_size);
 post_samples_sigma_sq = zeros(1, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
 for t = 1:T 
+    if mod(t, 100)==0
+        disp(['t = ', num2str(t), ' starts...'])
+    end
+    
     % sample c (slow)  
     z = randn(M, 1);
     Sigma_inv = tau_sq_inv*ATA+diag(V_inv);
