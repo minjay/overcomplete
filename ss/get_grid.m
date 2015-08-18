@@ -11,4 +11,4 @@ for i = 1:n
     degree_t(i) = str2num(all_names{i}(3:5));
 end
 
-save('/Users/minjay/Documents/MATLAB/Needlets/overcomplete/ss.mat', 'ss', 'degree_t')
+save('/Users/minjay/Documents/MATLAB/Needlets/overcomplete/ss/ss.mat', 'ss', 'degree_t')
