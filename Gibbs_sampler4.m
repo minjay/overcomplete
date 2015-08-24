@@ -1,4 +1,4 @@
-function post_samples = Gibbs_sampler2(Npix, A, ATA, Y, ATY, fj_sq, nu, c, sigma_sq, tau_sq_inv, V_inv, T, burn_in, thin)
+function post_samples = Gibbs_sampler4(Npix, A, ATA, Y, ATY, fj_sq, nu, c, sigma_sq, tau_sq_inv, V_inv, T, burn_in, thin)
 
 len_j = length(Npix);
 st = zeros(len_j, 1);
@@ -20,14 +20,14 @@ for t = 1:T
     end
     
     % sample c
-    for j = 1:len_j  
-        z = randn(Npix(j), 1);
-        range = st(j):en(j);
-        not_range = setdiff(1:M, range);
-        Sigma_inv = tau_sq_inv*ATA(range, range)+diag(V_inv(range));
-        R = chol(Sigma_inv);
-        z = z+R'\(ATY(range)-ATA(range, not_range)*c(not_range))*tau_sq_inv;
-        c(range) = R\z;
+    z = randn(M, 1);
+    Sigma = 1./(tau_sq_inv*diag(ATA)+V_inv);
+    diff_const = ATY-ATA*c;
+    for k = 1:M
+        diff_const = diff_const+ATA(:, k)*c(k);
+        mu = tau_sq_inv*Sigma(k)*diff_const(k);    
+        c(k) = mu+sqrt(Sigma(k))*z(k);
+        diff_const = diff_const-ATA(:, k)*c(k);
     end
     
     % sample V
