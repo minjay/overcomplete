@@ -1,4 +1,4 @@
-function [Npix, A] = get_A_ss(B, j_min, j_max, theta, phi, n_dist)
+function [Npix, grid_points, A] = get_A_ss(B, j_min, j_max, theta, phi, n_dist)
 %GET_A   Computes the design matrix A.
 %
 %   A = get_A(B, j_min, j_max, theta, phi, n_dist)

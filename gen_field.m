@@ -1,6 +1,6 @@
-nu = 2;
+nu = 3;
 
-alpha = 3;
+alpha = 4;
 sigma = 10;
 
 res = 200;
@@ -17,10 +17,10 @@ j_min = 2;
 j_max = 4;
 n_dist = 1e3;
 
-[Npix, A] = get_A_ss(B, j_min, j_max, theta_vec, phi_vec, n_dist);
+[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_vec, phi_vec, n_dist);
 [N, M] = size(A); 
 
-sigma_j = sigma*B.^(-alpha*(2:4));
+sigma_j = sigma*B.^(-alpha/2*(2:4));
 
 c = zeros(M, 1);
 f_j = cell(j_max-j_min+1, 1);
@@ -63,3 +63,7 @@ colorbar('southoutside')
 max_value = max(max(abs(f)));
 caxis([-max_value, max_value])
 title('f1+f2+f3')
+
+% check non-Gaussianity
+figure
+qqplot(f(:))
