@@ -1,8 +1,8 @@
 clear
 
-nu = 2;
+nu = 3;
 
-alpha = 3;
+alpha = 4;
 sigma = 10;
 tau = 0.1;
 
@@ -35,13 +35,13 @@ n_dist = 1e3;
 [N, M] = size(A);
 ATA = A'*A;
 
-sigma_j = sigma*B.^(-alpha*(j_min:j_max));
+sigma_j = sigma*B.^(-alpha/2*(j_min:j_max));
 fj_sq = zeros(M, 1);
 c = zeros(M, 1);
 for j = j_min:j_max
     index = j-j_min+1;
     range = sum(Npix(1:index))-Npix(index)+1:sum(Npix(1:index));
-    fj_sq(range) = B^(-2*alpha*j)*ones(Npix(index), 1);
+    fj_sq(range) = B^(-alpha*j)*ones(Npix(index), 1);
     c(range) = sigma_j(index)*trnd(nu, Npix(index), 1);
 end
 
@@ -54,8 +54,8 @@ sigma0_sq = sigma0^2;
 tau0 = 0.01;
 tau0_sq_inv = 1/tau0^2;
 V0_inv = ones(M, 1); 
-T = 60000;
-burn_in = 20000;
-thin = 40;
+T = 150000;
+burn_in = 50000;
+thin = 100;
 post_samples = Gibbs_sampler(A, ATA, Y, ATY, fj_sq, nu, sigma0_sq, tau0_sq_inv, V0_inv, T, burn_in, thin);
     
