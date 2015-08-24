@@ -31,7 +31,7 @@ j_max = 4;
 j_len = j_max-j_min+1;
 n_dist = 1e3;
 
-[Npix, A] = get_A_ss(B, j_min, j_max, theta, phi, n_dist);
+[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta, phi, n_dist);
 [N, M] = size(A);
 ATA = A'*A;
 
