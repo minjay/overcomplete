@@ -57,5 +57,6 @@ V0_inv = ones(M, 1);
 T = 150000;
 burn_in = 50000;
 thin = 100;
+tic
 post_samples = Gibbs_sampler(A, ATA, Y, ATY, fj_sq, nu, sigma0_sq, tau0_sq_inv, V0_inv, T, burn_in, thin);
-    
+toc    
