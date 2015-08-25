@@ -55,9 +55,9 @@ sigma0_sq = sigma0^2;
 tau0 = 0.01;
 tau0_sq_inv = 1/tau0^2;
 V0_inv = ones(M, 1); 
-T = 250000;
+T = 150000;
 burn_in = 50000;
-thin = 200;
+thin = 100;
 tic
-post_samples = Gibbs_sampler4(Npix, A, ATA, Y, ATY, fj_sq, nu, c0, sigma0_sq, tau0_sq_inv, V0_inv, T, burn_in, thin);
+post_samples = Gibbs_sampler2(Npix, A, ATA, Y, ATY, fj_sq, nu, c0, sigma0_sq, tau0_sq_inv, V0_inv, T, burn_in, thin);
 toc
