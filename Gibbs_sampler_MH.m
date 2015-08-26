@@ -1,11 +1,10 @@
-function post_samples = Gibbs_sampler_MH(A, Y, b_mat, fj_sq, nu, sigma_sq, tau_sq_inv, V_inv, eta, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report)
+function post_samples = Gibbs_sampler_MH(A, Y, b_mat, fj_sq, nu, tau_sq_inv, V_inv, eta, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report)
 
 [N, M] = size(A);
 r = length(eta);
 sample_size = floor((T-burn_in)/thin);
 post_samples_c = zeros(M, sample_size);
 post_samples_V_inv = zeros(M, sample_size);
-post_samples_sigma_sq = zeros(1, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
 post_samples_eta = zeros(r, sample_size);
 flag = 0;
@@ -19,7 +18,7 @@ for t = 1:T
         flag = 0;
     end
     
-    % sample c (slow)  
+    % sample c (slow)
     z = randn(M, 1);
     Sigma_inv = tau_sq_inv*(HatA'*HatA)+diag(V_inv);
     R = chol(Sigma_inv);
@@ -28,13 +27,8 @@ for t = 1:T
     
     % sample V
     shape = (nu+1)/2;
-    scale = 2./(c.^2+nu*fj_sq*sigma_sq);
+    scale = 2./(c.^2+nu*fj_sq);
     V_inv = gamrnd(shape, scale);
-    
-    % sample sigma
-    shape = nu*M/2;
-    scale = 1/sum(fj_sq.*V_inv)*2/nu;
-    sigma_sq = gamrnd(shape, scale);
     
     % sample tau
     shape = N/2;
@@ -51,7 +45,7 @@ for t = 1:T
     HatAc_star = HatA_star*c;
     quad_form_star = (Y-HatAc_star)'*(Y-HatAc_star);
     f2 = tau_sq_inv*quad_form_star/2+eta_star'*eta_star/2/tau_eta_sq;
-    ratio = f1/f2;
+    ratio = exp(f1-f2);
     u = rand;
     if ratio>=u
         eta = eta_star;
@@ -70,15 +64,13 @@ for t = 1:T
         index = t_diff/thin;
         post_samples_c(:, index) = c;
         post_samples_V_inv(:, index) = V_inv;
-        post_samples_sigma_sq(index) = sigma_sq;
         post_samples_tau_sq_inv(index) = tau_sq_inv;
         post_samples_eta(:, index) = eta;
     end
 end
 
 post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
-    'sigma_sq', post_samples_sigma_sq, 'tau_sq_inv', post_samples_tau_sq_inv,...
-    'eta', post_samples_eta);
+    'tau_sq_inv', post_samples_tau_sq_inv, 'eta', post_samples_eta);
 
 end
     
