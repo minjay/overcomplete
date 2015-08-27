@@ -3,7 +3,7 @@ clear
 nu = 3;
 
 alpha = 4;
-sigma = 2;
+sigma = 4.5;
 tau = 0.1;
 
 % the grid
@@ -52,7 +52,7 @@ for i = 1:r
     b_mat(i, :) = normpdf(theta, mu(i), lambda);
 end
 
-eta = randn(r, 1)*2;
+eta = -5;
 
 Y = diag(exp(b_mat'*eta))*A*c+randn(N, 1)*tau;
 
@@ -62,12 +62,12 @@ tau0 = 0.01;
 tau0_sq_inv = 1/tau0^2;
 V0_inv = ones(M, 1); 
 eta0 = zeros(r, 1);
-tau_eta_sq = 2;
-sigma_eta_sq = 0.1;
-T = 5000;
-n_report = 50;
-burn_in = 0;
-thin = 1;
+tau_eta_sq = 1e4;
+sigma_eta_sq = 0.03;
+T = 150000;
+n_report = 100;
+burn_in = 50000;
+thin = 100;
 tic
 post_samples = Gibbs_sampler_MH2(A, Y, b_mat, fj_sq, nu, sigma0_sq,...
     tau0_sq_inv, V0_inv, eta0, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report);
