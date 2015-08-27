@@ -3,6 +3,7 @@ clear
 nu = 3;
 
 alpha = 4;
+sigma = 2;
 tau = 0.1;
 
 % the grid
@@ -33,7 +34,7 @@ n_dist = 1e3;
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta, phi, n_dist);
 [N, M] = size(A);
 
-sigma_j = B.^(-alpha/2*(j_min:j_max));
+sigma_j = sigma*B.^(-alpha/2*(j_min:j_max));
 fj_sq = zeros(M, 1);
 c = zeros(M, 1);
 for j = j_min:j_max
@@ -46,28 +47,28 @@ end
 r = 1;
 mu = pi/(r+1)*(1:r);
 lambda = pi/(r+1)*2.5/2;
-b_mat = zeros(r+1, N);
-b_mat(1, :) = 1;
-for i = 2:r+1
-    b_mat(i, :) = normpdf(theta, mu(i-1), lambda);
+b_mat = zeros(r, N);
+for i = 1:r
+    b_mat(i, :) = normpdf(theta, mu(i), lambda);
 end
 
-eta = [1.5; -5];
+eta = randn(r, 1)*2;
 
 Y = diag(exp(b_mat'*eta))*A*c+randn(N, 1)*tau;
 
+sigma0 = 1;
+sigma0_sq = sigma0^2;
 tau0 = 0.01;
 tau0_sq_inv = 1/tau0^2;
 V0_inv = ones(M, 1); 
-eta0 = zeros(r+1, 1);
-tau_eta_sq = 1e4;
-sigma_eta_sq = 0.0008;
-T = 150000;
-n_report = 100;
-burn_in = 50000;
-thin = 100;
-
+eta0 = zeros(r, 1);
+tau_eta_sq = 2;
+sigma_eta_sq = 0.1;
+T = 5000;
+n_report = 50;
+burn_in = 0;
+thin = 1;
 tic
-post_samples = Gibbs_sampler_MH(A, Y, b_mat, fj_sq, nu, tau0_sq_inv,...
-    V0_inv, eta0, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report);
+post_samples = Gibbs_sampler_MH2(A, Y, b_mat, fj_sq, nu, sigma0_sq,...
+    tau0_sq_inv, V0_inv, eta0, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report);
 toc
