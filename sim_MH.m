@@ -7,7 +7,7 @@ tau = 0.1;
 
 % the grid
 B = 2;
-Nside = 32;
+Nside = 8;
 tp = pix2ang(Nside, 'nest', false);
 n = length(tp);
 theta = zeros(n, 1);
@@ -59,7 +59,7 @@ Y = diag(exp(b_mat'*eta))*A*c+randn(N, 1)*tau;
 tau0 = 0.01;
 tau0_sq_inv = 1/tau0^2;
 V0_inv = ones(M, 1); 
-eta0 = zeros(r+1, 1);
+eta0 = eta;
 tau_eta_sq = 1;
 sigma_eta_sq = 0.075;
 T = 150000;
