@@ -3,7 +3,7 @@ clear
 nu = 3;
 
 alpha = 4;
-sigma = 4.5;
+sigma = 5;
 tau = 0.1;
 
 % the grid
@@ -44,7 +44,7 @@ for j = j_min:j_max
     c(range) = sigma_j(index)*trnd(nu, Npix(index), 1);
 end
 
-r = 1;
+r = 4;
 mu = pi/(r+1)*(1:r);
 lambda = pi/(r+1)*2.5/2;
 b_mat = zeros(r, N);
@@ -52,7 +52,7 @@ for i = 1:r
     b_mat(i, :) = normpdf(theta, mu(i), lambda);
 end
 
-eta = -5;
+eta = randn(r, 1);
 
 Y = diag(exp(b_mat'*eta))*A*c+randn(N, 1)*tau;
 
@@ -63,7 +63,7 @@ tau0_sq_inv = 1/tau0^2;
 V0_inv = ones(M, 1); 
 eta0 = zeros(r, 1);
 tau_eta_sq = 0.25^2;
-sigma_eta_sq = 0.03;
+sigma_eta_sq = 0.0005;
 T = 150000;
 n_report = 100;
 burn_in = 50000;
