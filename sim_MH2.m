@@ -46,7 +46,7 @@ end
 
 r = 4;
 mu = pi/(r+1)*(1:r);
-lambda = pi/(r+1)*2.5/2;
+lambda = pi/(r+1)/2;
 b_mat = zeros(r, N);
 for i = 1:r
     b_mat(i, :) = normpdf(theta, mu(i), lambda);
