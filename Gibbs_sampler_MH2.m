@@ -1,4 +1,6 @@
-function post_samples = Gibbs_sampler_MH2(A, Y, b_mat, fj_sq, nu, sigma_sq, tau_sq_inv, V_inv, eta, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report)
+function post_samples = Gibbs_sampler_MH2(A, Y, b_mat, fj_sq, nu,...
+    sigma_sq, tau_sq_inv, V_inv, eta, alpha_sigma, beta_sigma,...
+    tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report)
 
 [N, M] = size(A);
 r = length(eta);
@@ -32,8 +34,8 @@ for t = 1:T
     V_inv = gamrnd(shape, scale);
     
     % sample sigma
-    shape = nu*M/2;
-    scale = 1/sum(fj_sq.*V_inv)*2/nu;
+    shape = nu*M/2+alpha_sigma;
+    scale = 1/(sum(fj_sq.*V_inv)*nu/2+beta_sigma);
     sigma_sq = gamrnd(shape, scale);
     
     % sample tau
