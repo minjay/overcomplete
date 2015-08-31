@@ -67,7 +67,7 @@ beta_sigma = 1;
 tau_eta_sq = 0.25^2;
 sigma_eta_sq = 0.001;
 T = 1500000;
-n_report = 100;
+n_report = 1000;
 burn_in = 500000;
 thin = 1000;
 tic
