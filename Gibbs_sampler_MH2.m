@@ -45,8 +45,13 @@ for t = 1:T
     scale = 2/quad_form;
     tau_sq_inv = gamrnd(shape, scale);
     
+    C = [1.0000   -0.3157    0.1467    0.3675;
+   -0.3157    1.0000   -0.5321    0.3041;
+    0.1467   -0.5321    1.0000   -0.2627;
+    0.3675    0.3041   -0.2627    1.0000];
+
     % sample eta
-    eta_star = mvnrnd(eta, sigma_eta_sq*eye(r))';
+    eta_star = mvnrnd(eta, sigma_eta_sq*C)';
     f1 = tau_sq_inv*quad_form/2+eta'*eta/2/tau_eta_sq;
     Hat_star = diag(exp(b_mat'*eta_star));
     HatA_star = Hat_star*A;
