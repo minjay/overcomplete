@@ -83,4 +83,3 @@ post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
     'eta', post_samples_eta);
 
 end
-    
