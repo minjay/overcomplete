@@ -39,12 +39,12 @@ for t = 1:T
     
     % sample eta
     eta_star = mvnrnd(eta, sigma_eta_sq*eye(r))';
-    f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
+    f1 = tau_sq_inv*quad_form/2+eta(2:r)'*eta(2:r)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
     Hat_star = diag(exp(b_mat'*eta_star));
     HatA_star = Hat_star*A;
     HatAc_star = HatA_star*c;
     quad_form_star = (Y-HatAc_star)'*(Y-HatAc_star);
-    f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r+1)'*eta_star(2:r+1)/2/tau_eta_sq+eta_star(1)^2/2/tau_sigma_sq;
+    f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r)'*eta_star(2:r)/2/tau_eta_sq+eta_star(1)^2/2/tau_sigma_sq;
     ratio = exp(f1-f2);
     u = rand;
     if ratio>=u
