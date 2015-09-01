@@ -1,4 +1,4 @@
-function post_samples = Gibbs_sampler_MH(A, Y, b_mat, fj_sq, nu, tau_sq_inv, V_inv, eta, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report)
+function post_samples = Gibbs_sampler_MH(A, Y, b_mat, fj_sq, nu, tau_sq_inv, V_inv, eta, tau_sigma_sq, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report)
 
 [N, M] = size(A);
 r = length(eta);
@@ -39,7 +39,7 @@ for t = 1:T
     
     % sample eta
     eta_star = mvnrnd(eta, sigma_eta_sq*eye(r))';
-    f1 = tau_sq_inv*quad_form/2+eta'*eta/2/tau_eta_sq;
+    f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
     Hat_star = diag(exp(b_mat'*eta_star));
     HatA_star = Hat_star*A;
     HatAc_star = HatA_star*c;

@@ -43,7 +43,7 @@ for j = j_min:j_max
     c(range) = sigma_j(index)*trnd(nu, Npix(index), 1);
 end
 
-r = 1;
+r = 4;
 mu = pi/(r+1)*(1:r);
 lambda = pi/(r+1)*2.5/2;
 b_mat = zeros(r+1, N);
@@ -52,7 +52,7 @@ for i = 2:r+1
     b_mat(i, :) = normpdf(theta, mu(i-1), lambda);
 end
 
-eta = [1.5; -5];
+eta = [1.5; randn(r, 1)];
 
 Y = diag(exp(b_mat'*eta))*A*c+randn(N, 1)*tau;
 
@@ -60,7 +60,8 @@ tau0 = 0.01;
 tau0_sq_inv = 1/tau0^2;
 V0_inv = ones(M, 1); 
 eta0 = zeros(r+1, 1);
-tau_eta_sq = 5;
+tau_sigma_sq = 1;
+tau_eta_sq = 0.25^2;
 sigma_eta_sq = 0.0012;
 T = 150000;
 n_report = 100;
@@ -69,5 +70,5 @@ thin = 100;
 
 tic
 post_samples = Gibbs_sampler_MH(A, Y, b_mat, fj_sq, nu, tau0_sq_inv,...
-    V0_inv, eta0, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report);
+    V0_inv, eta0, tau_sigma_sq, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report);
 toc
