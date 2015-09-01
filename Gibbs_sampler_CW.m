@@ -46,7 +46,7 @@ for t = 1:T
     tau_sq_inv = gamrnd(shape, scale);
 
     % sample eta
-    for i = 1:r
+    for i = randperm(r)
         eta_star_i = randn*sqrt(sigma_eta_sq(i))+eta(i);
         eta_star = eta;
         eta_star(i) = eta_star_i;
