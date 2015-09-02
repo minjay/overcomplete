@@ -16,11 +16,7 @@ tau_sq_inv = params.tau;
 
 mu = tuning.mu;
 Sigma = tuning.Sigma;
-lambda1 = tuning.lambda1;
-lambda2 = tuning.lambda2;
-t0 = tuning.t0;
-
-lambda = lambda1;
+lambda = tuning.lambda;
 
 T = options.T;
 burn_in = options.burn_in;
@@ -91,22 +87,18 @@ for t = 1:T
         acc_times = acc_times+1;
     end 
     
+    
     % adaptation step
-    if t==t0
-        lambda = lambda2;
-    end
-    if t>=t0
-        t1 = t-t0;
-        gamma = 1/(t1+1);
-        diff = eta-mu;
-        Sigma = Sigma+gamma*(diff*diff'-Sigma);
-        mu = mu+gamma*(eta-mu);
-    end
+    gamma = 1/(t+1);
+    diff = eta-mu;
+    Sigma = Sigma+gamma*(diff*diff'-Sigma);
+    mu = mu+gamma*(eta-mu);
     
     % print to the screen
     if mod(t, n_report)==0
         disp(['Sampled: ', num2str(t), ' of ', num2str(T)])
-        disp(['Overall Metrop. Acceptance rate: ', num2str(floor(acc_times/t*1e4)/100), '%'])
+        disp(['Metrop. Acceptance rate: ', num2str(floor(acc_times/t*1e4)/100), '%'])
+        acc_times = 0;
         Sigma
     end
     
@@ -125,4 +117,3 @@ post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
     'tau_sq_inv', post_samples_tau_sq_inv, 'eta', post_samples_eta);
 
 end
-    
