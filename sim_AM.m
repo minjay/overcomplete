@@ -71,7 +71,9 @@ tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
-lambda = 2.38^2/(r+1);
+lambda1 = 0.0001;
+lambda2 = 0.05;
+t0 = 10000;
 % the number of MCMC iterations
 T = 150000;
 % the length of the burn-in period
@@ -88,7 +90,8 @@ data = Y;
 params = struct('V', V_inv_init, 'eta', {eta_init, tau_sigma_sq, tau_eta_sq},...
     'tau', tau_sq_inv_init);
 
-tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
+tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda1', lambda1,...
+    'lambda2', lambda2, 't0', t0);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
