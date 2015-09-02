@@ -96,7 +96,8 @@ for t = 1:T
         lambda = lambda2;
     end
     if t>=t0
-        gamma = 1/(t+1);
+        t1 = t-t0;
+        gamma = 1/(t1+1);
         diff = eta-mu;
         Sigma = Sigma+gamma*(diff*diff'-Sigma);
         mu = mu+gamma*(eta-mu);
