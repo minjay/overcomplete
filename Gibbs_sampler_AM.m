@@ -100,6 +100,7 @@ for t = 1:T
         disp(['Sampled: ', num2str(t), ' of ', num2str(T)])
         disp(['Metrop. Acceptance rate: ', num2str(floor(acc_times/n_report*1e4)/100), '%'])
         acc_times = 0;
+        lambda
         Sigma
     end
     
