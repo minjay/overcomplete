@@ -46,7 +46,7 @@ end
 
 r = 4;
 mu = pi/(r+1)*(1:r);
-lambda = pi/(r+1)*2.5/2;
+lambda = pi/(r+1)/2;
 b_mat = zeros(r, N);
 for i = 1:r
     b_mat(i, :) = normpdf(theta, mu(i), lambda);
@@ -56,20 +56,20 @@ eta = randn(r, 1);
 
 Y = diag(exp(b_mat'*eta))*A*c+randn(N, 1)*tau;
 
-sigma0 = 1;
+sigma0 = 2;
 sigma0_sq = sigma0^2;
-tau0 = 0.01;
+tau0 = 1;
 tau0_sq_inv = 1/tau0^2;
 V0_inv = ones(M, 1); 
 eta0 = zeros(r, 1);
 alpha_sigma = 4;
 beta_sigma = 1;
-tau_eta_sq = 0.25^2;
-sigma_eta_sq = [0.01, 0.01, 0.01, 0.01];
-T = 5000;
-n_report = 50;
-burn_in = 0;
-thin = 1;
+tau_eta_sq = 100^2;
+sigma_eta_sq = [0.005, 0.002, 0.001, 0.001];
+T = 150000;
+n_report = 100;
+burn_in = 50000;
+thin = 100;
 tic
 post_samples = Gibbs_sampler_CW(A, Y, b_mat, fj_sq, nu, sigma0_sq,...
     tau0_sq_inv, V0_inv, eta0, alpha_sigma, beta_sigma, tau_eta_sq,...

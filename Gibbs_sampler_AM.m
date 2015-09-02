@@ -10,12 +10,10 @@ post_samples_V_inv = zeros(M, sample_size);
 post_samples_sigma_sq = zeros(1, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
 post_samples_eta = zeros(r, sample_size);
-s_d = 0.05;
+s_d = 2.4^2/r;
 C = 0.00005*diag(ones(r, 1));
 flag = 0;
 acc_times = 0;
-sum_eta = zeros(r, 1);
-quad_eta = zeros(r, r);
 for t = 1:T 
     
     t_diff = t-burn_in;
@@ -51,17 +49,6 @@ for t = 1:T
     scale = 2/quad_form;
     tau_sq_inv = gamrnd(shape, scale);
     
-    if t_diff==t0+1
-        mean_eta = sum_eta/t0;
-        C = 1/(t0-1)*(quad_eta-t0*(mean_eta*mean_eta'))*s_d;
-    elseif t_diff>t0+1
-        C_old = C;
-        mean1 = sum_eta/(t-1);
-        mean2 = (sum_eta-eta)/(t-2);
-        tmp = (t-2)*(mean2*mean2')-(t-1)*(mean1*mean1')+eta*eta';
-        C = (t-3)/(t-2)*C_old+s_d/(t-2)*tmp;
-    end
-    
     % sample eta
     eta_star = mvnrnd(eta, C)';
     f1 = tau_sq_inv*quad_form/2+eta'*eta/2/tau_eta_sq;
@@ -84,14 +71,11 @@ for t = 1:T
         C
     end
     
-    % save
-    if t_diff>0
-        sum_eta = sum_eta+eta;
-    end
-    if t_diff<=t0
-        quad_eta = quad_eta+eta*eta';
-    end
+    if t
+    C = C+1/t*((eta-mu)*(eta-mu)'-C);
+    mu = mu+1/t*(eta-mu);
     
+    % save
     if t_diff>0 && mod(t_diff, thin)==0
         index = t_diff/thin;
         post_samples_c(:, index) = c;

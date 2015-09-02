@@ -65,11 +65,11 @@ eta0 = zeros(r, 1);
 alpha_sigma = 4;
 beta_sigma = 1;
 tau_eta_sq = 0.25^2;
-sigma_eta_sq = 0.001;
-T = 1500000;
-n_report = 1000;
-burn_in = 500000;
-thin = 1000;
+sigma_eta_sq = 0.025;
+T = 150000;
+n_report = 100;
+burn_in = 50000;
+thin = 100;
 tic
 post_samples = Gibbs_sampler_MH2(A, Y, b_mat, fj_sq, nu, sigma0_sq,...
     tau0_sq_inv, V0_inv, eta0, alpha_sigma, beta_sigma, tau_eta_sq,...
