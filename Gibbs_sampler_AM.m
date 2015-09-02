@@ -89,7 +89,7 @@ for t = 1:T
     
     
     % adaptation step
-    gamma = 1/t;
+    gamma = 1/(t+1);
     diff = eta-mu;
     Sigma = Sigma+gamma*(diff*diff'-Sigma);
     mu = mu+gamma*(eta-mu);
