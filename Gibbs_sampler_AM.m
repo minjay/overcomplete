@@ -93,8 +93,6 @@ for t = 1:T
     diff = eta-mu;
     Sigma = Sigma+gamma*(diff*diff'-Sigma);
     mu = mu+gamma*(eta-mu);
-    log_lambda = log(lambda)+gamma*(ratio-target_acc_rate);
-    lambda = exp(log_lambda);
     
     % print to the screen
     if mod(t, n_report)==0

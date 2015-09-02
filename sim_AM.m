@@ -71,7 +71,7 @@ tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
-lambda = 2.38^2/(r+1);
+lambda = 0.1^2/(r+1);
 % the number of MCMC iterations
 T = 150000;
 % the length of the burn-in period
