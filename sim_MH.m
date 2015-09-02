@@ -56,19 +56,40 @@ eta = [1.5; randn(r, 1)];
 
 Y = diag(exp(b_mat'*eta))*A*c+randn(N, 1)*tau;
 
-tau0 = 0.01;
-tau0_sq_inv = 1/tau0^2;
-V0_inv = ones(M, 1); 
-eta0 = zeros(r+1, 1);
+% init
+% V
+V_inv_init = ones(M, 1); 
+% eta
+eta_init = zeros(r+1, 1);
+% pri_sig of eta_0
 tau_sigma_sq = 1;
+% pri_sig of eta
 tau_eta_sq = 0.25^2;
+% tau
+tau_init = 0.01;
+tau_sq_inv_init = 1/tau_init^2;
+% tuning parameters
 sigma_eta_sq = 0.05;
+% the number of MCMC iterations
 T = 150000;
-n_report = 100;
+% the length of the burn-in period
 burn_in = 50000;
+% the length of the thinning interval
 thin = 100;
+% the length of the interval to report progress
+n_report = 100;
+
+model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
+
+data = Y;
+
+params = struct('V', V_inv_init, 'eta', {eta_init, tau_sigma_sq, tau_eta_sq},...
+    'tau', tau_sq_inv_init);
+
+tuning = struct('sigma_eta_sq', sigma_eta_sq);
+
+options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
 tic
-post_samples = Gibbs_sampler_MH(A, Y, b_mat, fj_sq, nu, tau0_sq_inv,...
-    V0_inv, eta0, tau_sigma_sq, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report);
+post_samples = Gibbs_sampler_MH(model, data, params, tuning, options);
 toc

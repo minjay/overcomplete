@@ -3,7 +3,6 @@ clear
 nu = 3;
 
 alpha = 4;
-sigma = 5;
 tau = 0.1;
 
 % the grid
@@ -34,7 +33,7 @@ n_dist = 1e3;
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta, phi, n_dist);
 [N, M] = size(A);
 
-sigma_j = sigma*B.^(-alpha/2*(j_min:j_max));
+sigma_j = B.^(-alpha/2*(j_min:j_max));
 fj_sq = zeros(M, 1);
 c = zeros(M, 1);
 for j = j_min:j_max
@@ -46,32 +45,53 @@ end
 
 r = 4;
 mu = pi/(r+1)*(1:r);
-lambda = pi/(r+1)/2;
-b_mat = zeros(r, N);
-for i = 1:r
-    b_mat(i, :) = normpdf(theta, mu(i), lambda);
+lambda = pi/(r+1)*2.5/2;
+b_mat = zeros(r+1, N);
+b_mat(1, :) = 1;
+for i = 2:r+1
+    b_mat(i, :) = normpdf(theta, mu(i-1), lambda);
 end
 
-eta = randn(r, 1);
+eta = [1.5; randn(r, 1)];
 
 Y = diag(exp(b_mat'*eta))*A*c+randn(N, 1)*tau;
 
-sigma0 = 1;
-sigma0_sq = sigma0^2;
-tau0 = 0.01;
-tau0_sq_inv = 1/tau0^2;
-V0_inv = ones(M, 1); 
-eta0 = zeros(r, 1);
-alpha_sigma = 0;
-beta_sigma = 0;
+% init
+% V
+V_inv_init = ones(M, 1); 
+% eta
+eta_init = zeros(r+1, 1);
+% pri_sig of eta_0
+tau_sigma_sq = 1;
+% pri_sig of eta
 tau_eta_sq = 0.25^2;
-t0 = 1000;
-T = 5000;
-n_report = 50;
-burn_in = 1000;
-thin = 1;
+% tau
+tau_init = 0.01;
+tau_sq_inv_init = 1/tau_init^2;
+% tuning parameters
+mu_init = zeros(r+1, 1);
+Sigma_init = eye(r+1);
+lambda = 2.38^2/(r+1);
+% the number of MCMC iterations
+T = 150000;
+% the length of the burn-in period
+burn_in = 50000;
+% the length of the thinning interval
+thin = 100;
+% the length of the interval to report progress
+n_report = 100;
+
+model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
+
+data = Y;
+
+params = struct('V', V_inv_init, 'eta', {eta_init, tau_sigma_sq, tau_eta_sq},...
+    'tau', tau_sq_inv_init);
+
+tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
+
+options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
+
 tic
-post_samples = Gibbs_sampler_AM(A, Y, b_mat, fj_sq, nu, sigma0_sq,...
-    tau0_sq_inv, V0_inv, eta0, alpha_sigma, beta_sigma, tau_eta_sq,...
-    t0, T, burn_in, thin, n_report);
+post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
 toc

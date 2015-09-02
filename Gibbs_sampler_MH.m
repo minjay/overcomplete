@@ -1,12 +1,34 @@
-function post_samples = Gibbs_sampler_MH(A, Y, b_mat, fj_sq, nu, tau_sq_inv, V_inv, eta, tau_sigma_sq, tau_eta_sq, sigma_eta_sq, T, burn_in, thin, n_report)
+function post_samples = Gibbs_sampler_MH(model, data, params, tuning, options)
+
+% init
+A = model.A;
+fj_sq = model.fj_sq;
+b_mat = model.b_mat;
+nu = model.nu;
+
+Y = data;
+
+V_inv = params.V;
+eta = params(1).eta;
+tau_sigma_sq = params(2).eta;
+tau_eta_sq = params(3).eta;
+tau_sq_inv = params.tau;
+
+sigma_eta_sq = tuning.sigma_eta_sq;
+
+T = options.T;
+burn_in = options.burn_in;
+thin = options.thin;
+n_report = options.n_report;
+
 
 [N, M] = size(A);
-r = length(eta);
+r = length(eta)-1;
 sample_size = floor((T-burn_in)/thin);
 post_samples_c = zeros(M, sample_size);
 post_samples_V_inv = zeros(M, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
-post_samples_eta = zeros(r, sample_size);
+post_samples_eta = zeros(r+1, sample_size);
 flag = 0;
 acc_times = 0;
 for t = 1:T 
@@ -44,12 +66,12 @@ for t = 1:T
    -0.0127    0.0118   -0.0192    0.0445 -0.0028;
    -0.0173    0.0204    0.0030   -0.0028 0.0405];
     eta_star = mvnrnd(eta, sigma_eta_sq*C)';
-    f1 = tau_sq_inv*quad_form/2+eta(2:r)'*eta(2:r)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
+    f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
     Hat_star = diag(exp(b_mat'*eta_star));
     HatA_star = Hat_star*A;
     HatAc_star = HatA_star*c;
     quad_form_star = (Y-HatAc_star)'*(Y-HatAc_star);
-    f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r)'*eta_star(2:r)/2/tau_eta_sq+eta_star(1)^2/2/tau_sigma_sq;
+    f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r+1)'*eta_star(2:r+1)/2/tau_eta_sq+eta_star(1)^2/2/tau_sigma_sq;
     ratio = exp(f1-f2);
     u = rand;
     if ratio>=u
