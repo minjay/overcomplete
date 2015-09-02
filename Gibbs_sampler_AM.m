@@ -87,9 +87,10 @@ for t = 1:T
         acc_times = acc_times+1;
     end 
     
-    
     % adaptation step
     gamma = 1/(t+1);
+    log_lambda = log(lambda)+gamma*(min([ratio, 1])-target_acc_rate);
+    lambda = exp(log_lambda);
     diff = eta-mu;
     Sigma = Sigma+gamma*(diff*diff'-Sigma);
     mu = mu+gamma*(eta-mu);
