@@ -89,7 +89,7 @@ for t = 1:T
     
     
     % adaptation step
-    gamma = 1/(t+1);
+    gamma = 1/t;
     diff = eta-mu;
     Sigma = Sigma+gamma*(diff*diff'-Sigma);
     mu = mu+gamma*(eta-mu);
@@ -97,7 +97,7 @@ for t = 1:T
     % print to the screen
     if mod(t, n_report)==0
         disp(['Sampled: ', num2str(t), ' of ', num2str(T)])
-        disp(['Metrop. Acceptance rate: ', num2str(floor(acc_times/t*1e4)/100), '%'])
+        disp(['Metrop. Acceptance rate: ', num2str(floor(acc_times/n_report*1e4)/100), '%'])
         acc_times = 0;
         Sigma
     end
