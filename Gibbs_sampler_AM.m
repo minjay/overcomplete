@@ -1,5 +1,6 @@
 function post_samples = Gibbs_sampler_AM(model, data, params, tuning, options)
 
+time_st = cputime;
 % init
 A = model.A;
 fj_sq = model.fj_sq;
@@ -134,4 +135,5 @@ end
 post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
     'tau_sq_inv', post_samples_tau_sq_inv, 'eta', post_samples_eta);
 
+disp(num2str(cputime-time_st))
 end
