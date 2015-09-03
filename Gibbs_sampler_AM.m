@@ -54,8 +54,6 @@ flag = 0;
 acc_times = 0;
 for t = 1:T 
     
-    tic
-    
     if flag==0
         HatA = diag(exp(b_mat'*eta))*A;
     else
@@ -131,7 +129,6 @@ for t = 1:T
         post_samples_eta(:, index) = eta;
     end
     
-    toc
 end
 
 post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
