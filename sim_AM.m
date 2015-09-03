@@ -26,7 +26,7 @@ phi(phi<0) = phi(phi<0)+2*pi;
 phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
 
 j_min = 2;
-j_max = 3;
+j_max = 4;
 j_len = j_max-j_min+1;
 n_dist = 1e3;
 
@@ -92,6 +92,4 @@ tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-tic
 post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
-toc
