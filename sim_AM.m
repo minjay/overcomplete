@@ -57,6 +57,8 @@ eta = [1.5; randn(r, 1)];
 Y = diag(exp(b_mat'*eta))*A*c+randn(N, 1)*tau;
 
 % init
+% c
+c_init = zeros(M, 1);
 % V
 V_inv_init = ones(M, 1); 
 % eta
@@ -83,9 +85,9 @@ n_report = 100;
 
 model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
 
-data = Y;
+data = struct('Y', Y, 'Npix', Npix);
 
-params = struct('V', V_inv_init, 'eta', {eta_init, tau_sigma_sq, tau_eta_sq},...
+params = struct('c', c_init, 'V', V_inv_init, 'eta', {eta_init, tau_sigma_sq, tau_eta_sq},...
     'tau', tau_sq_inv_init);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);

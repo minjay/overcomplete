@@ -14,7 +14,8 @@ post_samples_c = zeros(M, sample_size);
 post_samples_V_inv = zeros(M, sample_size);
 post_samples_sigma_sq = zeros(1, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
-for t = 1:T 
+for t = 1:T
+    tic
     if mod(t, 100)==0
         disp(['t = ', num2str(t), ' starts...'])
     end
@@ -54,6 +55,7 @@ for t = 1:T
         post_samples_sigma_sq(index) = sigma_sq;
         post_samples_tau_sq_inv(index) = tau_sq_inv;
     end
+    toc
 end
 
 post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...

@@ -6,8 +6,10 @@ fj_sq = model.fj_sq;
 b_mat = model.b_mat;
 nu = model.nu;
 
-Y = data;
+Y = data.Y;
+Npix = data.Npix;
 
+c = params.c;
 V_inv = params.V;
 eta = params(1).eta;
 tau_sigma_sq = params(2).eta;
@@ -23,6 +25,13 @@ burn_in = options.burn_in;
 thin = options.thin;
 n_report = options.n_report;
 
+len_j = length(Npix);
+st = zeros(len_j, 1);
+en = zeros(len_j, 1);
+for j = 1:len_j
+    st(j) = sum(Npix(1:j))-Npix(j)+1;
+    en(j) = sum(Npix(1:j));
+end
 
 [N, M] = size(A);
 r = length(eta)-1;
@@ -45,6 +54,8 @@ flag = 0;
 acc_times = 0;
 for t = 1:T 
     
+    tic
+    
     if flag==0
         HatA = diag(exp(b_mat'*eta))*A;
     else
@@ -52,13 +63,19 @@ for t = 1:T
         flag = 0;
     end
     
-    % sample c (slow)
-    z = randn(M, 1);
-    Sigma_inv = tau_sq_inv*(HatA'*HatA)+diag(V_inv);
-    R = chol(Sigma_inv);
-    z = z+R'\(HatA'*Y)*tau_sq_inv;
-    c = R\z;
-    
+    % sample c
+    for j = 1:len_j  
+        z = randn(Npix(j), 1);
+        range = st(j):en(j);
+        not_range = [1:st(j)-1, en(j)+1:M];
+        HatA_j = HatA(:, range);
+        HatA_not_j = HatA(:, not_range);
+        Sigma_inv = tau_sq_inv*(HatA_j'*HatA_j)+diag(V_inv(range));
+        R = chol(Sigma_inv);
+        z = z+R'\(HatA_j'*Y-HatA_j'*HatA_not_j*c(not_range))*tau_sq_inv;
+        c(range) = R\z;
+    end
+   
     % sample V
     shape = (nu+1)/2;
     scale = 2./(c.^2+nu*fj_sq);
@@ -113,6 +130,8 @@ for t = 1:T
         post_samples_tau_sq_inv(index) = tau_sq_inv;
         post_samples_eta(:, index) = eta;
     end
+    
+    toc
 end
 
 post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
