@@ -32,7 +32,7 @@ lambda = pi/(r+1)*2.5/2;
 b_mat = zeros(N, r+1);
 b_mat(:, 1) = 1;
 for i = 2:r+1
-    b_mat(:, i) = normpdf(theta_vec, mu(i-1), lambda);
+    b_mat(:, i) = exp(-(theta_vec-mu(i-1)).^2/2/lambda^2);
 end
 
 eta = [1.5; randn(r, 1)];
