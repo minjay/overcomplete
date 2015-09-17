@@ -3,7 +3,6 @@ rng(1)
 % parameter specification
 nu = 3;
 alpha = 4;
-sigma = 10;
 
 res = 200;
 
@@ -24,7 +23,20 @@ phi_vec = phi_mat(:);
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_vec, phi_vec);
 [N, M] = size(A); 
 
-sigma_j = sigma*B.^(-alpha/2*(j_min:j_max));
+sigma_j = B.^(-alpha/2*(j_min:j_max));
+
+% non-stationary variance funcion
+r = 4;
+mu = pi/(r+1)*(1:r);
+lambda = pi/(r+1)*2.5/2;
+b_mat = zeros(r+1, N);
+b_mat(1, :) = 1;
+for i = 2:r+1
+    b_mat(i, :) = normpdf(theta_vec, mu(i-1), lambda);
+end
+
+eta = [1.5; randn(r, 1)];
+A = diag(exp(b_mat'*eta))*A;
 
 c = zeros(M, 1);
 f_j = cell(len_j, 1);
