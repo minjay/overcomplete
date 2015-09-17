@@ -38,7 +38,7 @@ end
 eta = [1.5; randn(r, 1)];
 std_vec = exp(b_mat*eta);
 for i = 1:N
-    A(:, i) = std_vec(i)*A(:, i);
+    A(i, :) = std_vec(i)*A(i, :);
 end
 
 c = zeros(M, 1);
