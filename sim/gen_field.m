@@ -1,3 +1,5 @@
+rng(1)
+
 % parameter specification
 nu = 3;
 alpha = 4;
