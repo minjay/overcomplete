@@ -1,7 +1,7 @@
 rng(1)
 
 % parameter specification
-nu = 3;
+nu = 4;
 alpha = 4;
 
 res = 200;
@@ -52,8 +52,6 @@ for j = j_min:j_max
     st = st+Npix(index_j);
 end
 
-plot(c)
-
 f = reshape(A*c, res/2, res);
 
 [L, T] = meshgrid(phi-pi, pi/2-theta);
@@ -91,4 +89,17 @@ title('Sum')
 
 % check non-Gaussianity
 figure
+[theta_vec_sort, index_sort] = sort(theta_vec);
+subplot('position', [0.1 0.1 0.35 0.8])
+plot(theta_vec_sort, std_vec(index_sort), 'LineWidth', 1.5)
+xlabel('\theta')
+ylabel('d')
+title('(a)')
+axis tight
+axis square
+subplot('position', [0.6 0.1 0.35 0.8])
 qqplot(f(:))
+axis tight
+axis square
+title('(b)')
+box on
