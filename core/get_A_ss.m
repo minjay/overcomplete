@@ -14,7 +14,7 @@ function [Npix, grid_points, A] = get_A_ss(B, j_min, j_max, theta, phi)
 % Outputs:
 %   Npix - the number of grid points at each frequency,
 %   (j_max-j_min+1)-by-1 vector
-%   grid_points - the location of the grid points in R^3,
+%   grid_points - the location of the grid points at each frequency in R^3,
 %   (j_max-j_min+1)-by-1 cell
 %   A - the design matrix, N-by-M matrix
 %
