@@ -29,10 +29,10 @@ len_j = j_max-j_min+1;
 Npix = zeros(len_j, 1);
 grid_points = cell(len_j, 1);
 for j = j_min:j_max
-    index = j-j_min+1;
+    index_j = j-j_min+1;
     t = 2*floor(B^(j+1))+1;
-    grid_points{index} = ss{degree_t==t};
-    Npix(index) = size(grid_points{index}, 1);
+    grid_points{index_j} = ss{degree_t==t};
+    Npix(index_j) = size(grid_points{index_j}, 1);
 end
 
 M = sum(Npix);
