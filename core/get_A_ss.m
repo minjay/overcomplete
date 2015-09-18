@@ -1,7 +1,8 @@
 function [Npix, grid_points, A] = get_A_ss(B, j_min, j_max, theta, phi)
-%GET_A   Computes the design matrix A.
+%GET_A_SS   Computes the design matrix A when the grid is the symmetric
+%spherical t-design.
 %
-%   A = get_A(B, j_min, j_max, theta, phi, n_dist)
+%   [Npix, grid_points, A] = get_A_ss(B, j_min, j_max, theta, phi);
 %
 % Inputs:
 %   B - the parameter
@@ -9,9 +10,12 @@ function [Npix, grid_points, A] = get_A_ss(B, j_min, j_max, theta, phi)
 %   j_max - the maximal frequency
 %   theta - the co-latitude of the locations, N-by-1 vector
 %   phi - the longitude of the locations, N-by-1 vector
-%   n_dist - the number of points on the fine grid
 %
 % Outputs:
+%   Npix - the number of grid points at each frequency,
+%   (j_max-j_min+1)-by-1 vector
+%   grid_points - the location of the grid points in R^3,
+%   (j_max-j_min+1)-by-1 cell
 %   A - the design matrix, N-by-M matrix
 %
 % Author: Minjie Fan, 2015
