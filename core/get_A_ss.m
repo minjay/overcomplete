@@ -40,7 +40,7 @@ end
 M = sum(Npix);
 A = zeros(N, M);
 dist = zeros(N, 1);
-index_row = 0;
+index_col = 0;
 
 l_max = floor(B^(j_max+1));
 
@@ -52,7 +52,7 @@ for j = j_min:j_max
     l_max = floor(B^(j+1));
     sqrt_lambda = sqrt(4*pi/Npix(index_j));
     for k = 1:Npix(index_j)
-        index_row = index_row+1;
+        index_col = index_col+1;
         xyz_xi = grid_points{index_j}(k, :);
         for i = 1:N
             dist(i) = sum([x(i) y(i) z(i)].*xyz_xi);
@@ -60,7 +60,7 @@ for j = j_min:j_max
             dist(i) = max(dist(i), -1);
         end
         P = p_polynomial_value( N, l_max, dist );
-        A(:, index_row) = spneedlet_eval_fast(B, j, bl_vector, P, dist, sqrt_lambda);
+        A(:, index_col) = spneedlet_eval_fast(B, j, bl_vector, P, dist, sqrt_lambda);
     end
 end
 
