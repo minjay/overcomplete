@@ -1,4 +1,4 @@
-function [Npix, grid_points, A] = get_A_ss(B, j_min, j_max, theta, phi, n_dist)
+function [Npix, grid_points, A] = get_A_ss(B, j_min, j_max, theta, phi)
 %GET_A   Computes the design matrix A.
 %
 %   A = get_A(B, j_min, j_max, theta, phi, n_dist)
@@ -20,15 +20,8 @@ load('ss.mat')
 
 N = length(theta);
 [x, y, z] = sph2cart(phi, pi/2-theta, 1);
-l_max = floor(B^(j_max+1));
-% column vector
-dist = linspace(-1, 1, n_dist)';
-P = p_polynomial_value( n_dist, l_max, dist );
-
-bl_vector = get_bl_vector(B, j_max, l_max);
-
 len_j = j_max-j_min+1;
-psi = cell(len_j, 1);
+
 Npix = zeros(len_j, 1);
 grid_points = cell(len_j, 1);
 for j = j_min:j_max
@@ -36,25 +29,32 @@ for j = j_min:j_max
     t = 2*floor(B^(j+1))+1;
     grid_points{index} = ss{degree_t==t};
     Npix(index) = size(grid_points{index}, 1);
-    sqrt_lambda = sqrt(4*pi/Npix(index));
-    psi{index} = spneedlet_eval_fast(B, j, bl_vector, P, dist, sqrt_lambda);
 end
 
 M = sum(Npix);
 A = zeros(N, M);
-obs = zeros(N, 1);
-index = 0;
-for j = 1:len_j
-    j
-    for k = 1:Npix(j)
-        index = index+1;
-        xyz_xi = grid_points{j}(k, :);
+dist = zeros(N, 1);
+index_row = 0;
+
+l_max = floor(B^(j_max+1));
+
+bl_vector = get_bl_vector(B, j_max, l_max);
+
+for j = j_min:j_max
+    disp(['j = ', num2str(j), ' starts...'])
+    index_j = j-j_min+1;
+    l_max = floor(B^(j+1));
+    sqrt_lambda = sqrt(4*pi/Npix(index_j));
+    for k = 1:Npix(index_j)
+        index_row = index_row+1;
+        xyz_xi = grid_points{index_j}(k, :);
         for i = 1:N
-            obs(i) = sum([x(i) y(i) z(i)].*xyz_xi);
-            obs(i) = min(obs(i), 1);
-            obs(i) = max(obs(i), -1);
+            dist(i) = sum([x(i) y(i) z(i)].*xyz_xi);
+            dist(i) = min(dist(i), 1);
+            dist(i) = max(dist(i), -1);
         end
-        A(:, index) = interp1(dist, psi{j}, obs);
+        P = p_polynomial_value( N, l_max, dist );
+        A(:, index_row) = spneedlet_eval_fast(B, j, bl_vector, P, dist, sqrt_lambda);
     end
 end
 
