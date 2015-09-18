@@ -30,6 +30,8 @@ Npix = zeros(len_j, 1);
 grid_points = cell(len_j, 1);
 for j = j_min:j_max
     index_j = j-j_min+1;
+    % t needs to be odd
+    % the quadrature formula is exact for all polynomials of degree<=t
     t = 2*floor(B^(j+1))+1;
     grid_points{index_j} = ss{degree_t==t};
     Npix(index_j) = size(grid_points{index_j}, 1);
