@@ -30,7 +30,7 @@ function post_samples = Gibbs_sampler_AM(model, data, params, tuning, options)
 %       tuning.lambda - the initial value of lambda
 %   options - the MCMC options
 %       options.T - the number of MCMC iterations
-%       options.burn-in - the length of the burn-in period
+%       options.burn_in - the length of the burn-in period
 %       options.thin - the length of the thinning interval
 %       options.n_report - the length of the interval to report progress
 % Outputs:
