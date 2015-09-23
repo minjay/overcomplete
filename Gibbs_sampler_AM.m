@@ -100,7 +100,11 @@ post_samples_V_inv = zeros(M, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
 post_samples_eta = zeros(r+1, sample_size);
 
-DA = diag(exp(b_mat*eta))*A;
+std_vec = exp(b_mat*eta);
+DA = zeros(N, M);
+for i = 1:N
+    DA(i, :) = std_vec(i)*A(i, :);
+end
 acc_times = 0;
 
 for t = 1:T 
