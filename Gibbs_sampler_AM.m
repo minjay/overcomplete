@@ -35,7 +35,7 @@ function post_samples = Gibbs_sampler_AM(model, data, params, tuning, options)
 %       options.n_report - the length of the interval to report progress
 % Outputs:
 %   post_samples - the posterior samples after discarding the samples in the
-%   burn-in period and thining
+%   burn-in period and thinning
 %       post_samples.c - the posterior samples of c, a M-by-sample_size
 %       matrix
 %       post_samples.V_inv - the posterior samples of V^{-1}, a
