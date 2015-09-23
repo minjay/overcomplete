@@ -22,7 +22,7 @@ function post_samples = Gibbs_sampler_AM(model, data, params, tuning, options)
 %           eta_init - the initial value of eta, a (r+1)-by-1 vector
 %           tau_sigma_sq - the parameter tau_sigma_sq
 %           tau_eta_sq - the parameter tau_eta_sq
-%       params.tau - the intial value of 1/tau^2
+%       params.tau - the initial value of 1/tau^2
 %   tuning - the tuning parameters of the adaptive Metropolis
 %       tuning.mu - the initial value of mu
 %       (see Andrieu and Thoms, 2008, Algorithm 4)
