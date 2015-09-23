@@ -9,7 +9,7 @@ function post_samples = Gibbs_sampler_AM(model, data, params, tuning, options)
 %       model.fj_sq - f(j)^2, a M-by-1 vector, the index corresponds to
 %       psi_jk
 %       model.b_mat - the design matrix of the function b, a N-by-(r+1)
-%       matrix, each column corresponds to one location
+%       matrix, each row corresponds to one location
 %       model.nu - the number of degrees of freedom
 %   data - the data
 %       data.Y - the observed values, a N-by-1 vector
