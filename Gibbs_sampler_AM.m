@@ -28,7 +28,7 @@ function post_samples = Gibbs_sampler_AM(model, data, params, tuning, options)
 %       (see Andrieu and Thoms, 2008, Algorithm 4)
 %       tuning.Sigma - the initial value of Sigma
 %       tuning.lambda - the initial value of lambda
-%   options - the MCMC run options
+%   options - the MCMC options
 %       options.T - the number of MCMC iterations
 %       options.burn-in - the length of the burn-in period
 %       options.thin - the length of the thinning interval
