@@ -10,19 +10,19 @@ tau = 0.1;
 B = 2;
 Nside = 8;
 tp = pix2ang(Nside, 'nest', false);
-n = length(tp);
-theta = zeros(n, 1);
-phi = zeros(n, 1);
-for i = 1:n
+N = length(tp);
+theta = zeros(N, 1);
+phi = zeros(N, 1);
+for i = 1:N
     theta(i) = tp{i}(1);
     phi(i) = tp{i}(2);
 end
 
 % perturbation
-theta = theta+randn(n, 1)*pi/10;
+theta = theta+randn(N, 1)*pi/10;
 theta(theta<0) = theta(theta<0)+pi;
 theta(theta>pi) = theta(theta>pi)-pi;
-phi = phi+randn(n, 1)*2*pi/10;
+phi = phi+randn(N, 1)*2*pi/10;
 phi(phi<0) = phi(phi<0)+2*pi;
 phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
 
@@ -31,7 +31,7 @@ j_max = 4;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta, phi);
-[N, M] = size(A); 
+M = size(A, 2); 
 
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 
