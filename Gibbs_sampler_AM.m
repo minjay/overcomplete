@@ -157,7 +157,7 @@ for t = 1:T
     % adaptation step
     % gamma != 1/t to avoid being stuck at zero
     gamma = 1/(t+1);
-    log_lambda = log(lambda)+gamma*(min([ratio, 1])-target_acc_rate);
+    log_lambda = log(lambda)+gamma*(min([ratio 1])-target_acc_rate);
     lambda = exp(log_lambda);
     diff = eta-mu;
     mu = mu+gamma*diff;
