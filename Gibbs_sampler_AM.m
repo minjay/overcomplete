@@ -155,12 +155,13 @@ for t = 1:T
     end 
     
     % adaptation step
+    % gamma != 1/t to avoid being stuck at zero
     gamma = 1/(t+1);
     log_lambda = log(lambda)+gamma*(min([ratio, 1])-target_acc_rate);
     lambda = exp(log_lambda);
     diff = eta-mu;
+    mu = mu+gamma*diff;
     Sigma = Sigma+gamma*(diff*diff'-Sigma);
-    mu = mu+gamma*(eta-mu);
     
     % print to the screen
     if mod(t, n_report)==0
