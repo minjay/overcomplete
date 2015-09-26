@@ -49,7 +49,7 @@ for i = 1:n_samples
     std_vec_post(:, i) = exp(b_mat*post_samples.eta(:, i));
 end
 
-CI = quantile(std_vec_post', [0.05 0.95]);
+CI = quantile(std_vec_post', [0.025 0.975]);
 
 [theta_sort, index] = sort(theta);
 plot(theta_sort, std_vec_true(index), 'LineWidth', 1.5)
