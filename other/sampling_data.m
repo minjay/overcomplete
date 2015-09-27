@@ -2,7 +2,7 @@ function [pot_samples, theta_samples, phi_samples, index] = sampling_data(pot, t
 
 theta_vec = theta(:);
 phi_vec = phi(:);
-w = sin(theta_vec);
+w = sin(theta_vec*4);
 
 [pot_samples, index] = datasample(pot, n_samples, 'Replace', false,...
     'Weights', w);
