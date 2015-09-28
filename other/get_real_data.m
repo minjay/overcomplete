@@ -3,4 +3,4 @@ load('theta_phi.mat')
 
 t = 1;
 resid = double(r(t, :));
-save('data.mat', 'theta', 'phi')
+save('data.mat', 'resid', 'theta', 'phi')
