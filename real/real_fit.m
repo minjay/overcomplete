@@ -6,7 +6,7 @@ rng(1)
 t = 1;
 N = 1000;
 [pot_samples, theta_samples, phi_samples, index] = sampling_data(resid,...
-    theta, phi, N, 1);
+    theta, phi, N, 0);
 
 % fit
 B = 2;
