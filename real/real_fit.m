@@ -7,14 +7,14 @@ resid = double(r);
 
 % sampling
 t = 1;
-N = 500;
+N = 1000;
 [pot_samples, theta_samples, phi_samples, index] = sampling_data(resid(t, :),...
     theta, phi, N, 1);
 
 % fit
 B = 2;
 j_min = 2;
-j_max = 3;
+j_max = 4;
 nu = 4;
 alpha = 4;
 
@@ -62,11 +62,11 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.05;
 % the number of MCMC iterations
-T = 5000;
+T = 150000;
 % the length of the burn-in period
-burn_in = 0;
+burn_in = 50000;
 % the length of the thinning interval
-thin = 1;
+thin = 100;
 % the length of the interval to report progress
 n_report = 100;
 
