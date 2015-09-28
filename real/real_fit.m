@@ -1,14 +1,11 @@
-load('svd.mat')
-load('theta_phi.mat')
+load('data.mat')
 
 rng(1)
-
-resid = double(r);
 
 % sampling
 t = 1;
 N = 1000;
-[pot_samples, theta_samples, phi_samples, index] = sampling_data(resid(t, :),...
+[pot_samples, theta_samples, phi_samples, index] = sampling_data(resid,...
     theta, phi, N, 1);
 
 % fit
