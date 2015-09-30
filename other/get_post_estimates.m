@@ -51,6 +51,7 @@ end
 
 CI = quantile(std_vec_post', [0.025 0.975]);
 
+subplot(2, 1, 1)
 [theta_sort, index] = sort(theta);
 plot(theta_sort, std_vec_true(index), 'LineWidth', 1.5)
 hold on
@@ -58,6 +59,9 @@ plot(theta_sort, std_vec_est(index), 'r--', 'LineWidth', 1.5)
 plot(theta_sort, CI(1, index), 'g-.', 'LineWidth', 1.5)
 plot(theta_sort, CI(2, index), 'g-.', 'LineWidth', 1.5)
 legend('True std function', 'Est. std function', '95% CI endpoints')
+axis tight
+subplot(2, 1, 2)
+hist(theta, 20)
 axis tight
 
 % plot c
