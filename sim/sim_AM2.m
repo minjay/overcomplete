@@ -45,6 +45,7 @@ for i = 2:r+1
     b_mat(:, i) = exp(-(theta-mu(i-1)).^2/2/lambda^2);
 end
 
+rng(2)
 eta = [1.5; randn(r, 1)];
 std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
