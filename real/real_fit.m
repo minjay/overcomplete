@@ -3,8 +3,7 @@ load('data.mat')
 rng(1)
 
 % sampling
-t = 1;
-N = 1000;
+N = 1e3;
 [pot_samples, theta_samples, phi_samples, index] = sampling_data(resid,...
     theta, phi, N, 0);
 
@@ -57,13 +56,13 @@ tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
-lambda = 0.05;
+lambda = 0.02;
 % the number of MCMC iterations
-T = 150000;
+T = 300000;
 % the length of the burn-in period
-burn_in = 50000;
+burn_in = 100000;
 % the length of the thinning interval
-thin = 100;
+thin = 200;
 % the length of the interval to report progress
 n_report = 100;
 
