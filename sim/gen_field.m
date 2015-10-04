@@ -98,7 +98,8 @@ title('(a)')
 axis tight
 axis square
 subplot('position', [0.6 0.1 0.35 0.8])
-qqplot(f(:))
+% standardize it
+qqplot(f(:)./std_vec)
 axis tight
 axis square
 title('(b)')
