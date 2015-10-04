@@ -8,6 +8,7 @@ N = 1e3;
     theta, phi, N, 0);
 
 % fit
+% parameter specification
 B = 2;
 j_min = 2;
 j_max = 4;
@@ -37,6 +38,7 @@ for j = j_min:j_max
     st = st+Npix(index_j);
 end
 
+% rescale the observations
 Y = pot_samples'/1e3;
 
 % init
@@ -58,9 +60,9 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.02;
 % the number of MCMC iterations
-T = 300000;
+T = 3e5;
 % the length of the burn-in period
-burn_in = 100000;
+burn_in = 1e5;
 % the length of the thinning interval
 thin = 200;
 % the length of the interval to report progress
@@ -79,4 +81,4 @@ options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report)
 
 post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
 
-save('post_samples.mat', 'post_samples', 'c', 'eta')
+save('post_samples_real.mat', 'post_samples', 'Npix')
