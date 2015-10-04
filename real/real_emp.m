@@ -36,5 +36,6 @@ boxplot_curve(dist_vec, corr_vec, n_bin, 'k')
 hold on
 plot(X_MED, Y_MED, 'bo')
 plot_corr_fun(2, 2, 4, 4, 4, 10000, 'r-')
+plot_corr_fun(2, 2, 4, 4, 3, 10000, 'r-.')
 line([0 pi], [0 0], 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1.5)
 axis tight
