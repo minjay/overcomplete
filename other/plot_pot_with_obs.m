@@ -2,6 +2,8 @@ function plot_pot_with_obs(Pot, phi, theta, phi_obs, theta_obs, res)
 
 phi = phi/pi*180;
 theta = (pi/2-theta)/pi*180;
+phi_obs = phi_obs/pi*180;
+theta_obs = (pi/2-theta_obs)/pi*180;
 
 theta_min = min(min(theta));
 
@@ -38,6 +40,9 @@ textm(50, 177.5, '00')
 textm(52.5, 270, '06')
 textm(50, 2.5, '12')
 textm(47.5, 90, '18')
+
+hold on
+scatterm(theta_obs, phi_obs, [], 'k', '.')
 
 axes(ax1)
 text(0.05, 0.1, ['min:', num2str(round(min(min(Pot_interp))/10)/1e2)])
