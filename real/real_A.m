@@ -12,7 +12,7 @@ theta_vec = theta(:);
 phi_vec = phi(:);
 
 % design matrix A
-[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_vec, phi_vec);
+[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_vec*4, phi_vec);
 
 save('mat_A.mat', 'A', '-v7.3')
 
