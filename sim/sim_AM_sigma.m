@@ -71,6 +71,8 @@ Y = DA*c+randn(N, 1)*tau;
 c_init = zeros(M, 1);
 % V
 V_inv_init = ones(M, 1); 
+% sigma_j_sq
+sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
 eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
@@ -93,17 +95,16 @@ thin = 200;
 % the length of the interval to report progress
 n_report = 100;
 
-model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
+model = struct('A', A, 'b_mat', b_mat, 'nu', nu);
 
 data = struct('Y', Y, 'Npix', Npix);
 
-params = struct('c', c_init, 'V', V_inv_init, 'eta', {eta_init, tau_sigma_sq, tau_eta_sq},...
+params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
+    'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
     'tau', tau_sq_inv_init);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
-
-save('post_samples.mat', 'post_samples', 'c', 'eta', 'theta', 'phi')
+post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
