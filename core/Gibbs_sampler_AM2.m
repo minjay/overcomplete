@@ -51,7 +51,6 @@ tic
 
 % init
 A = model.A;
-fj_sq = model.fj_sq;
 b_mat = model.b_mat;
 nu = model.nu;
 
@@ -60,9 +59,10 @@ Npix = data.Npix;
 
 c = params.c;
 V_inv = params.V;
-eta = params(1).eta;
-tau_sigma_sq = params(2).eta;
-tau_eta_sq = params(3).eta;
+sigma_j_sq = [1; params.sigma_j_sq];
+eta = params.eta;
+tau_sigma_sq = params.tau_sigma_sq;
+tau_eta_sq = params.tau_eta_sq;
 tau_sq_inv = params.tau;
 
 mu = tuning.mu;
@@ -83,6 +83,13 @@ for j = 1:len_j
 end
 
 [N, M] = size(A);
+
+fj_sq = zeros(M, 1);
+for j = 1:len_j
+    range = st(j):en(j);
+    fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
+end
+
 r = length(eta)-1;
 
 % optimal acceptance rate
@@ -97,6 +104,7 @@ end
 sample_size = floor((T-burn_in)/thin);
 post_samples_c = zeros(M, sample_size);
 post_samples_V_inv = zeros(M, sample_size);
+post_samples_sigma_j_sq = zeros(len_j, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
 post_samples_eta = zeros(r+1, sample_size);
 
@@ -126,6 +134,20 @@ for t = 1:T
     shape = (nu+1)/2;
     scale = 2./(c.^2+nu*fj_sq);
     V_inv = gamrnd(shape, scale);
+    
+    % sample sigma_j
+    shape = nu*Npix(2:end)/2;
+    scale = zeros(len_j-1, 1);
+    for j = 1:len_j-1
+        range = st(j+1):en(j+1);
+        scale(j) = 1/sum(V_inv(range));
+    end
+    scale = 2/nu*scale;
+    sigma_j_sq = [1; gamrnd(shape, scale)];
+    for j = 1:len_j
+        range = st(j):en(j);
+        fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
+    end
     
     % sample tau
     shape = N/2;
@@ -182,6 +204,7 @@ for t = 1:T
         index = t_diff/thin;
         post_samples_c(:, index) = c;
         post_samples_V_inv(:, index) = V_inv;
+        post_samples_sigma_j_sq(:, index) = sigma_j_sq;
         post_samples_tau_sq_inv(index) = tau_sq_inv;
         post_samples_eta(:, index) = eta;
     end
@@ -189,7 +212,8 @@ for t = 1:T
 end
 
 post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
-    'tau_sq_inv', post_samples_tau_sq_inv, 'eta', post_samples_eta);
+    'sigma_j_sq', post_samples_sigma_j_sq, 'tau_sq_inv',...
+    post_samples_tau_sq_inv, 'eta', post_samples_eta);
 
 toc
 
