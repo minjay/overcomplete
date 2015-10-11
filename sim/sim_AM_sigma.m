@@ -53,13 +53,11 @@ for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
 end
 
-fj_sq = zeros(M, 1);
 c = zeros(M, 1);
 st = 1;
 for j = j_min:j_max
     index_j = j-j_min+1;
     range = st:st+Npix(index_j)-1;
-    fj_sq(range) = B^(-alpha*j)*ones(Npix(index_j), 1);
     c(range) = sigma_j(index_j)*trnd(nu, Npix(index_j), 1);
     st = st+Npix(index_j);
 end
