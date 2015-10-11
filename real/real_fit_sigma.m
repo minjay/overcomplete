@@ -13,7 +13,6 @@ B = 2;
 j_min = 2;
 j_max = 4;
 nu = 4;
-alpha = 4;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
@@ -29,15 +28,6 @@ for i = 2:r+1
     b_mat(:, i) = exp(-(theta_samples*4-mu(i-1)).^2/2/lambda^2);
 end
 
-fj_sq = zeros(M, 1);
-st = 1;
-for j = j_min:j_max
-    index_j = j-j_min+1;
-    range = st:st+Npix(index_j)-1;
-    fj_sq(range) = B^(-alpha*j)*ones(Npix(index_j), 1);
-    st = st+Npix(index_j);
-end
-
 % rescale the observations
 Y = pot_samples'/1e3;
 
@@ -46,6 +36,8 @@ Y = pot_samples'/1e3;
 c_init = zeros(M, 1);
 % V
 V_inv_init = ones(M, 1); 
+% sigma_j_sq
+sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
 eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
@@ -68,17 +60,18 @@ thin = 200;
 % the length of the interval to report progress
 n_report = 100;
 
-model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
+model = struct('A', A, 'b_mat', b_mat, 'nu', nu);
 
 data = struct('Y', Y, 'Npix', Npix);
 
-params = struct('c', c_init, 'V', V_inv_init, 'eta', {eta_init, tau_sigma_sq, tau_eta_sq},...
+params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
+    'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
     'tau', tau_sq_inv_init);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
 
 save('post_samples_real.mat', 'post_samples', 'Npix')
