@@ -33,7 +33,7 @@ j_max = 4;
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta, phi);
 M = size(A, 2); 
 
-sigma_j = B.^(-alpha/2*(j_min:j_max));
+sigma_j = [1; 0.5; 0.1];
 
 % non-stationary variance funcion
 r = 4;
