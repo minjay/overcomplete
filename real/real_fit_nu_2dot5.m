@@ -12,7 +12,7 @@ N = 1e3;
 B = 2;
 j_min = 2;
 j_max = 4;
-nu = 3;
+nu = 2.5;
 alpha = 4;
 
 % design matrix A
