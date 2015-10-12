@@ -25,22 +25,6 @@ phi_vec = phi_mat(:);
 
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 
-% non-stationary variance funcion
-r = 4;
-mu = pi/(r+1)*(1:r);
-lambda = pi/(r+1)*2.5/2;
-b_mat = zeros(N, r+1);
-b_mat(:, 1) = 1;
-for i = 2:r+1
-    b_mat(:, i) = exp(-(theta_vec-mu(i-1)).^2/2/lambda^2);
-end
-
-eta = [1.5; randn(r, 1)];
-std_vec = exp(b_mat*eta);
-for i = 1:N
-    A(i, :) = std_vec(i)*A(i, :);
-end
-
 T = 1000;
 c = zeros(M, T);
 for t = 1:T
