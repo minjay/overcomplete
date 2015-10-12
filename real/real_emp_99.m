@@ -1,4 +1,4 @@
-load('svd.mat')
+load('svd_99.mat')
 load('theta_phi.mat')
 
 n_thin = 20;
@@ -35,7 +35,6 @@ boxplot_curve(dist_vec, corr_vec, n_bin, 'k')
 [X_MED, Y_MED, Y_LOW, Y_HIGH] = binned_plot(dist_vec, corr_vec, n_bin);
 hold on
 plot(X_MED, Y_MED, 'bo')
-plot_corr_fun(2, 2, 4, 4, 4, 10000, 'r-')
-plot_corr_fun(2, 2, 4, 4, 3, 10000, 'r-.')
+plot_corr_fun_flex(2.4, 1, 2, 2, 4, 10000, 'r-')
 line([0 pi], [0 0], 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1.5)
 axis tight
