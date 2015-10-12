@@ -1,7 +1,6 @@
-function plot_corr_fun(B, j_min, j_max, nu, alpha, res, prop)
+function plot_corr_fun_flex(B, sigma_j, j_min, j_max, nu, res, prop)
 
 l_max = floor(B^(j_max+1));
-sigma_j = B.^(-alpha*(j_min:j_max)/2);
 
 dist_vec = linspace(-1, 1, res)';
 Pl_mat = p_polynomial_value(res, l_max, dist_vec);
