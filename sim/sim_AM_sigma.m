@@ -8,7 +8,7 @@ tau = 0.1;
 
 % the grid
 B = 2;
-Nside = 8;
+Nside = 16;
 tp = pix2ang(Nside, 'nest', false);
 N = length(tp);
 theta = zeros(N, 1);
