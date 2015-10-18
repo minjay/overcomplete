@@ -20,7 +20,7 @@ weights(index) = exp(-(theta_vec(index)-boundary).^2/2/sigma_window);
 plot(theta_vec, weights, '.')
 
 % tapering
-resid = resid'.*weights;
+resid = resid.*weights';
 
 % plot
 plot_pot_lite(reshape(resid, size(phi)), phi, theta, 1000, max(abs(resid)))
