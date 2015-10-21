@@ -45,7 +45,7 @@ tau_sigma_sq = 1e4;
 % pri_sig of eta
 tau_eta_sq = 0.25^2;
 % tau
-tau_init = 0.01;
+tau_init = 0.001;
 tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(r+1, 1);
