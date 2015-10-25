@@ -1,4 +1,4 @@
-load('data.mat')
+load('data_taper.mat')
 
 rng(1)
 
