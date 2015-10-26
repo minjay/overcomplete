@@ -1,4 +1,4 @@
-load('data_taper.mat')
+load('data.mat')
 
 rng(1)
 
@@ -6,6 +6,12 @@ rng(1)
 N = 1e3;
 [pot_samples, theta_samples, phi_samples, index] = sampling_data(resid,...
     theta, phi, N, 0);
+
+index = find(theta_samples<=25/180*pi);
+N = length(index);
+pot_samples = pot_samples(index);
+theta_samples = theta_samples(index);
+phi_samples = phi_samples(index);
 
 % fit
 % parameter specification
