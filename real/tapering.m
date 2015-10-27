@@ -9,7 +9,7 @@ n = length(theta_vec);
 boundary = 25;
 
 % std parameter
-sigma_window = (max(theta_vec)-boundary)/3;
+sigma_window = (max(theta_vec)-boundary)/1;
 
 % get weights
 index = find(theta_vec>boundary);
