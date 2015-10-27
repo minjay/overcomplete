@@ -2,6 +2,8 @@
 
 load('data.mat')
 
+resid_raw = resid;
+
 theta_vec = theta(:)/pi*180;
 n = length(theta_vec);
 
@@ -24,6 +26,9 @@ resid = resid.*weights';
 
 % plot
 plot_pot_lite(reshape(resid, size(phi)), phi, theta, 1000, max(abs(resid)))
+
+diff = resid_raw-resid;
+plot_pot(reshape(diff, size(phi)), phi, theta, 1000)
 
 % save
 save('data_taper.mat', 'resid', 'theta', 'phi')
