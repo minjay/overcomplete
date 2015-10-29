@@ -18,4 +18,4 @@ phi_vec = phi_mat(:);
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_vec, phi_vec);
 
-save('mat_A_sim.mat', 'Npix', 'A')
+save('mat_A_sim.mat', 'Npix', 'A', '-v7.3')
