@@ -106,3 +106,41 @@ caxis([-cmax cmax])
 title('Simulated field, sum, Gaussian')
 h = colorbar;
 set(h, 'Position', [0.85 0.05 0.05 0.9]);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+T = 5000;
+z = randn(M, T);
+c = zeros(M, T);
+for t = 1:T
+    st = 1;
+    for j = j_min:j_max
+        index_j = j-j_min+1;
+        range = st:st+Npix(index_j)-1;
+        c(range, t) = sigma_j(index_j)*sqrt(nu)*z(range, t)./sqrt(chi2rnd(nu, Npix(index_j), 1));
+        st = st+Npix(index_j);
+    end
+end
+
+c_gauss = zeros(M, T);
+for t = 1:T
+    st = 1;
+    for j = j_min:j_max
+        index_j = j-j_min+1;
+        range = st:st+Npix(index_j)-1;
+        c_gauss(range, t) = sigma_j(index_j)*sqrt(nu/(nu-2))*z(range, t);
+        st = st+Npix(index_j);
+    end
+end
+
+f = A(1234, :)*c;
+f_gauss = A(1234, :)*c_gauss;
+
+subplot(1, 2, 1)
+qqplot(f)
+axis square
+title(['Q-Q plot, nonGaussian', ', \nu=', num2str(nu)])
+subplot(1, 2, 2)
+qqplot(f_gauss)
+axis square
+title('Q-Q plot, Gaussian')
