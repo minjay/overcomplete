@@ -1,7 +1,7 @@
 rng(1)
 
 % parameter specification
-nu = 3;
+nu = 2.5;
 alpha = 4;
 
 res = 500;
@@ -70,7 +70,7 @@ for j = j_min:j_max
     axis tight
     axis off
     caxis([-cmax cmax])
-    title(['Simulated field, j=', num2str(j), ', nonGaussian, \nu=', num2str(nu)])
+    title(['Simulated field, j=', num2str(j), ', nonGaussian, \nu=', num2str(nu)], 'FontSize', 12)
     subplot('position', [0.1 0.05 0.7 0.4])
     pcolor(HX, HY, reshape(f_gauss, size(phi_mat)));
     shading interp
@@ -78,7 +78,7 @@ for j = j_min:j_max
     axis tight
     axis off
     caxis([-cmax cmax])
-    title(['Simulated field, j=', num2str(j), ', Gaussian'])
+    title(['Simulated field, j=', num2str(j), ', Gaussian'], 'FontSize', 12)
     h = colorbar;
     set(h, 'Position', [0.85 0.05 0.05 0.9]);
 end
@@ -95,7 +95,7 @@ axis equal
 axis tight
 axis off
 caxis([-cmax cmax])
-title(['Simulated field, sum, nonGaussian', ', \nu=', num2str(nu)])
+title(['Simulated field, sum, nonGaussian', ', \nu=', num2str(nu)], 'FontSize', 12)
 subplot('position', [0.1 0.05 0.7 0.4])
 pcolor(HX, HY, reshape(f_gauss, size(phi_mat)));
 shading interp
@@ -103,7 +103,7 @@ axis equal
 axis tight
 axis off
 caxis([-cmax cmax])
-title('Simulated field, sum, Gaussian')
+title('Simulated field, sum, Gaussian', 'FontSize', 12)
 h = colorbar;
 set(h, 'Position', [0.85 0.05 0.05 0.9]);
 
@@ -111,7 +111,7 @@ set(h, 'Position', [0.85 0.05 0.05 0.9]);
 
 rng(1)
 
-T = 5000;
+T = 10000;
 z = randn(M, T);
 c = zeros(M, T);
 for t = 1:T
@@ -140,9 +140,13 @@ f_gauss = A(1234, :)*c_gauss;
 
 subplot(1, 2, 1)
 qqplot(f)
+xlabel('Standard Normal Quantiles', 'FontSize', 12)
+ylabel('Quantiles of Input Sample', 'FontSize', 12)
 axis square
-title(['Q-Q plot, nonGaussian', ', \nu=', num2str(nu)])
+title(['Q-Q plot, nonGaussian', ', \nu=', num2str(nu)], 'FontSize', 12)
 subplot(1, 2, 2)
 qqplot(f_gauss)
+xlabel('Standard Normal Quantiles', 'FontSize', 12)
+ylabel('Quantiles of Input Sample', 'FontSize', 12)
 axis square
-title('Q-Q plot, Gaussian')
+title('Q-Q plot, Gaussian', 'FontSize', 12)
