@@ -26,7 +26,7 @@ alpha = 4;
 M = size(A, 2);
 
 % non-stationary variance funcion
-r = 4;
+r = 3;
 theta_range = 100/180*pi;
 mu = theta_range/(r+1)*(1:r);
 lambda = theta_range/(r+1)*2.5/2;
