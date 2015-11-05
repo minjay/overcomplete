@@ -7,8 +7,6 @@ load('post_samples_real.mat')
 B = 2;
 j_min = 2;
 j_max = 4;
-nu = 100;
-alpha = 4;
 
 theta_vec = theta(:);
 phi_vec = phi(:);
@@ -75,6 +73,8 @@ DA = zeros(N, M);
 
 Y_pred = DAc*1e3;
 
+index = find(theta_vec>25/180*pi);
+Y_err(index) = 0;
 % plot fitted field
 cmax = max([max(abs(Y_pred_nu3)) max(abs(Y_pred_nu100))]);
 figure
@@ -90,7 +90,7 @@ plot_pot_lite(reshape(Y_pred_diff, size(phi)), phi, theta, 1000, max(abs(Y_pred_
 
 load('data.mat')
 figure
-plot_pot(reshape(resid, size(phi)), phi, theta, 1000)
+plot_pot_lite(reshape(resid, size(phi)), phi, theta, 1000, 5*1e3)
 
 rng(1)
 
@@ -99,8 +99,14 @@ N = 1e3;
 [pot_samples, theta_samples, phi_samples, index] = sampling_data(resid,...
     theta, phi, N, 0);
 % plot error field
-Y_err = resid'-Y_pred_nu100;
+Y_err = resid'-Y_pred;
 figure
-plot_pot_lite(reshape(Y_err, size(phi)), phi, theta, 1000, max(abs(Y_err)))
+plot_pot_with_obs(reshape(Y_err, size(phi)), phi, theta, phi_samples, theta_samples, 1000)
 
-plot_pot(reshape(Y_pred_nu_3-Y_pred_nu_4, size(phi)), phi, theta, 1000)
+plot_pot(reshape(diff, size(phi)), phi, theta, 1000)
+
+% plot fitted correlation function
+nu = 4;
+sigma_j  = mean(sqrt(post_samples.sigma_j_sq), 2);
+plot_corr_fun_flex(B, sigma_j, j_min, j_max, nu, 1000, 'r')
+
