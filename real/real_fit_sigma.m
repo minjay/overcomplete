@@ -15,7 +15,7 @@ j_max = 3;
 nu = 3;
 
 % design matrix A
-[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
+[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples, phi_samples);
 M = size(A, 2);
 
 % non-stationary variance funcion
@@ -25,7 +25,7 @@ lambda = pi/(r+1)*2.5/2;
 b_mat = zeros(N, r+1);
 b_mat(:, 1) = 1;
 for i = 2:r+1
-    b_mat(:, i) = exp(-(theta_samples*4-mu(i-1)).^2/2/lambda^2);
+    b_mat(:, i) = exp(-(theta_samples-mu(i-1)).^2/2/lambda^2);
 end
 
 % rescale the observations
