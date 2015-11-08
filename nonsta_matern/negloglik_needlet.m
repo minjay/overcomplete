@@ -9,7 +9,7 @@ l_min = ceil(B^(jj-1));
 l_max = floor(B^(jj+1));
 
 index = 0;
-r_vec = zeros((n+1)*n/2);
+r_vec = zeros((n+1)*n/2, 1);
 for j = 1:n
     for i = 1:j
         index = index+1;
