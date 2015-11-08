@@ -17,7 +17,7 @@ phi_samples = phi_samples(index);
 % parameter specification
 B = 2;
 j_min = 2;
-j_max = 2;
+j_max = 3;
 nu = 4;
 alpha = 4;
 
