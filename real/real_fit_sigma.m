@@ -10,7 +10,7 @@ N = 1e3;
 % fit
 % parameter specification
 B = 2;
-j_min = 1;
+j_min = 0;
 j_max = 3;
 nu = 3;
 
