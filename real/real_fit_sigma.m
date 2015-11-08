@@ -10,12 +10,12 @@ N = 1e3;
 % fit
 % parameter specification
 B = 2;
-j_min = 0;
+j_min = 1;
 j_max = 3;
 nu = 3;
 
 % design matrix A
-[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples, phi_samples);
+[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
 M = size(A, 2);
 
 % non-stationary variance funcion
@@ -25,7 +25,7 @@ lambda = pi/(r+1)*2.5/2;
 b_mat = zeros(N, r+1);
 b_mat(:, 1) = 1;
 for i = 2:r+1
-    b_mat(:, i) = exp(-(theta_samples-mu(i-1)).^2/2/lambda^2);
+    b_mat(:, i) = exp(-(theta_samples*4-mu(i-1)).^2/2/lambda^2);
 end
 
 % rescale the observations
@@ -52,11 +52,11 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.01;
 % the number of MCMC iterations
-T = 1e6;
+T = 4e5;
 % the length of the burn-in period
-burn_in = 5e5;
+burn_in = 2e5;
 % the length of the thinning interval
-thin = 500;
+thin = 200;
 % the length of the interval to report progress
 n_report = 100;
 
