@@ -15,7 +15,7 @@ j_max = 3;
 nu = 3;
 
 % design matrix A
-[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
+[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples, phi_samples);
 M = size(A, 2);
 
 % non-stationary variance funcion
@@ -43,7 +43,7 @@ eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
 tau_sigma_sq = 1e4;
 % pri_sig of eta
-tau_eta_sq = 1e4;
+tau_eta_sq = 0.25^2;
 % tau
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
