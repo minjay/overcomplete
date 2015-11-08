@@ -25,7 +25,7 @@ for j = 1:n
         index = index+1;
         value = 0;
         for l = l_min:l_max
-            value = value+(fun_b(l/B^j, B))^2*(2*l+1)/(4*pi)*Pl_mat(index, l+1);
+            value = value+(fun_b(l/B^jj, B))^2*(2*l+1)/(4*pi)*Pl_mat(index, l+1);
         end
         corr_mat(i, j) = value;
         corr_mat(j, i) = value;
