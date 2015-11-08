@@ -12,7 +12,7 @@ N = 1e3;
 B = 2;
 j_min = 1;
 j_max = 3;
-nu = 3;
+nu = 100;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples, phi_samples);
