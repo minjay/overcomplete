@@ -1,4 +1,4 @@
-load('data.mat')
+load('data_regr.mat')
 
 rng(1)
 
@@ -10,8 +10,8 @@ N = 1e3;
 % fit
 % parameter specification
 B = 2;
-j_min = 1;
-j_max = 3;
+j_min = 2;
+j_max = 4;
 nu = 4;
 
 % design matrix A
