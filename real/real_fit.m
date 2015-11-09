@@ -1,4 +1,4 @@
-load('data_taper.mat')
+load('data_regr.mat')
 
 rng(1)
 
@@ -11,9 +11,9 @@ N = 1e3;
 % parameter specification
 B = 2;
 j_min = 2;
-j_max = 4;
+j_max = 3;
 nu = 4;
-alpha = 4;
+alpha = 2;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
