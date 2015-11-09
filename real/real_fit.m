@@ -11,7 +11,7 @@ N = 1e3;
 % parameter specification
 B = 2;
 j_min = 2;
-j_max = 3;
+j_max = 4;
 nu = 4;
 alpha = 2;
 
