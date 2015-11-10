@@ -1,4 +1,4 @@
-load('data_regr.mat')
+load('data_regr_83.mat')
 
 rng(1)
 
@@ -21,7 +21,7 @@ M = size(A, 2);
 % non-stationary variance funcion
 r = 4;
 mu = pi/(r+1)*(1:r);
-lambda = pi/(r+1)/1.5;
+lambda = pi/(r+1)*2.5/2;
 b_mat = zeros(N, r+1);
 b_mat(:, 1) = 1;
 for i = 2:r+1
