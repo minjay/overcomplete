@@ -7,43 +7,29 @@ alpha = 4;
 tau = 0.1;
 
 % the grid
+res = 100;
+
+theta = linspace(0, pi, res/2);
+phi = linspace(0, 2*pi, res);
+
+[phi_mat, theta_mat] = meshgrid(phi, theta);
+theta_vec = theta_mat(:);
+phi_vec = phi_mat(:);
+
 B = 2;
-Nside = 16;
-tp = pix2ang(Nside, 'nest', false);
-N = length(tp);
-theta = zeros(N, 1);
-phi = zeros(N, 1);
-for i = 1:N
-    theta(i) = tp{i}(1);
-    phi(i) = tp{i}(2);
-end
-
-% perturbation
-theta = theta+randn(N, 1)*pi/10;
-theta(theta<0) = theta(theta<0)+pi;
-theta(theta>pi) = theta(theta>pi)-pi;
-phi = phi+randn(N, 1)*2*pi/10;
-phi(phi<0) = phi(phi<0)+2*pi;
-phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
-
 j_min = 2;
 j_max = 4;
 
 % design matrix A
-[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta, phi);
-M = size(A, 2); 
+[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_vec, phi_vec);
+[N, M] = size(A);
 
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 
 % non-stationary variance funcion
-r = 4;
-mu = pi/(r+1)*(1:r);
-lambda = pi/(r+1)*2.5/2;
-b_mat = zeros(N, r+1);
-b_mat(:, 1) = 1;
-for i = 2:r+1
-    b_mat(:, i) = exp(-(theta-mu(i-1)).^2/2/lambda^2);
-end
+m = 4;
+lambda_inv = 2.5;
+b_mat = get_nonsta_var(m, lambda_inv, theta_vec);
 
 rng(2)
 eta = [1.5; randn(r, 1)];
@@ -64,6 +50,6 @@ for j = j_min:j_max
     st = st+Npix(index_j);
 end
 
-Y = DA*c+randn(N, 1)*tau;
+Y = DA*c+tau*randn(N, 1);
 
-save('data_sim.mat', 'theta', 'phi', 'Y')
+save('data_sim.mat', 'theta', 'phi', 'theta_mat', 'phi_mat', 'theta_vec', 'phi_vec', 'Y')

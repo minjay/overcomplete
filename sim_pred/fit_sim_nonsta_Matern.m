@@ -8,8 +8,9 @@ rng(1)
 N = length(Y);
 n = 1e3;
 index = randsample(N, n);
-theta_samples = theta(index);
-phi_samples = phi(index);
+theta_samples = theta_vec(index);
+phi_samples = phi_vec(index);
+pot_samples = Y(index);
 
 [x, y, z] = trans_coord(theta_samples, phi_samples);
 
