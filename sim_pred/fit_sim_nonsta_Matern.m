@@ -19,7 +19,7 @@ r = get_chordal_dist(x, y, z);
 
 % non-stationary variance funcion
 m = 4;
-lambda_inv = 2/2.5;
+lambda_inv = 2.5;
 b_mat = get_nonsta_var(m, lambda_inv, theta_samples);
 
 beta_init = [zeros(1, m+1) 0.5 1 0.1];
