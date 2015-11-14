@@ -68,4 +68,4 @@ options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report)
 
 post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
 
-save('post_samples.mat', 'post_samples', 'c', 'eta', 'theta', 'phi', 'sigma_j')
+save('post_samples.mat', 'post_samples', 'Npix')
