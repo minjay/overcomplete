@@ -9,7 +9,7 @@ n = 1e3;
 index = randsample(N, n);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
-pot_samples = Y(index);
+Y = Y(index);
 
 B = 2;
 j_min = 2;
