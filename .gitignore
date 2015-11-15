@@ -3,3 +3,4 @@ results/
 mat_A.mat
 mat_A_99.mat
 mat_A_sim.mat
+*.m~
