@@ -17,7 +17,7 @@ Y = Y(index);
 % get distance matrix
 r = get_chordal_dist(x, y, z);
 
-% non-stationary variance funcion
+% non-stationary variance function
 m = 4;
 lambda_inv = 2.5;
 b_mat = get_nonsta_var(m, lambda_inv, theta_samples);
