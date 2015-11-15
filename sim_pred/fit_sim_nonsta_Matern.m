@@ -1,6 +1,6 @@
-function [beta_hat, index] = fit_sim_nonsta_Matern(seed, flag)
+function [beta_hat, index] = fit_sim_nonsta_Matern(seed, flag, name)
 
-load('data_sim.mat')
+load(['data_sim_', name, '.mat'])
 
 rng(seed)
 
@@ -31,7 +31,7 @@ ub = [Inf Inf Inf Inf Inf 5 Inf Inf];
 [beta_hat, f_min] = nonsta_Matern_fit(negloglik1, beta_init, lb, ub, true);
 
 if flag
-    save('beta_hat.mat', 'beta_hat', 'index')
+    save(['beta_hat_', name, '_', num2str(seed), '.mat'], 'beta_hat', 'index')
 end
 
 end
