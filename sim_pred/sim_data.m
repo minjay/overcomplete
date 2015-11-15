@@ -2,7 +2,7 @@ function sim_data(nu, name)
 
 rng(1)
 
-alpha = 3;
+alpha = 4;
 
 tau = 0.1;
 
