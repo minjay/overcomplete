@@ -4,6 +4,7 @@ load(['data_sim_', name, '.mat'])
 load(['beta_hat_', name, '_', num2str(seed), '.mat']) 
 
 % sampling
+N = length(Y);
 n = length(index);
 Y_samples = Y(index);
 
