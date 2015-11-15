@@ -1,7 +1,7 @@
-clear
+function fit_sim_needlet(seed)
 
 load('data_sim.mat')
-rng(1)
+rng(seed)
 
 % sampling
 N = length(Y);
@@ -14,16 +14,15 @@ Y = Y(index);
 B = 2;
 j_min = 2;
 j_max = 4;
-nu = 4;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples, phi_samples);
 M = size(A, 2); 
 
 % non-stationary variance funcion
-r = 4;
+m = 4;
 lambda_inv = 2.5;
-b_mat = get_nonsta_var(r, lambda_inv, theta_samples);
+b_mat = get_nonsta_var(m, lambda_inv, theta_samples);
 
 % init
 % c
@@ -33,7 +32,7 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
-eta_init = zeros(r+1, 1);
+eta_init = zeros(m+1, 1);
 % pri_sig of eta_0
 tau_sigma_sq = 1e4;
 % pri_sig of eta
@@ -42,8 +41,8 @@ tau_eta_sq = 0.25^2;
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
-mu_init = zeros(r+1, 1);
-Sigma_init = eye(r+1);
+mu_init = zeros(m+1, 1);
+Sigma_init = eye(m+1);
 lambda = 0.01;
 % the number of MCMC iterations
 T = 3e5;
@@ -69,3 +68,5 @@ options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report)
 post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
 
 save('post_samples.mat', 'post_samples', 'Npix')
+
+end
