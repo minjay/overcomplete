@@ -19,7 +19,7 @@ j_max = 4;
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples, phi_samples);
 M = size(A, 2); 
 
-% non-stationary variance funcion
+% non-stationary variance function
 m = 4;
 lambda_inv = 2.5;
 b_mat = get_nonsta_var(m, lambda_inv, theta_samples);
