@@ -25,7 +25,7 @@ b_mat = get_nonsta_var(m, lambda_inv, theta_samples);
 beta_init = [zeros(1, m+1) 0.5 1 0.1];
 negloglik1 = @(beta_all) negloglik_nonsta_Matern(beta_all, r, b_mat, Y);
 
-lb = [-Inf -Inf -Inf -Inf -Inf 0 0 0.001];
+lb = [-Inf -Inf -Inf -Inf -Inf 0.1 0 0.001];
 ub = [Inf Inf Inf Inf Inf 5 Inf Inf];
 
 [beta_hat, f_min] = nonsta_Matern_fit(negloglik1, beta_init, lb, ub, true);
