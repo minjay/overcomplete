@@ -27,7 +27,7 @@ j_max = 4;
 
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 
-% non-stationary variance funcion
+% non-stationary variance function
 m = 4;
 lambda_inv = 2.5;
 b_mat = get_nonsta_var(m, lambda_inv, theta_vec);
