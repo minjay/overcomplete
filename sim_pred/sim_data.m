@@ -1,8 +1,9 @@
 clear
 rng(1)
 
-nu = 4;
-alpha = 4;
+% strong non-Gaussianity
+nu = 2.5;
+alpha = 3;
 
 tau = 0.1;
 
@@ -32,24 +33,23 @@ lambda_inv = 2.5;
 b_mat = get_nonsta_var(m, lambda_inv, theta_vec);
 
 rng(2)
-eta = [1.5; randn(r, 1)];
+eta = [1.5; randn(m, 1)];
 std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
 for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
 end
 
-fj_sq = zeros(M, 1);
 c = zeros(M, 1);
 st = 1;
 for j = j_min:j_max
     index_j = j-j_min+1;
     range = st:st+Npix(index_j)-1;
-    fj_sq(range) = B^(-alpha*j)*ones(Npix(index_j), 1);
     c(range) = sigma_j(index_j)*trnd(nu, Npix(index_j), 1);
     st = st+Npix(index_j);
 end
 
 Y = DA*c+tau*randn(N, 1);
 
-save('data_sim.mat', 'theta', 'phi', 'theta_mat', 'phi_mat', 'theta_vec', 'phi_vec', 'Y')
+save('data_sim.mat', 'theta', 'phi', 'theta_mat', 'phi_mat', 'theta_vec',...
+    'phi_vec', 'Y', 'nu', 'alpha', 'tau', 'sigma_j', 'eta')
