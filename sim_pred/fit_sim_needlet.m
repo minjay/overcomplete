@@ -1,6 +1,6 @@
-function [post_samples, Npix, index] = fit_sim_needlet(seed, flag)
+function [post_samples, Npix, index] = fit_sim_needlet(seed, flag, name)
 
-load('data_sim.mat')
+load(['data_sim_', name, '.mat'])
 rng(seed)
 
 % sampling
@@ -68,7 +68,7 @@ options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report)
 post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
 
 if flag
-    save('post_samples.mat', 'post_samples', 'Npix', 'index')
+    save(['post_samples_', name, '_', num2str(seed), '.mat'], 'post_samples', 'Npix', 'index')
 end
 
 end
