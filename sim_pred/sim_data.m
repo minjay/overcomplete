@@ -1,9 +1,7 @@
-clear
+function sim_data(nu, name)
+
 rng(1)
 
-% strong non-Gaussianity
-nu = 2.5;
-name = '2dot5';
 alpha = 3;
 
 tau = 0.1;
@@ -54,3 +52,5 @@ Y = DA*c+tau*randn(N, 1);
 
 save(['data_sim_', name, '.mat'], 'theta', 'phi', 'theta_mat', 'phi_mat', 'theta_vec',...
     'phi_vec', 'Y', 'nu', 'alpha', 'tau', 'sigma_j', 'eta')
+
+end
