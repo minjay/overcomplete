@@ -38,14 +38,14 @@ Y_err_Matern_in = Y(index)-Y_pred_Matern(index);
 % MSPE
 MSPE_Matern = mean(Y_err_Matern.^2);
 MSPE_Matern_in = mean(Y_err_Matern_in.^2);
-fprintf('Out-of-sample MSPE of Matern is %5f', MSPE_Matern)
-fprintf('In-sample MSPE of Matern is %5f', MSPE_Matern_in)
+fprintf('Out-of-sample MSPE of Matern is %5f\n', MSPE_Matern)
+fprintf('In-sample MSPE of Matern is %5f\n', MSPE_Matern_in)
 
 % MAE
 MAE_Matern = mean(abs(Y_err_Matern));
 MAE_Matern_in = mean(abs(Y_err_Matern_in));
-fprintf('Out-of-sample MAE of Matern is %5f', MAE_Matern)
-fprintf('In-sample MAE of Matern is %5f', MAE_Matern_in)
+fprintf('Out-of-sample MAE of Matern is %5f\n', MAE_Matern)
+fprintf('In-sample MAE of Matern is %5f\n', MAE_Matern_in)
 
 if flag
     save(['Y_pred_Matern_', name, '_', num2str(seed), '.mat'],...
