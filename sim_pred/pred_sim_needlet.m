@@ -20,18 +20,18 @@ b_mat = get_nonsta_var(m, lambda_inv, theta_vec);
 % predict
 T = 1e3;
 Ac = A*post_samples.c;
-DAc = zeros(N, T);
+Y_pred_all = zeros(N, T);
 for t = 1:T
     eta = post_samples.eta(:, t);
     tau = 1/sqrt(post_samples.tau_sq_inv(t));
     std_vec = exp(b_mat*eta);
     for i = 1:N
-        DAc(i, :) = std_vec(i)*Ac(i, :);
+        Y_pred_all(i, :) = std_vec(i)*Ac(i, :);
     end
-    DAc(:, t) = DAc(:, t)+tau^2*randn(N, 1);
+    Y_pred_all(:, t) = Y_pred_all(:, t)+tau^2*randn(N, 1);
 end
 
-Y_pred_needlet = mean(DAc, 2);
+Y_pred_needlet = mean(Y_pred_all, 2);
 
 Y_err_needlet = Y(index_pred)-Y_pred_needlet(index_pred);
 Y_err_needlet_in = Y(index)-Y_pred_needlet(index);
@@ -50,8 +50,8 @@ fprintf('In-sample MAE of Matern is %5f\n', MAE_needlet_in)
 
 if flag
     save(['Y_pred_needlet_', name, '_', num2str(seed), '.mat'],...
-        'Y_pred_needlet', 'Y', 'index', 'index_pred', 'MSPE_needlet',...
-        'MAE_needlet')
+        'Y_pred_needlet', 'Y_pred_all', 'Y', 'index', 'index_pred',...
+        'MSPE_needlet', 'MAE_needlet')
 end
 
 end
