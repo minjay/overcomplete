@@ -39,14 +39,14 @@ Y_err_needlet_in = Y(index)-Y_pred_needlet(index);
 % MSPE
 MSPE_needlet = mean(Y_err_needlet.^2);
 MSPE_needlet_in = mean(Y_err_needlet_in.^2);
-fprintf('Out-of-sample MSPE of Matern is %5f\n', MSPE_needlet)
-fprintf('In-sample MSPE of Matern is %5f\n', MSPE_needlet_in)
+fprintf('Out-of-sample MSPE of needlet is %5f\n', MSPE_needlet)
+fprintf('In-sample MSPE of needlet is %5f\n', MSPE_needlet_in)
 
 % MAE
 MAE_needlet = mean(abs(Y_err_needlet));
 MAE_needlet_in = mean(abs(Y_err_needlet_in));
-fprintf('Out-of-sample MAE of Matern is %5f\n', MAE_needlet)
-fprintf('In-sample MAE of Matern is %5f\n', MAE_needlet_in)
+fprintf('Out-of-sample MAE of needlet is %5f\n', MAE_needlet)
+fprintf('In-sample MAE of needlet is %5f\n', MAE_needlet_in)
 
 if flag
     save(['Y_pred_needlet_', name, '_', num2str(seed), '.mat'],...
