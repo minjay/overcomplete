@@ -1,4 +1,4 @@
-load('data_regr_12_3.mat')
+load('data_regr.mat')
 
 rng(1)
 
