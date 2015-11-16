@@ -33,6 +33,8 @@ end
 
 Y_pred_needlet = mean(Y_pred_all, 2);
 
+index_pred = setdiff(1:N, index);
+
 Y_err_needlet = Y(index_pred)-Y_pred_needlet(index_pred);
 Y_err_needlet_in = Y(index)-Y_pred_needlet(index);
 
