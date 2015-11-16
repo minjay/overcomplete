@@ -1,4 +1,4 @@
-load('data_regr.mat')
+load('data_regr_12_3.mat')
 
 rng(1)
 
@@ -12,21 +12,16 @@ N = 1e3;
 B = 2;
 j_min = 2;
 j_max = 4;
-nu = 4;
+nu = 3;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
 M = size(A, 2);
 
-% non-stationary variance funcion
+% non-stationary variance function
 r = 4;
-mu = pi/(r+1)*(1:r);
-lambda = pi/(r+1)/2.5;
-b_mat = zeros(N, r+1);
-b_mat(:, 1) = 1;
-for i = 2:r+1
-    b_mat(:, i) = exp(-(theta_samples*4-mu(i-1)).^2/2/lambda^2);
-end
+lambda_inv = 2.5;
+b_mat = get_nonsta_var(r, lambda_inv, theta_samples*4);
 
 % rescale the observations
 Y = pot_samples'/1e3;
