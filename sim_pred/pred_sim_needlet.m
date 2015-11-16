@@ -28,7 +28,7 @@ for t = 1:T
     for i = 1:N
         Y_pred_all(i, :) = std_vec(i)*Ac(i, :);
     end
-    Y_pred_all(:, t) = Y_pred_all(:, t)+tau^2*randn(N, 1);
+    Y_pred_all(:, t) = Y_pred_all(:, t)+tau*randn(N, 1);
 end
 
 Y_pred_needlet = mean(Y_pred_all, 2);
