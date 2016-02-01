@@ -64,7 +64,7 @@ tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
 
 if flag
     save(['post_samples_', name, '_', num2str(seed), '.mat'], 'post_samples', 'Npix', 'index')
