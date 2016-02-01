@@ -5,7 +5,7 @@ rng(seed)
 
 % sampling
 N = length(Y);
-index = find(phi_vec<=2*pi*23/24);
+index = find(phi_vec<=pi-pi/18 | phi_vec>=pi+pi/18);
 n = 1e3;
 index = randsample(index, n);
 theta_samples = theta_vec(index);
@@ -14,7 +14,7 @@ Y = Y(index);
 
 B = 2;
 j_min = 2;
-j_max = 4;
+j_max = 3;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples, phi_samples);
