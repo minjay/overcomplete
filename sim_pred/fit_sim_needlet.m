@@ -30,8 +30,6 @@ b_mat = get_nonsta_var(m, lambda_inv, theta_samples);
 c_init = zeros(M, 1);
 % V
 V_inv_init = ones(M, 1); 
-% sigma_j_sq
-sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
 eta_init = zeros(m+1, 1);
 % pri_sig of eta_0
@@ -54,11 +52,11 @@ thin = 200;
 % the length of the interval to report progress
 n_report = 100;
 
-model = struct('A', A, 'b_mat', b_mat, 'nu', nu);
+model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
 
 data = struct('Y', Y, 'Npix', Npix);
 
-params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
+params = struct('c', c_init, 'V', V_inv_init,...
     'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
     'tau', tau_sq_inv_init);
 
