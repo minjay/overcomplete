@@ -56,8 +56,7 @@ model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
 
 data = struct('Y', Y, 'Npix', Npix);
 
-params = struct('c', c_init, 'V', V_inv_init,...
-    'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
+params = struct('c', c_init, 'V', V_inv_init, 'eta', {eta_init, tau_sigma_sq, tau_eta_sq},...
     'tau', tau_sq_inv_init);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
