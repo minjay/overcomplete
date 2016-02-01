@@ -23,7 +23,7 @@ m = 4;
 lambda_inv = 2.5;
 b_mat = get_nonsta_var(m, lambda_inv, theta_samples);
 
-beta_init = [zeros(1, m+1) 1 1 0.1];
+beta_init = [zeros(1, m+1) 2 1 0.1];
 negloglik1 = @(beta_all) negloglik_nonsta_Matern(beta_all, r, b_mat, Y);
 
 lb = [-Inf -Inf -Inf -Inf -Inf 0 0 0];
