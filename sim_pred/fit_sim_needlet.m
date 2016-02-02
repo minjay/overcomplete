@@ -30,7 +30,7 @@ V_inv_init = ones(M, 1);
 % eta
 eta_init = zeros(m+1, 1);
 % pri_sig of eta_0
-tau_sigma_sq = 1e4;
+tau_sigma_sq = 100;
 % pri_sig of eta
 tau_eta_sq = 0.25^2;
 % tau
@@ -41,11 +41,11 @@ mu_init = zeros(m+1, 1);
 Sigma_init = eye(m+1);
 lambda = 0.002;
 % the number of MCMC iterations
-T = 2e5;
+T = 4e5;
 % the length of the burn-in period
-burn_in = 1e5;
+burn_in = 2e5;
 % the length of the thinning interval
-thin = 100;
+thin = 200;
 % the length of the interval to report progress
 n_report = 100;
 
