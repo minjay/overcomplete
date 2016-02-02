@@ -4,10 +4,7 @@ load(['data_sim_', name, '.mat'])
 rng(seed)
 
 % sampling
-N = length(Y);
-index = find(phi_vec<=pi-pi/18 | phi_vec>=pi+pi/18);
-n = 1e3;
-index = randsample(index, n);
+index = rand_sampler(phi_vec);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
 Y = Y(index);
