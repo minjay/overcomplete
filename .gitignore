@@ -1,3 +1,4 @@
+# ignore these files
 SS24-Jun-2015/
 results/
 mat_A.mat
@@ -5,3 +6,6 @@ mat_A_99.mat
 mat_A_sim.mat
 *.m~
 sim_pred/results
+
+# except
+!data_sim_2dot5.mat
