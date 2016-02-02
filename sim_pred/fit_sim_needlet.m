@@ -5,7 +5,7 @@ rng(seed)
 
 % sampling
 N = length(Y);
-index = find(phi_vec<=pi-pi/36 | phi_vec>=pi+pi/36);
+index = find(phi_vec<=pi-pi/18 | phi_vec>=pi+pi/18);
 n = 1e3;
 index = randsample(index, n);
 theta_samples = theta_vec(index);
