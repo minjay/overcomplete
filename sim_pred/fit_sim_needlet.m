@@ -5,7 +5,7 @@ rng(seed)
 
 % sampling
 N = length(Y);
-index = find(phi_vec<=pi-pi/18 | phi_vec>=pi+pi/18);
+index = find(phi_vec<=pi-pi/36 | phi_vec>=pi+pi/36);
 n = 1e3;
 index = randsample(index, n);
 theta_samples = theta_vec(index);
@@ -44,11 +44,11 @@ mu_init = zeros(m+1, 1);
 Sigma_init = eye(m+1);
 lambda = 0.002;
 % the number of MCMC iterations
-T = 3e5;
+T = 2e5;
 % the length of the burn-in period
 burn_in = 1e5;
 % the length of the thinning interval
-thin = 200;
+thin = 100;
 % the length of the interval to report progress
 n_report = 100;
 
