@@ -5,7 +5,7 @@ rng(seed)
 
 % sampling
 N = length(Y);
-index = find(phi_vec>=0);
+index = find(phi_vec<=pi-pi/18 | phi_vec>=pi+pi/18);
 n = 1e3;
 index = randsample(index, n);
 theta_samples = theta_vec(index);
@@ -42,7 +42,7 @@ tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(m+1, 1);
 Sigma_init = eye(m+1);
-lambda = 0.001;
+lambda = 0.002;
 % the number of MCMC iterations
 T = 3e5;
 % the length of the burn-in period
