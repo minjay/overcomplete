@@ -3,12 +3,9 @@ function pred_sim_nonsta_Matern(seed, flag, name)
 load(['data_sim_', name, '.mat'])
 load(['beta_hat_', name, '_', num2str(seed), '.mat']) 
 
-rng(seed)
-
 % sampling
 N = length(Y);
-n = 1e3;
-index = rand_sampler(phi_vec);
+n = length(index);
 Y_samples = Y(index);
 
 [x, y, z] = trans_coord(theta_vec, phi_vec);
