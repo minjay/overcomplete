@@ -30,7 +30,7 @@ V_inv_init = ones(M, 1);
 % eta
 eta_init = zeros(m+1, 1);
 % pri_sig of eta_0
-tau_sigma_sq = 100;
+tau_sigma_sq = 1e4;
 % pri_sig of eta
 tau_eta_sq = 0.25^2;
 % tau
