@@ -1,6 +1,7 @@
 # ignore these files
 SS24-Jun-2015/
 results/
+sim_pred/results_old/
 mat_A.mat
 mat_A_99.mat
 mat_A_sim.mat
