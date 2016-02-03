@@ -6,7 +6,7 @@ load(['post_samples_', name, '_', num2str(seed), '.mat'])
 % specify parameters
 B = 2;
 j_min = 2;
-j_max = 4;
+j_max = 3;
 
 % design matrix A
 [~, ~, A] = get_A_ss(B, j_min, j_max, theta_vec, phi_vec);
