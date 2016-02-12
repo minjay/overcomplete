@@ -45,7 +45,7 @@ T = 15e5;
 % the length of the burn-in period
 burn_in = 5e5;
 % the length of the thinning interval
-thin = 1000;
+thin = 200;
 % the length of the interval to report progress
 n_report = 100;
 
