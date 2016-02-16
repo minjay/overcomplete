@@ -32,6 +32,10 @@ index_pred = setdiff(1:N, index);
 SigmaP0 = cov_mat(:, index);
 Y_pred_Matern = SigmaP0*tmp;
 
+SigmaPP = cov_mat;
+std_Y_pred_Matern = sqrt(diag(SigmaPP-SigmaP0*(Sigma00\SigmaP0')));
+std_Y_pred_Matern = std_Y_pred_Matern(index_pred);
+
 Y_err_Matern = Y(index_pred)-Y_pred_Matern(index_pred);
 Y_err_Matern_in = Y(index)-Y_pred_Matern(index);
 
@@ -50,7 +54,7 @@ fprintf('In-sample MAE of Matern is %5f\n', MAE_Matern_in)
 if flag
     save(['Y_pred_Matern_', name, '_', num2str(seed), '.mat'],...
         'Y_pred_Matern', 'Y', 'index', 'index_pred', 'MSPE_Matern',...
-        'MAE_Matern')
+        'MAE_Matern', 'std_Y_pred_Matern')
 end
 
 end
