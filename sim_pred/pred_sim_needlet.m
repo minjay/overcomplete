@@ -1,7 +1,7 @@
-function pred_sim_needlet(seed, flag, name)
+function pred_sim_needlet(seed, flag, name, extra)
 
 load(['data_sim_', name, '.mat'])
-load(['post_samples_', name, '_', num2str(seed), '.mat']) 
+load(['post_samples_', name, '_', num2str(seed), extra, '.mat']) 
 
 % specify parameters
 B = 2;
@@ -18,17 +18,13 @@ lambda_inv = 2.5;
 b_mat = get_nonsta_var(m, lambda_inv, theta_vec);
 
 % predict
-T = 1e3;
+T = size(post_samples.eta, 2);
+eta_mean = mean(post_samples.eta, 2);
+std_vec = exp(b_mat*eta_mean);
 Ac = A*post_samples.c;
 Y_pred_all = zeros(N, T);
 for t = 1:T
-    eta = post_samples.eta(:, t);
-    tau = 1/sqrt(post_samples.tau_sq_inv(t));
-    std_vec = exp(b_mat*eta);
-    for i = 1:N
-        Y_pred_all(i, :) = std_vec(i)*Ac(i, :);
-    end
-    Y_pred_all(:, t) = Y_pred_all(:, t)+tau*randn(N, 1);
+    Y_pred_all(:, t) = std_vec.*Ac(:, t);
 end
 
 Y_pred_needlet = mean(Y_pred_all, 2);
@@ -51,7 +47,7 @@ fprintf('Out-of-sample MAE of needlet is %5f\n', MAE_needlet)
 fprintf('In-sample MAE of needlet is %5f\n', MAE_needlet_in)
 
 if flag
-    save(['Y_pred_needlet_', name, '_', num2str(seed), '.mat'],...
+    save(['Y_pred_needlet_', name, '_', num2str(seed), extra, '.mat'],...
         'Y_pred_needlet', 'Y_pred_all', 'Y', 'index', 'index_pred',...
         'MSPE_needlet', 'MAE_needlet')
 end
