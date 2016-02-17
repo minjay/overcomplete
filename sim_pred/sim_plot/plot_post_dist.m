@@ -13,7 +13,7 @@ axis tight
 colorbar
 caxis([-max(abs(Y_samples)) max(abs(Y_samples))])
 hold on
-outlier = find(std_Y_pred_Matern<std(Y_pred_all(index_pred,:), 0, 2));
+outlier = find(std_Y_pred_Matern<std(Y_pred_all(index_pred, :), 0, 2));
 plot(phi_vec(index_pred(outlier)), theta_vec(index_pred(outlier)), 'ko')
 
 loc1 = 900;
@@ -41,5 +41,4 @@ axis tight
 colorbar
 caxis([-max(abs(Y_samples)) max(abs(Y_samples))])
 hold on
-outlier = find(std_Y_pred_Matern<std(Y_pred_all(index_pred,:), 0, 2));
 plot(phi_vec(index_pred([loc1 loc2])), theta_vec(index_pred([loc1 loc2])), 'ko')
