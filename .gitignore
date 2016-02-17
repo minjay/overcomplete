@@ -7,6 +7,7 @@ mat_A_99.mat
 mat_A_sim.mat
 *.m~
 sim_pred/results
+real_old/
 
 # except
 !data_sim_2dot5.mat
