@@ -16,6 +16,28 @@ hold on
 outlier = find(std_Y_pred_Matern<std(Y_pred_all(index_pred, :), 0, 2));
 plot(phi_vec(index_pred(outlier)), theta_vec(index_pred(outlier)), 'ko')
 
+figure
+scatter(phi_samples, theta_samples, [], Y_samples, '.')
+axis equal
+axis tight
+colorbar
+caxis([-max(abs(Y_samples)) max(abs(Y_samples))])
+hold on
+outlier = find(abs(Y_pred_Matern(index_pred))<abs(Y_pred_needlet(index_pred)));
+plot(phi_vec(index_pred(outlier)), theta_vec(index_pred(outlier)), 'ko')
+
+Y_err_needlet = Y(index_pred)-Y_pred_needlet(index_pred);
+Y_err_Matern = Y(index_pred)-Y_pred_Matern(index_pred);
+figure
+scatter(phi_samples, theta_samples, [], Y_samples, '.')
+axis equal
+axis tight
+colorbar
+caxis([-max(abs(Y_samples)) max(abs(Y_samples))])
+hold on
+outlier = find(abs(Y_err_Matern)<abs(Y_err_needlet));
+plot(phi_vec(index_pred(outlier)), theta_vec(index_pred(outlier)), 'ko')
+
 loc1 = 900;
 [f, xi] = ksdensity(Y_pred_all(index_pred(loc1), :));
 figure
