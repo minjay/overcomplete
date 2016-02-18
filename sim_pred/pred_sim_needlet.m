@@ -20,12 +20,14 @@ b_mat = get_nonsta_var(m, lambda_inv, theta_vec);
 % predict
 T = size(post_samples.eta, 2);
 eta_mean = mean(post_samples.eta, 2);
+tau_mean = mean(1./sqrt(post_samples.tau_sq_inv));
 std_vec = exp(b_mat*eta_mean);
 Ac = A*post_samples.c;
 Y_pred_all = zeros(N, T);
 for t = 1:T
     Y_pred_all(:, t) = std_vec.*Ac(:, t);
 end
+Y_pred_all = Y_pred_all+tau_mean*randn(N, T);
 
 Y_pred_needlet = mean(Y_pred_all, 2);
 
