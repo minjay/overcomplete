@@ -12,7 +12,7 @@ phi_samples = phi_vec(index);
 pot_samples = resid(index)';
 
 % plot
-plot_samples(theta_vec, index, phi_samples, pot_samples)
+% plot_samples(theta_vec, index, phi_samples, pot_samples)
 
 % fit
 % parameter specification
