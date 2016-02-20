@@ -4,8 +4,15 @@ rng(1)
 
 % sampling
 N = 1e3;
-[pot_samples, theta_samples, phi_samples, index] = sampling_data(resid,...
-    theta, phi, N, 0);
+theta_vec = theta(:);
+phi_vec = phi(:);
+index = rand_sampler(theta_vec*4, phi_vec);
+theta_samples = theta_vec(index);
+phi_samples = phi_vec(index);
+pot_samples = resid(index)';
+
+% plot
+plot_samples(theta_vec, index, phi_samples, pot_samples)
 
 % fit
 % parameter specification
@@ -24,7 +31,7 @@ lambda_inv = 2.5;
 b_mat = get_nonsta_var(r, lambda_inv, theta_samples*4);
 
 % rescale the observations
-Y = pot_samples'/1e3;
+Y = pot_samples/1e3;
 
 % init
 % c
@@ -47,11 +54,11 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.01;
 % the number of MCMC iterations
-T = 4e5;
+T = 1e6;
 % the length of the burn-in period
-burn_in = 2e5;
+burn_in = 5e5;
 % the length of the thinning interval
-thin = 200;
+thin = 500;
 % the length of the interval to report progress
 n_report = 100;
 
