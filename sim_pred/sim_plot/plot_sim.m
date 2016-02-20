@@ -1,9 +1,9 @@
-function plot_sim(seed, model, name)
+function plot_sim(seed, model, name, extra)
 % e.g.: seed = 1; model = 'Matern'; name = '3';
 
 % load data
 load(['data_sim_', name, '.mat'])
-load(['Y_pred_', model, '_', name, '_', num2str(seed), '.mat'])
+load(['Y_pred_', model, '_', name, '_', num2str(seed), extra, '.mat'])
 
 % determine Matern or needlet
 if strcmp(model, 'Matern')
