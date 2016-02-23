@@ -1,6 +1,6 @@
 clear
 load('data_sim_2dot5')
-load('Y_pred_needlet_2dot5_1_long.mat')
+load('Y_pred_needlet_2dot5_1_sam.mat')
 load('Y_pred_Matern_2dot5_1.mat')
 
 phi_samples = phi_vec(index);
