@@ -1,4 +1,3 @@
-load('data_regr.mat')
 load('resid_regr_all.mat')
 
 phi = phi/pi*180;
