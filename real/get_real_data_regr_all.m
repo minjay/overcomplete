@@ -13,4 +13,6 @@ for t = 1:N
     resid_all(t, :) = resid;
 end
 
+% every 10 mins
+resid_all = resid_all(1:5:end, :);
 save('resid_regr_all.mat', 'resid_all', 'theta', 'phi', '-v7.3')
