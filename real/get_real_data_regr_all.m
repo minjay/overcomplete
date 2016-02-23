@@ -13,4 +13,4 @@ for t = 1:N
     resid_all(t, :) = resid;
 end
 
-save('resid_regr_all.mat', 'resid_all', 'theta', 'phi')
+save('resid_regr_all.mat', 'resid_all', 'theta', 'phi', '-v7.3')
