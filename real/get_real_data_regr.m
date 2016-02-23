@@ -10,7 +10,7 @@ T = size(r, 1);
 L = 3;
 M = 3;
 
-resid_all = zeros(T, length(r(1, :)));
+resid_all = zeros(size(r));
 for t = 1:T
     [coef, resid, y_hat, ~] = SCHA_regr(reshape(r(t, :), size(phi)), theta, phi, L, M);
     resid_all(t, :) = resid;
