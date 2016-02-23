@@ -8,6 +8,7 @@ mat_A_sim.mat
 *.m~
 sim_pred/results
 real_old/
+real/prelim/*.mat
 
 # except
 !data_sim_2dot5.mat
