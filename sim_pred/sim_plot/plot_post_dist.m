@@ -38,39 +38,49 @@ hold on
 outlier = find(abs(Y_err_Matern)<abs(Y_err_needlet));
 plot(phi_vec(index_pred(outlier)), theta_vec(index_pred(outlier)), 'ko')
 
-loc1 = 900;
+loc1 = 902;
 [f, xi] = ksdensity(Y_pred_all(index_pred(loc1), :));
 figure
 plot(xi, f, 'LineWidth', 1.5)
 hold on
 ff = normpdf(xi, Y_pred_Matern(index_pred(loc1)), std_Y_pred_Matern(loc1));
 plot(xi, ff, 'r', 'LineWidth', 1.5)
+y1 = get(gca, 'ylim');
+plot([Y(index_pred(loc1)), Y(index_pred(loc1))], y1, 'g', 'LineWidth', 1.5)
  
-loc2 = 2000;
+loc2 = 1250;
 mean_Matern = Y_pred_Matern(index_pred(loc2));
 std_Matern = std_Y_pred_Matern(loc2);
-[f, xi] = ksdensity(Y_pred_all(index_pred(loc2), :), (mean_Matern-3*std_Matern):0.1:(mean_Matern+4*std_Matern));
+[f, xi] = ksdensity(Y_pred_all(index_pred(loc2), :), (mean_Matern-3*std_Matern):0.01:(mean_Matern+4*std_Matern));
 figure
 plot(xi, f, 'LineWidth', 1.5)
 hold on
 ff = normpdf(xi, mean_Matern, std_Matern);
 plot(xi, ff, 'r', 'LineWidth', 1.5)
+y1 = get(gca, 'ylim');
+plot([Y(index_pred(loc2)), Y(index_pred(loc2))], y1, 'g', 'LineWidth', 1.5)
 
-loc3 = 2010;
-[f, xi] = ksdensity(Y_pred_all(index_pred(loc3), :));
+loc3 = 1990;
+mean_Matern = Y_pred_Matern(index_pred(loc3));
+std_Matern = std_Y_pred_Matern(loc3);
+[f, xi] = ksdensity(Y_pred_all(index_pred(loc3), :), (mean_Matern-3*std_Matern):0.01:(mean_Matern+4*std_Matern));
 figure
 plot(xi, f, 'LineWidth', 1.5)
 hold on
-ff = normpdf(xi, Y_pred_Matern(index_pred(loc3)), std_Y_pred_Matern(loc3));
+ff = normpdf(xi, mean_Matern, std_Matern);
 plot(xi, ff, 'r', 'LineWidth', 1.5)
+y1 = get(gca, 'ylim');
+plot([Y(index_pred(loc3)), Y(index_pred(loc3))], y1, 'g', 'LineWidth', 1.5)
 
-loc4 = 2330;
+loc4 = 1980;
 [f, xi] = ksdensity(Y_pred_all(index_pred(loc4), :));
 figure
 plot(xi, f, 'LineWidth', 1.5)
 hold on
 ff = normpdf(xi, Y_pred_Matern(index_pred(loc4)), std_Y_pred_Matern(loc4));
 plot(xi, ff, 'r', 'LineWidth', 1.5)
+y1 = get(gca, 'ylim');
+plot([Y(index_pred(loc4)), Y(index_pred(loc4))], y1, 'g', 'LineWidth', 1.5)
 
 figure
 scatter(phi_samples, theta_samples, [], Y_samples, '.')
