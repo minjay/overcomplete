@@ -1,9 +1,8 @@
-load('data_regr.mat')
+load('data_EOF_regr.mat')
 
 rng(1)
 
 % sampling
-N = 1e3;
 theta_vec = theta(:);
 phi_vec = phi(:);
 index = rand_sampler(theta_vec*4, phi_vec);
@@ -76,4 +75,4 @@ options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report)
 
 post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
 
-save('post_samples_real.mat', 'post_samples', 'Npix')
+save('post_samples_real.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples')
