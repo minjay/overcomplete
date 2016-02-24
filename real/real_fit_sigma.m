@@ -1,6 +1,8 @@
 load('data_EOF_regr.mat')
 resid = resid_all(1, :);
 
+% plot_pot(reshape(resid, size(phi)), phi, theta, 1000, max(abs(resid)));
+
 rng(1)
 
 % sampling
