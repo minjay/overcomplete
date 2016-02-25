@@ -59,7 +59,7 @@ Npix = data.Npix;
 
 c = params.c;
 V_inv = params.V;
-sigma_j_sq = [1; params.sigma_j_sq];
+sigma_j_sq = [params.sigma_j_sq; 1];
 eta = params.eta;
 tau_sigma_sq = params.tau_sigma_sq;
 tau_eta_sq = params.tau_eta_sq;
@@ -143,7 +143,7 @@ for t = 1:T
         scale(j) = 1/sum(V_inv(range));
     end
     scale = 2/nu*scale;
-    sigma_j_sq = [1; gamrnd(shape, scale)];
+    sigma_j_sq = [gamrnd(shape, scale); 1];
     for j = 1:len_j
         range = st(j):en(j);
         fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
