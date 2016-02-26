@@ -13,8 +13,6 @@ hold on
 contour(x, y, cf, 'LineWidth', 1)
 title('Electric Potential','FontName','times','Fontsize',10)
 xlabel(sprintf('Min %6.1f  Max %5.1f [kV]',vmin,vmax),'FontName','times','Fontsize',10)
-colorbar
-caxis([-max(abs(resid_norm)) max(abs(resid_norm))])
 % plot_pot(reshape(resid, size(phi)), phi, theta, 1000, max(abs(resid)));
 
 
