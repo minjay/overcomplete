@@ -8,7 +8,7 @@ rng(1)
 % sampling
 theta_vec = theta(:);
 phi_vec = phi(:);
-index = rand_sampler_real(theta_vec*4);
+index = rand_sampler_angle(theta_vec*4, phi_vec, pi/4);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
 pot_samples = resid(index)';
