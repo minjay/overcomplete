@@ -5,7 +5,7 @@ resid_norm = resid/1e3;
 cf = reshape(resid_norm, size(phi));
 vmin = min(resid_norm);
 vmax = max(resid_norm);
-phi_rot = phi-pi/2;
+phi_rot = phi+pi/2;
 [x, y] = pol2cart(phi_rot, theta/pi*180);
 h = mypolar([0 2*pi], [0 45]);
 delete(h)
