@@ -1,7 +1,22 @@
 load('data_EOF_regr.mat')
 resid = resid_all(1, :);
 
+resid_norm = resid/1e3;
+cf = reshape(resid_norm, size(phi));
+vmin = min(resid_norm);
+vmax = max(resid_norm);
+phi_rot = phi-pi/2;
+[x, y] = pol2cart(phi_rot, theta/pi*180);
+h = mypolar([0 2*pi], [0 45]);
+delete(h)
+hold on
+contour(x, y, cf, 'LineWidth', 1)
+title('Electric Potential','FontName','times','Fontsize',10)
+xlabel(sprintf('Min %6.1f  Max %5.1f [kV]',vmin,vmax),'FontName','times','Fontsize',10)
+colorbar
+caxis([-max(abs(resid_norm)) max(abs(resid_norm))])
 % plot_pot(reshape(resid, size(phi)), phi, theta, 1000, max(abs(resid)));
+
 
 rng(1)
 
