@@ -1,4 +1,5 @@
-% get residuals by spherical harmonic regression
+% 1. EOF residuals
+% 2. get residuals by spherical harmonic regression
 
 load('svd.mat')
 load('theta_phi.mat')
