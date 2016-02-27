@@ -48,6 +48,17 @@ b_mat = get_nonsta_var(r, lambda_inv, theta_samples*4);
 % rescale the observations
 Y = pot_samples/1e3;
 
+% non-stationary variance function
+r = 4;
+lambda_inv = 2/2.5;
+XX = get_nonsta_var(r, lambda_inv, theta_vec*4);
+
+% get emp prior
+emp_std_vec = std(resid_all, 0, 1);
+yy = log(emp_std_vec');
+eta_est_regr = (XX'*XX)\(XX'*yy);
+eta_hat = eta_est_regr(2:r+1);
+
 % init
 % c
 c_init = zeros(M, 1);
@@ -83,12 +94,12 @@ data = struct('Y', Y, 'Npix', Npix);
 
 params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
     'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
-    'tau', tau_sq_inv_init);
+    'tau', tau_sq_inv_init, 'eta_hat', eta_hat);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM3(model, data, params, tuning, options);
 
 save('post_samples_real.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples')
