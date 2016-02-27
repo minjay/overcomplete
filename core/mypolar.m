@@ -10,8 +10,7 @@ function hpol = mypolar(theta,rho,x,y,cf,vmag)
 %   Copyright 1984-2000 The MathWorks, Inc. 
 %   $Revision: 5.20 $  $Date: 2000/06/01 02:53:22 $
 
-line_style='auto';
-
+line_style = 'auto';
 
 % get hold state
 cax = newplot;
@@ -77,6 +76,11 @@ if ~hold_state
 contourf(x, y, cf, vmag)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% plot spokes
+    th = (1:2)*pi/2;
+    cst = cos(th); snt = sin(th);
+    cs = [-cst; cst];
+    sn = [-snt; snt];
 
 % draw radial circles
     c82 = cos(80*pi/180);
