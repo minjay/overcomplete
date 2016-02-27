@@ -1,4 +1,4 @@
-function hpol = mypolar(theta,rho,line_style)
+function hpol = mypolar(theta,rho,x,y,cf,vmag)
 %POLAR  Polar coordinate plot.
 %   POLAR(THETA, RHO) makes a plot using polar coordinates of
 %   the angle THETA, in radians, versus the radius RHO.
@@ -10,39 +10,8 @@ function hpol = mypolar(theta,rho,line_style)
 %   Copyright 1984-2000 The MathWorks, Inc. 
 %   $Revision: 5.20 $  $Date: 2000/06/01 02:53:22 $
 
-if nargin < 1
-    error('Requires 2 or 3 input arguments.')
-elseif nargin == 2 
-    if isstr(rho)
-        line_style = rho;
-        rho = theta;
-        [mr,nr] = size(rho);
-        if mr == 1
-            theta = 1:nr;
-        else
-            th = (1:mr)';
-            theta = th(:,ones(1,nr));
-        end
-    else
-        line_style = 'auto';
-    end
-elseif nargin == 1
-    line_style = 'auto';
-    rho = theta;
-    [mr,nr] = size(rho);
-    if mr == 1
-        theta = 1:nr;
-    else
-        th = (1:mr)';
-        theta = th(:,ones(1,nr));
-    end
-end
-if isstr(theta) | isstr(rho)
-    error('Input arguments must be numeric.');
-end
-if ~isequal(size(theta),size(rho))
-    error('THETA and RHO must be the same size.');
-end
+line_style='auto';
+
 
 % get hold state
 cax = newplot;
@@ -104,6 +73,9 @@ if ~hold_state
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%% TOMOKO USE THIS SECTION TO ANNOTATE
+
+contourf(x, y, cf, vmag)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % draw radial circles
