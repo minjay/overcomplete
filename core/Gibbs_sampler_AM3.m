@@ -61,6 +61,7 @@ c = params.c;
 V_inv = params.V;
 sigma_j_sq = [1; params.sigma_j_sq];
 eta = params.eta;
+eta_hat = params.eta_hat;
 tau_sigma_sq = params.tau_sigma_sq;
 tau_eta_sq = params.tau_eta_sq;
 tau_sq_inv = params.tau;
@@ -166,7 +167,7 @@ for t = 1:T
     end
     DAc_star = DA_star*c;
     quad_form_star = (Y-DAc_star)'*(Y-DAc_star);
-    f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r+1)'*eta_star(2:r+1)/2/tau_eta_sq+eta_star(1)^2/2/tau_sigma_sq;
+    f2 = tau_sq_inv*quad_form_star/2+(eta_star(2:r+1)-eta_hat)'*(eta_star(2:r+1)-eta_hat)/2/tau_eta_sq+eta_star(1)^2/2/tau_sigma_sq;
     ratio = exp(f1-f2);
     u = rand;
     % accept the new sample of eta
