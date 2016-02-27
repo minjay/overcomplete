@@ -105,23 +105,6 @@ if ~hold_state
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%% TOMOKO USE THIS SECTION TO ANNOTATE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% plot spokes
-    th = (1:2)*pi/2;
-    cst = cos(th); snt = sin(th);
-    cs = [-cst; cst];
-    sn = [-snt; snt];
-    hh = plot(40*cs,40*sn,'-','color',tc,'linewidth',1,...
-          'handlevisibility','on');
-%    get(hh(1));
-    set(hh(1),'YData',[38 40]);
-%    get(hh(2));
-    set(hh(2),'XData',[38 40]);
-    hh = plot(40*cs,40*sn,'-','color',tc,'linewidth',1,...
-          'handlevisibility','on');
-%    get(hh(1));
-    set(hh(1),'YData',[-38 -40]);
-%    get(hh(2));
-    set(hh(2),'XData',[-38 -40]);
 
 % draw radial circles
     c82 = cos(80*pi/180);
@@ -143,7 +126,6 @@ if ~hold_state
     text((i+rinc/20)*c82,(i+rinc/20)*s82, ...
             ['  50^o'],'verticalalignment','bottom' , ...
             'handlevisibility','off', 'FontSize',18,'FontName','times')
-    set(hhh,'linestyle','-') % Make outer circle solid
 
 % annotate spokes in local time
     rt = 1.1*rmax;
