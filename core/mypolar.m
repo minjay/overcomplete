@@ -78,7 +78,7 @@ if ~hold_state
     ticks = sum(get(cax,'ytick')>=0);
     delete(hhh);
 % check radial limits and ticks
-    rmin = 0; rmax = v(4); rticks = max(ticks-1,2);
+    rmin = 0; rmax = maxrho+0.1; rticks = max(ticks-1,2);
     if rticks > 5   % see if we can reduce the number
         if rem(rticks,2) == 0
             rticks = rticks/2;
