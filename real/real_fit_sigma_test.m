@@ -69,9 +69,9 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 1e6;
+T = 5e5;
 % the length of the burn-in period
-burn_in = 5e5;
+burn_in = 25*1e4;
 % the length of the thinning interval
 thin = 250;
 % the length of the interval to report progress
