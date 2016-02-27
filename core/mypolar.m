@@ -46,7 +46,7 @@ if ~hold_state
     ticks = sum(get(cax,'ytick')>=0);
     delete(hhh);
 % check radial limits and ticks
-    rmin = 0; rmax = maxrho+0.1; rticks = max(ticks-1,2);
+    rmin = 0; rmax = maxrho; rticks = max(ticks-1,2);
     if rticks > 5   % see if we can reduce the number
         if rem(rticks,2) == 0
             rticks = rticks/2;
@@ -73,6 +73,9 @@ if ~hold_state
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%% TOMOKO USE THIS SECTION TO ANNOTATE
 
+x = [x; x(1, :)];
+y = [y; y(1, :)];
+cf = [cf; cf(1, :)];
 contourf(x, y, cf, vmag)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,7 +89,7 @@ contourf(x, y, cf, vmag)
     c82 = cos(80*pi/180);
     s82 = sin(68*pi/180);
 %    rinc = (rmax-rmin)/3;
-    rinc = 10;
+    rinc = 15;
     i = 0;
     hhh = plot(xunit*i,yunit*i,'+','color',tc,...
                    'handlevisibility','off');
@@ -98,9 +101,17 @@ contourf(x, y, cf, vmag)
         %    ['  ' num2str(i)],'verticalalignment','bottom',...
         %    'handlevisibility','off')
     end
-    i = 40;
+    i = rmax;
+    hhh = plot(xunit*i,yunit*i,'--','color',tc,'linewidth',0.0001,...
+                   'handlevisibility','off');
+    set(hhh,'linestyle','-') % Make outer circle solid
+    i = 15;
     text((i+rinc/20)*c82,(i+rinc/20)*s82, ...
-            ['  50^o'],'verticalalignment','bottom' , ...
+            ['  15^o'],'verticalalignment','bottom' , ...
+            'handlevisibility','off', 'FontSize',18,'FontName','times')
+    i = 30;
+    text((i+rinc/20)*c82,(i+rinc/20)*s82, ...
+            ['  30^o'],'verticalalignment','bottom' , ...
             'handlevisibility','off', 'FontSize',18,'FontName','times')
 
 % annotate spokes in local time
