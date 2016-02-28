@@ -159,7 +159,7 @@ for t = 1:T
     
     % sample eta
     eta_star = mvnrnd(eta, lambda*Sigma)';
-    f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
+    f1 = tau_sq_inv*quad_form/2+(eta(2:r+1)-eta_hat)'*(eta(2:r+1)-eta_hat)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
     std_vec = exp(b_mat*eta_star);
     DA_star = zeros(N, M);
     for i = 1:N
