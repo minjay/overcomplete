@@ -41,9 +41,10 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
+knots = [0 0 0 0.5 1 1 1]*pi;
+[b_mat, ~] = bspline_basismatrix(3, knots, theta_samples*4);
+
 r = 4;
-lambda_inv = 2/2.5;
-b_mat = get_nonsta_var(r, lambda_inv, theta_samples*4);
 
 % rescale the observations
 Y = pot_samples/1e3;
@@ -56,17 +57,15 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
-eta_init = zeros(r+1, 1);
-% pri_sig of eta_0
-tau_sigma_sq = 1e4;
+eta_init = zeros(r, 1);
 % pri_sig of eta
-tau_eta_sq = 0.25^2;
+tau_eta_sq = 1e4;
 % tau
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
-mu_init = zeros(r+1, 1);
-Sigma_init = eye(r+1);
+mu_init = zeros(r, 1);
+Sigma_init = eye(r);
 lambda = 0.001;
 % the number of MCMC iterations
 T = 5e5;
@@ -82,8 +81,7 @@ model = struct('A', A, 'b_mat', b_mat, 'nu', nu);
 data = struct('Y', Y, 'Npix', Npix);
 
 params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
-    'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
-    'tau', tau_sq_inv_init);
+    'eta', eta_init, 'tau_eta_sq', tau_eta_sq, 'tau', tau_sq_inv_init);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
