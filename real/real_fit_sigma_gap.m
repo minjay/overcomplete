@@ -29,7 +29,7 @@ M = size(A, 2);
 
 % non-stationary variance function
 r = 4;
-lambda_inv = 2.5;
+lambda_inv = 2/2.5;
 b_mat = get_nonsta_var(r, lambda_inv, theta_samples*4);
 
 % rescale the observations
@@ -60,7 +60,7 @@ T = 1e6;
 % the length of the burn-in period
 burn_in = 5e5;
 % the length of the thinning interval
-thin = 500;
+thin = 250;
 % the length of the interval to report progress
 n_report = 100;
 
