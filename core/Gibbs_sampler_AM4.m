@@ -1,4 +1,4 @@
-function post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options)
+function post_samples = Gibbs_sampler_AM4(model, data, params, tuning, options)
 % GIBBS_SAMPLER_AM    The adaptive Metropolis-within-Gibbs sampler.
 %
 %   post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
@@ -61,7 +61,6 @@ c = params.c;
 V_inv = params.V;
 sigma_j_sq = [1; params.sigma_j_sq];
 eta = params.eta;
-tau_sigma_sq = params.tau_sigma_sq;
 tau_eta_sq = params.tau_eta_sq;
 tau_sq_inv = params.tau;
 
@@ -90,13 +89,13 @@ for j = 1:len_j
     fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
 end
 
-r = length(eta)-1;
+r = length(eta);
 
 % optimal acceptance rate
 % see Gelman et al., 1996
 rates = [0.441 0.352 0.316 0.279 0.275 0.266 0.261 0.255 0.261 0.267 0.234];
-if r+1<=10
-    target_acc_rate = rates(r+1);
+if r<=10
+    target_acc_rate = rates(r);
 else
     target_acc_rate = rates(end);
 end
@@ -106,7 +105,7 @@ post_samples_c = zeros(M, sample_size);
 post_samples_V_inv = zeros(M, sample_size);
 post_samples_sigma_j_sq = zeros(len_j, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
-post_samples_eta = zeros(r+1, sample_size);
+post_samples_eta = zeros(r, sample_size);
 
 std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
@@ -158,7 +157,7 @@ for t = 1:T
     
     % sample eta
     eta_star = mvnrnd(eta, lambda*Sigma)';
-    f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
+    f1 = tau_sq_inv*quad_form/2+eta'*eta/2/tau_eta_sq;
     std_vec = exp(b_mat*eta_star);
     DA_star = zeros(N, M);
     for i = 1:N
@@ -166,7 +165,7 @@ for t = 1:T
     end
     DAc_star = DA_star*c;
     quad_form_star = (Y-DAc_star)'*(Y-DAc_star);
-    f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r+1)'*eta_star(2:r+1)/2/tau_eta_sq+eta_star(1)^2/2/tau_sigma_sq;
+    f2 = tau_sq_inv*quad_form_star/2+eta_star'*eta_star/2/tau_eta_sq;
     ratio = exp(f1-f2);
     u = rand;
     % accept the new sample of eta
