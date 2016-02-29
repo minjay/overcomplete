@@ -58,9 +58,9 @@ sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
 eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
-tau_sigma_sq = 1e4;
+tau_sigma_sq = 1e2;
 % pri_sig of eta
-tau_eta_sq = 0.25^2;
+tau_eta_sq = 1e2;
 % tau
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
