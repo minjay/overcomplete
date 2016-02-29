@@ -28,8 +28,11 @@ end
 
 figure
 for i = 1:9
-    subplot(3, 3, i)
+    h = subplot(3, 3, i);
     qqplot(resid_all(:, index(i)));
+    delete(findall(h,'Type','text'))
+    xlabel('Theoretical Quantiles')
+    ylabel('Sample Quantiles')
 end
 
     
