@@ -41,8 +41,8 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-knots = [0 0 0 0 0.25 0.5 0.75 1 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(4, knots, theta_samples*4);
+[~, ~, ~, X] = SCHA_regr(zeros(size(phi)), theta, phi, 3, 3);
+b_mat = X(index, :);
 
 r = size(b_mat, 2);
 
@@ -57,7 +57,7 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
-eta_init = ones(r, 1);
+eta_init = zeros(r, 1);
 % pri_sig of eta
 tau_eta_sq = 1e4;
 % tau
