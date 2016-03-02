@@ -41,7 +41,7 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-[~, ~, ~, X] = SCHA_regr(zeros(size(phi)), theta, phi, 3, 3);
+[~, ~, ~, X] = SCHA_regr(zeros(size(phi)), theta, phi, 2, 2);
 b_mat = X(index, :);
 
 r = size(X, 2)-1;
@@ -70,11 +70,11 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 2e5;
+T = 5e6;
 % the length of the burn-in period
-burn_in = 1e5;
+burn_in = 0;
 % the length of the thinning interval
-thin = 100;
+thin = 500;
 % the length of the interval to report progress
 n_report = 100;
 
