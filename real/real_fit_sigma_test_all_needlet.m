@@ -1,4 +1,5 @@
 load('resid_svd.mat')
+load('theta_phi.mat')
 
 resid_norm = resid/1e3;
 cf = reshape(resid_norm, size(phi));
