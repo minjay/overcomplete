@@ -1,5 +1,5 @@
-load('data_EOF_regr.mat')
-resid = resid_all(1, :);
+load('svd.mat')
+resid = double(r(1, :));
 
 resid_norm = resid/1e3;
 cf = reshape(resid_norm, size(phi));
@@ -32,8 +32,8 @@ pot_samples = resid(index)';
 % fit
 % parameter specification
 B = 2;
-j_min = 2;
-j_max = 4;
+j_min = 0;
+j_max = 3;
 nu = 3;
 
 % design matrix A
@@ -42,7 +42,7 @@ M = size(A, 2);
 
 % non-stationary variance function
 r = 4;
-lambda_inv = 2/2.5;
+lambda_inv = 2.5;
 b_mat = get_nonsta_var(r, lambda_inv, theta_samples*4);
 
 % rescale the observations
