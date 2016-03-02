@@ -1,5 +1,4 @@
-load('svd.mat')
-resid = double(r(1, :));
+load('resid_svd.mat')
 
 resid_norm = resid/1e3;
 cf = reshape(resid_norm, size(phi));
