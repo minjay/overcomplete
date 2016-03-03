@@ -1,4 +1,4 @@
-function plot_corr_fun_flex(B, sigma_j, j_min, j_max, nu, res, prop)
+function variance = plot_corr_fun_flex(B, sigma_j, j_min, j_max, nu, res, prop)
 
 l_max = floor(B^(j_max+1));
 
@@ -16,5 +16,6 @@ for j = j_min:j_max
 end
 
 plot(acos(dist_vec), cov_vec/cov_vec(dist_vec==1), prop, 'LineWidth', 1.5)
+variance = cov_vec(dist_vec==1);
 
 end
