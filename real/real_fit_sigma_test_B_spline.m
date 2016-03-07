@@ -57,7 +57,7 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
-eta_init = ones(r, 1);
+eta_init = zeros(r, 1);
 % pri_sig of eta
 tau_eta_sq = 1e4;
 % tau
