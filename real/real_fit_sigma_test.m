@@ -41,9 +41,12 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-r = 4;
-lambda_inv = 2/2.5;
-b_mat = get_nonsta_var(r, lambda_inv, theta_samples*4);
+knots = [0 0 0 0 0.25 0.5 0.75 1 1 1 1]*pi;
+[b_mat, ~] = bspline_basismatrix(4, knots, theta_samples*4);
+
+r = size(b_mat, 2);
+
+b_mat = [ones(size(b_mat, 1), 1) b_mat];
 
 % rescale the observations
 Y = pot_samples/1e3;
@@ -58,9 +61,9 @@ sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
 eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
-tau_sigma_sq = 1e2;
+tau_sigma_sq = 1e4;
 % pri_sig of eta
-tau_eta_sq = 1e2;
+tau_eta_sq = 0.25^2;
 % tau
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
