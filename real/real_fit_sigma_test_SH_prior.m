@@ -41,10 +41,10 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-[~, ~, ~, X] = SCHA_regr(zeros(size(phi)), theta, phi, 2, 2);
-b_mat = X(index, :);
+b_mat = [ones(length(theta_samples), 1) sin(theta_samples*8) cos(theta_samples*8)...
+    sin(theta_samples*16) cos(theta_samples*16)];
 
-r = size(X, 2)-1;
+r = size(b_mat, 2)-1;
 
 % rescale the observations
 Y = pot_samples/1e3;
