@@ -41,12 +41,13 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-knots = [0 0 0 0 0.25 0.5 0.75 1 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(4, knots, theta_samples*4);
+knots = [0.25 0.5 0.75]*pi;
+b_mat = [ones(length(theta_samples), 1) theta_samples*4];
+for i = 1:3
+    b_mat = [b_mat (abs(theta_samples*4-knots(i))).^3];
+end
 
-r = size(b_mat, 2);
-
-b_mat = [ones(size(b_mat, 1), 1) b_mat];
+r = 3;
 
 % rescale the observations
 Y = pot_samples/1e3;
@@ -59,7 +60,7 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
-eta_init = zeros(r+1, 1);
+eta_init = zeros(r+2, 1);
 % pri_sig of eta_0
 tau_sigma_sq = 1e4;
 % pri_sig of eta
@@ -68,13 +69,13 @@ tau_eta_sq = 0.25^2;
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
-mu_init = zeros(r+1, 1);
-Sigma_init = eye(r+1);
+mu_init = zeros(r+2, 1);
+Sigma_init = eye(r+2);
 lambda = 0.001;
 % the number of MCMC iterations
 T = 5e5;
 % the length of the burn-in period
-burn_in = 25*1e4;
+burn_in = 0;
 % the length of the thinning interval
 thin = 250;
 % the length of the interval to report progress
@@ -92,6 +93,6 @@ tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM6(model, data, params, tuning, options);
 
 save('post_samples_real.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples')
