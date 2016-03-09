@@ -90,13 +90,13 @@ for j = 1:len_j
     fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
 end
 
-r = length(eta)-1;
+r = length(eta)-2;
 
 % optimal acceptance rate
 % see Gelman et al., 1996
 rates = [0.441 0.352 0.316 0.279 0.275 0.266 0.261 0.255 0.261 0.267 0.234];
-if r+1<=10
-    target_acc_rate = rates(r+1);
+if r+2<=10
+    target_acc_rate = rates(r+2);
 else
     target_acc_rate = rates(end);
 end
@@ -106,7 +106,7 @@ post_samples_c = zeros(M, sample_size);
 post_samples_V_inv = zeros(M, sample_size);
 post_samples_sigma_j_sq = zeros(len_j, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
-post_samples_eta = zeros(r+1, sample_size);
+post_samples_eta = zeros(r+2, sample_size);
 
 std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
@@ -158,7 +158,7 @@ for t = 1:T
     
     % sample eta
     eta_star = mvnrnd(eta, lambda*Sigma)';
-    f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
+    f1 = tau_sq_inv*quad_form/2+eta(3:r+2)'*eta(3:r+2)/2/tau_eta_sq+eta(1:2)'*eta(1:2)/2/tau_sigma_sq;
     std_vec = exp(b_mat*eta_star);
     DA_star = zeros(N, M);
     for i = 1:N
@@ -166,7 +166,7 @@ for t = 1:T
     end
     DAc_star = DA_star*c;
     quad_form_star = (Y-DAc_star)'*(Y-DAc_star);
-    f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r+1)'*eta_star(2:r+1)/2/tau_eta_sq+eta_star(1)^2/2/tau_sigma_sq;
+    f2 = tau_sq_inv*quad_form_star/2+eta_star(3:r+2)'*eta_star(3:r+2)/2/tau_eta_sq+eta_star(1:2)'*eta_star(1:2)/2/tau_sigma_sq;
     ratio = exp(f1-f2);
     u = rand;
     % accept the new sample of eta
