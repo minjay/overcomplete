@@ -41,8 +41,7 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-b_mat = [ones(length(theta_samples), 1) sin(theta_samples*8) cos(theta_samples*8)...
-    sin(theta_samples*16) cos(theta_samples*16)];
+b_mat = p_polynomial_value(length(theta_vec), 4, cos(theta_vec*4));
 
 r = size(b_mat, 2)-1;
 
@@ -72,7 +71,7 @@ lambda = 0.001;
 % the number of MCMC iterations
 T = 5e5;
 % the length of the burn-in period
-burn_in = 25*1e4;
+burn_in = 0;
 % the length of the thinning interval
 thin = 250;
 % the length of the interval to report progress
