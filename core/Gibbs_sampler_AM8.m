@@ -1,4 +1,4 @@
-function post_samples = Gibbs_sampler_AM7(model, data, params, tuning, options)
+function post_samples = Gibbs_sampler_AM8(model, data, params, tuning, options)
 % GIBBS_SAMPLER_AM    The adaptive Metropolis-within-Gibbs sampler.
 %
 %   post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
@@ -61,7 +61,8 @@ c = params.c;
 V_inv = params.V;
 sigma_j_sq = [1; params.sigma_j_sq];
 eta = params.eta;
-tau_sigma_sq = params.tau_sigma_sq;
+alpha_eta = params.alpha_eta;
+beta_eta = params.beta_eta;
 tau_eta_sq = params.tau_eta_sq;
 tau_sq_inv = params.tau;
 
@@ -158,7 +159,8 @@ for t = 1:T
     
     % sample eta
     eta_star = mvnrnd(eta, lambda*Sigma)';
-    f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
+    f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+...
+        eta(1)^(alpha_eta+1)*exp(beta_eta/eta(1));
     std_vec = abs(b_mat*eta_star);
     DA_star = zeros(N, M);
     for i = 1:N
@@ -166,7 +168,8 @@ for t = 1:T
     end
     DAc_star = DA_star*c;
     quad_form_star = (Y-DAc_star)'*(Y-DAc_star);
-    f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r+1)'*eta_star(2:r+1)/2/tau_eta_sq+eta_star(1)^2/2/tau_sigma_sq;
+    f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r+1)'*eta_star(2:r+1)/2/tau_eta_sq+...
+        eta_star(1)^(alpha_eta+1)*exp(beta_eta/eta_star(1));
     ratio = exp(f1-f2);
     u = rand;
     % accept the new sample of eta
