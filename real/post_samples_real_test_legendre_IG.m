@@ -56,7 +56,7 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
-eta_init = zeros(r+1, 1);
+eta_init = [1; zeros(r, 1)];
 % pri_sig of eta_0
 alpha_eta = 2;
 beta_eta = 1;
