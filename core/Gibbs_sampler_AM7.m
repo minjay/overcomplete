@@ -108,7 +108,7 @@ post_samples_sigma_j_sq = zeros(len_j, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
 post_samples_eta = zeros(r+1, sample_size);
 
-std_vec = exp(b_mat*eta);
+std_vec = abs(b_mat*eta);
 DA = zeros(N, M);
 for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
@@ -159,7 +159,7 @@ for t = 1:T
     % sample eta
     eta_star = mvnrnd(eta, lambda*Sigma)';
     f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+eta(1)^2/2/tau_sigma_sq;
-    std_vec = exp(b_mat*eta_star);
+    std_vec = abs(b_mat*eta_star);
     DA_star = zeros(N, M);
     for i = 1:N
         DA_star(i, :) = std_vec(i)*A(i, :);
