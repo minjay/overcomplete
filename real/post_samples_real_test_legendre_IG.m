@@ -58,7 +58,8 @@ sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
 eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
-tau_sigma_sq = 1e4;
+alpha_eta = 2;
+beta_eta = 1;
 % pri_sig of eta
 tau_eta_sq = 0.25^2;
 % tau
@@ -82,13 +83,13 @@ model = struct('A', A, 'b_mat', b_mat, 'nu', nu);
 data = struct('Y', Y, 'Npix', Npix);
 
 params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
-    'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
+    'eta', eta_init, 'alpha_eta', alpha_eta, 'beta_eta', beta_eta, 'tau_eta_sq', tau_eta_sq,...
     'tau', tau_sq_inv_init);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM7(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM8(model, data, params, tuning, options);
 
 save('post_samples_real.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples')
