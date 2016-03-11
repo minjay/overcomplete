@@ -1,4 +1,4 @@
-function post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options)
+function post_samples = Gibbs_sampler_AM7(model, data, params, tuning, options)
 % GIBBS_SAMPLER_AM    The adaptive Metropolis-within-Gibbs sampler.
 %
 %   post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
