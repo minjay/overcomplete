@@ -160,7 +160,7 @@ for t = 1:T
     % sample eta
     eta_star = mvnrnd(eta, lambda*Sigma)';
     f1 = tau_sq_inv*quad_form/2+eta(2:r+1)'*eta(2:r+1)/2/tau_eta_sq+...
-        eta(1)^(alpha_eta+1)*exp(beta_eta/eta(1));
+        (alpha_eta+1)*log(eta(1))+beta_eta/eta(1);
     std_vec = abs(b_mat*eta_star);
     DA_star = zeros(N, M);
     for i = 1:N
@@ -169,7 +169,7 @@ for t = 1:T
     DAc_star = DA_star*c;
     quad_form_star = (Y-DAc_star)'*(Y-DAc_star);
     f2 = tau_sq_inv*quad_form_star/2+eta_star(2:r+1)'*eta_star(2:r+1)/2/tau_eta_sq+...
-        eta_star(1)^(alpha_eta+1)*exp(beta_eta/eta_star(1));
+        (alpha_eta+1)*log(eta_star(1))+beta_eta/eta_star(1);
     ratio = exp(f1-f2);
     u = rand;
     % accept the new sample of eta
