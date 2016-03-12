@@ -58,8 +58,8 @@ sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
 eta_init = [1; zeros(r, 1)];
 % pri_sig of eta_0
-alpha_eta = 2;
-beta_eta = 1;
+alpha_eta = 0.001;
+beta_eta = 0.001;
 % pri_sig of eta
 tau_eta_sq = 0.25^2;
 % tau
