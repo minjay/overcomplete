@@ -34,7 +34,7 @@ pot_samples = resid(index)';
 B = 2;
 j_min = 0;
 j_max = 3;
-nu = 3;
+nu = [100; 100; 3; 3];
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
@@ -70,7 +70,7 @@ lambda = 0.001;
 % the number of MCMC iterations
 T = 5e5;
 % the length of the burn-in period
-burn_in = 25*1e4;
+burn_in = 0;
 % the length of the thinning interval
 thin = 250;
 % the length of the interval to report progress
@@ -87,6 +87,6 @@ tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM4(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM9(model, data, params, tuning, options);
 
 save('post_samples_real.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples')
