@@ -84,9 +84,11 @@ end
 [N, M] = size(A);
 
 fj_sq = zeros(M, 1);
+nu_vec = zeros(M, 1);
 for j = 1:len_j
     range = st(j):en(j);
     fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
+    nu_vec(range) = nu(j)*ones(Npix(j), 1);
 end
 
 r = length(eta);
@@ -130,8 +132,8 @@ for t = 1:T
     end
    
     % sample V
-    shape = (nu+1)/2;
-    scale = 2./(c.^2+nu.*fj_sq);
+    shape = (nu_vec+1)/2;
+    scale = 2./(c.^2+nu_vec.*fj_sq);
     V_inv = gamrnd(shape, scale);
     
     % sample sigma_j
