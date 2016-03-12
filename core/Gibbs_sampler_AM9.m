@@ -132,17 +132,17 @@ for t = 1:T
    
     % sample V
     shape = (nu+1)/2;
-    scale = 2./(c.^2+nu*fj_sq);
+    scale = 2./(c.^2+nu.*fj_sq);
     V_inv = gamrnd(shape, scale);
     
     % sample sigma_j
-    shape = nu*Npix(2:end)/2;
+    shape = nu(2:end).*Npix(2:end)/2;
     scale = zeros(len_j-1, 1);
     for j = 1:len_j-1
         range = st(j+1):en(j+1);
         scale(j) = 1/sum(V_inv(range));
     end
-    scale = 2/nu*scale;
+    scale = 2./nu(2:end).*scale;
     sigma_j_sq = [1; gamrnd(shape, scale)];
     for j = 1:len_j
         range = st(j):en(j);
