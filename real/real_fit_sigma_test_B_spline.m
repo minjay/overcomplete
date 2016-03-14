@@ -1,5 +1,5 @@
 load('data_EOF_regr.mat')
-resid = resid_all(1:100, :);
+resid = resid_all(1, :);
 
 rng(1)
 
@@ -26,7 +26,7 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-knots = [0 0 0 0 1/3 2/3 1 1 1 1]*pi;
+knots = [0 0 0 0 0.3 1 1 1 1]*pi;
 [b_mat, ~] = bspline_basismatrix(4, knots, theta_samples*4);
 
 r = size(b_mat, 2);
@@ -55,7 +55,7 @@ mu_init = zeros(r, 1);
 Sigma_init = eye(r);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 5e5;
+T = 3e5;
 % the length of the burn-in period
 burn_in = 0;
 % the length of the thinning interval
