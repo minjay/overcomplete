@@ -41,7 +41,7 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-b_mat = p_polynomial_value(length(theta_vec), 4, cos(theta_vec*4));
+b_mat = p_polynomial_value(length(theta_samples), 4, cos(theta_samples*4));
 
 r = size(b_mat, 2)-1;
 
