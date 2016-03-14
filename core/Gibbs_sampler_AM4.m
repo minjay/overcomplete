@@ -126,7 +126,7 @@ for t = 1:T
         DA_not_j = DA(:, not_range);
         Sigma_inv = tau_sq_inv*(DA_j'*DA_j)+diag(V_inv(range));
         R = chol(Sigma_inv);
-        z = z+R'\(DA_j'*(Y-DA_not_j*c(not_range, :))*tau_sq_inv;
+        z = z+R'\(DA_j'*(Y-DA_not_j*c(not_range, :)))*tau_sq_inv;
         c(range, :) = R\z;
     end
     
