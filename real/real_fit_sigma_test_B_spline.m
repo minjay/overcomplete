@@ -1,5 +1,5 @@
 load('data_EOF_regr.mat')
-resid = resid_all(1, :);
+resid = resid_all(1:100, :);
 
 resid_norm = resid/1e3;
 cf = reshape(resid_norm, size(phi));
@@ -24,7 +24,7 @@ phi_vec = phi(:);
 index = rand_sampler_real(theta_vec*4);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
-pot_samples = resid(index)';
+pot_samples = resid(:, index)';
 
 % plot
 % plot_samples(theta_vec, index, phi_samples, pot_samples)
@@ -41,7 +41,7 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-knots = [0 0 0 0 0.5 1 1 1 1]*pi;
+knots = [0 0 0 0 1/3 2/3 1 1 1 1]*pi;
 [b_mat, ~] = bspline_basismatrix(4, knots, theta_samples*4);
 
 r = size(b_mat, 2);
@@ -49,9 +49,11 @@ r = size(b_mat, 2);
 % rescale the observations
 Y = pot_samples/1e3;
 
+TT = size(Y, 2);
+
 % init
 % c
-c_init = zeros(M, 1);
+c_init = zeros(M, TT);
 % V
 V_inv_init = ones(M, 1); 
 % sigma_j_sq
