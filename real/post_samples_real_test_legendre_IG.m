@@ -41,7 +41,7 @@ nu = 3;
 M = size(A, 2);
 
 % non-stationary variance function
-b_mat = p_polynomial_value(length(theta_vec), 4, cos(theta_vec*4));
+b_mat = p_polynomial_value(length(theta_samples), 4, cos(theta_samples*4));
 
 r = size(b_mat, 2)-1;
 
@@ -56,10 +56,10 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
-eta_init = [0.1; zeros(r, 1)];
+eta_init = [1; zeros(r, 1)];
 % pri_sig of eta_0
-alpha_eta = 0.001;
-beta_eta = 0.001;
+alpha_eta = 2;
+beta_eta = 1;
 % pri_sig of eta
 tau_eta_sq = 0.25^2;
 % tau
