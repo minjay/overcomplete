@@ -119,17 +119,15 @@ for t = 1:T
     
     % sample c
     for j = 1:len_j  
+        z = randn(Npix(j), TT);
         range = st(j):en(j);
         not_range = [1:st(j)-1, en(j)+1:M];
         DA_j = DA(:, range);
         DA_not_j = DA(:, not_range);
         Sigma_inv = tau_sq_inv*(DA_j'*DA_j)+diag(V_inv(range));
         R = chol(Sigma_inv);
-        for tt = 1:TT
-            z = randn(Npix(j), 1);
-            z = z+R'\(DA_j'*(Y(:, tt)-DA_not_j*c(not_range, tt)))*tau_sq_inv;
-            c(range, tt) = R\z;
-        end
+        z = z+R'\(DA_j'*(Y-DA_not_j*c))*tau_sq_inv;
+        c(range, :) = R\z;
     end
     
    
@@ -159,6 +157,8 @@ for t = 1:T
     for tt = 1:TT
         quad_form = quad_form+(Y(:, tt)-DAc(:, tt))'*(Y(:, tt)-DAc(:, tt));
     end
+    diff_vec = Y(:)-DAc(:);
+    quad_form = diff_vec'*diff_vec;
     scale = 2/quad_form;
     tau_sq_inv = gamrnd(shape, scale);
     
@@ -171,10 +171,8 @@ for t = 1:T
         DA_star(i, :) = std_vec(i)*A(i, :);
     end
     DAc_star = DA_star*c;
-    quad_form_star = 0;
-    for tt = 1:TT
-        quad_form_star = quad_form_star+(Y(:, tt)-DAc_star(:, tt))'*(Y(:, tt)-DAc_star(:, tt));
-    end
+    diff_vec = Y(:)-DAc_star(:);
+    quad_form_star = diff_vec'*diff_vec;
     f2 = tau_sq_inv*quad_form_star/2+eta_star'*eta_star/2/tau_eta_sq;
     ratio = exp(f1-f2);
     u = rand;
