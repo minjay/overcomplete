@@ -118,19 +118,20 @@ acc_times = 0;
 for t = 1:T 
     
     % sample c
-    for tt = 1:TT
-        for j = 1:len_j  
+    for j = 1:len_j  
+        range = st(j):en(j);
+        not_range = [1:st(j)-1, en(j)+1:M];
+        DA_j = DA(:, range);
+        DA_not_j = DA(:, not_range);
+        Sigma_inv = tau_sq_inv*(DA_j'*DA_j)+diag(V_inv(range));
+        R = chol(Sigma_inv);
+        for tt = 1:TT
             z = randn(Npix(j), 1);
-            range = st(j):en(j);
-            not_range = [1:st(j)-1, en(j)+1:M];
-            DA_j = DA(:, range);
-            DA_not_j = DA(:, not_range);
-            Sigma_inv = tau_sq_inv*(DA_j'*DA_j)+diag(V_inv(range));
-            R = chol(Sigma_inv);
             z = z+R'\(DA_j'*(Y(:, tt)-DA_not_j*c(not_range, tt)))*tau_sq_inv;
             c(range, tt) = R\z;
         end
     end
+    
    
     % sample V
     shape = (nu+TT)/2;
