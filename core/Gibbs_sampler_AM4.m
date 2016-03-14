@@ -58,6 +58,7 @@ Y = data.Y;
 Npix = data.Npix;
 
 c = params.c;
+TT = size(c, 2);
 V_inv = params.V;
 sigma_j_sq = [1; params.sigma_j_sq];
 eta = params.eta;
@@ -117,21 +118,23 @@ acc_times = 0;
 for t = 1:T 
     
     % sample c
-    for j = 1:len_j  
-        z = randn(Npix(j), 1);
-        range = st(j):en(j);
-        not_range = [1:st(j)-1, en(j)+1:M];
-        DA_j = DA(:, range);
-        DA_not_j = DA(:, not_range);
-        Sigma_inv = tau_sq_inv*(DA_j'*DA_j)+diag(V_inv(range));
-        R = chol(Sigma_inv);
-        z = z+R'\(DA_j'*(Y-DA_not_j*c(not_range)))*tau_sq_inv;
-        c(range) = R\z;
+    for tt = 1:TT
+        for j = 1:len_j  
+            z = randn(Npix(j), 1);
+            range = st(j):en(j);
+            not_range = [1:st(j)-1, en(j)+1:M];
+            DA_j = DA(:, range);
+            DA_not_j = DA(:, not_range);
+            Sigma_inv = tau_sq_inv*(DA_j'*DA_j)+diag(V_inv(range));
+            R = chol(Sigma_inv);
+            z = z+R'\(DA_j'*(Y(:, tt)-DA_not_j*c(not_range, tt)))*tau_sq_inv;
+            c(range, tt) = R\z;
+        end
     end
    
     % sample V
-    shape = (nu+1)/2;
-    scale = 2./(c.^2+nu*fj_sq);
+    shape = (nu+TT)/2;
+    scale = 2./(sum(c.^2, 2)+nu*fj_sq);
     V_inv = gamrnd(shape, scale);
     
     % sample sigma_j
@@ -149,9 +152,12 @@ for t = 1:T
     end
     
     % sample tau
-    shape = N/2;
+    shape = N*TT/2;
     DAc = DA*c;
-    quad_form = (Y-DAc)'*(Y-DAc);
+    quad_form = 0;
+    for tt = 1:TT
+        quad_form = quad_form+(Y(:, tt)-DAc(:, tt))'*(Y(:, tt)-DAc(:, tt));
+    end
     scale = 2/quad_form;
     tau_sq_inv = gamrnd(shape, scale);
     
@@ -164,7 +170,10 @@ for t = 1:T
         DA_star(i, :) = std_vec(i)*A(i, :);
     end
     DAc_star = DA_star*c;
-    quad_form_star = (Y-DAc_star)'*(Y-DAc_star);
+    quad_form_star = 0;
+    for tt = 1:TT
+        quad_form_star = quad_form_star+(Y(:, tt)-DAc_star(:, tt))'*(Y(:, tt)-DAc_star(:, tt));
+    end
     f2 = tau_sq_inv*quad_form_star/2+eta_star'*eta_star/2/tau_eta_sq;
     ratio = exp(f1-f2);
     u = rand;
@@ -201,7 +210,7 @@ for t = 1:T
     t_diff = t-burn_in;
     if t_diff>0 && mod(t_diff, thin)==0
         index = t_diff/thin;
-        post_samples_c(:, index) = c;
+        post_samples_c(:, index) = c(:, 1);
         post_samples_V_inv(:, index) = V_inv;
         post_samples_sigma_j_sq(:, index) = sigma_j_sq;
         post_samples_tau_sq_inv(index) = tau_sq_inv;
