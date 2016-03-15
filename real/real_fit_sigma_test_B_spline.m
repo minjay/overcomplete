@@ -1,4 +1,4 @@
-load('data_EOF_regr.mat')
+load('data_EOF_regr_new.mat')
 resid = resid_all(1, :);
 
 rng(1)
