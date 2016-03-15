@@ -94,7 +94,6 @@ post_samples_V_inv = zeros(M, sample_size);
 post_samples_sigma_j_sq = zeros(len_j, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
 
-std_vec = exp(b_mat*eta);
 DA = A;
 
 for t = 1:T 
