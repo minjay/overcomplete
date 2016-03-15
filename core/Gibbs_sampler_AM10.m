@@ -51,7 +51,6 @@ tic
 
 % init
 A = model.A;
-b_mat = model.b_mat;
 nu = model.nu;
 
 Y = data.Y;
