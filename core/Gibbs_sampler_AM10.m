@@ -63,10 +63,6 @@ V_inv = params.V;
 sigma_j_sq = params.sigma_j_sq;
 tau_sq_inv = params.tau;
 
-mu = tuning.mu;
-Sigma = tuning.Sigma;
-lambda = tuning.lambda;
-
 T = options.T;
 burn_in = options.burn_in;
 thin = options.thin;
