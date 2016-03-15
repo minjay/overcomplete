@@ -51,7 +51,7 @@ thin = 100;
 % the length of the interval to report progress
 n_report = 100;
 
-model = struct('A', A, 'b_mat', b_mat, 'nu', nu);
+model = struct('A', A, 'nu', nu);
 
 data = struct('Y', Y, 'Npix', Npix);
 
