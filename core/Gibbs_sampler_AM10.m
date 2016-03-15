@@ -140,11 +140,7 @@ for t = 1:T
             disp('--------------------------------------------')
         end
         fprintf('Sampled: %d of %d\n', t, T)
-        fprintf('Current Metropolis acceptance rate: %.2f%%\n',...
-        acc_times/n_report*100)
-        fprintf('Current lambda: %5f\n', lambda)
         disp('--------------------------------------------')
-        acc_times = 0;
     end
     
     % save
