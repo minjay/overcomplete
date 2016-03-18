@@ -6,10 +6,11 @@ rng(1)
 % sampling
 theta_vec = theta(:);
 phi_vec = phi(:);
-index = rand_sampler_real(theta_vec*4);
+w = sin(theta_vec*4);
+[pot_samples, index] = datasample(resid', 2000, 'Replace', false,...
+    'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
-pot_samples = resid(:, index)';
 
 % plot
 % plot_samples(theta_vec, index, phi_samples, pot_samples)
