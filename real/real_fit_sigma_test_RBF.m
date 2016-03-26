@@ -28,7 +28,7 @@ M = size(A, 2);
 
 % non-stationary variance function
 r = 4;
-lambda_inv = 2.5;
+lambda_inv = 2/2.5;
 b_mat = get_nonsta_var(r, lambda_inv, theta_samples*4);
 
 r = size(b_mat, 2)-1;
