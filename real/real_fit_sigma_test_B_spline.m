@@ -27,7 +27,7 @@ nu = 4;
 M = size(A, 2);
 
 % non-stationary variance function
-knots = [0 0 0 0 1/3 2/3 1 1 1 1]*pi;
+knots = [0 0 0 0 0.3 0.3 0.4 1 1 1 1]*pi;
 [b_mat, ~] = bspline_basismatrix(4, knots, theta_samples*4);
 
 r = size(b_mat, 2);
@@ -47,7 +47,7 @@ sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
 eta_init = zeros(r, 1);
 % pri_sig of eta
-tau_eta_sq = 1e4;
+tau_eta_sq = 1e2;
 % tau
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
@@ -56,7 +56,7 @@ mu_init = zeros(r, 1);
 Sigma_init = eye(r);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 1e6;
+T = 6e5;
 % the length of the burn-in period
 burn_in = 0;
 % the length of the thinning interval
