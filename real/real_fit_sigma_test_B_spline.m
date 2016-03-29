@@ -7,10 +7,10 @@ rng(1)
 theta_vec = theta(:);
 phi_vec = phi(:);
 w = sin(theta_vec*4);
-[pot_samples, index] = datasample(resid', 1000, 'Replace', false,...
+[pot_samples, index] = datasample(resid', 2000, 'Replace', false,...
     'Weights', w);
 theta_samples = theta_vec(index);
-phi_samples = resid_all(:, index)';
+phi_samples = phi_vec(index);
 
 % plot
 % plot_samples(theta_vec, index, phi_samples, pot_samples)
@@ -19,7 +19,7 @@ phi_samples = resid_all(:, index)';
 % parameter specification
 B = 2;
 j_min = 2;
-j_max = 3;
+j_max = 4;
 nu = 4;
 
 % design matrix A
@@ -56,7 +56,7 @@ mu_init = zeros(r, 1);
 Sigma_init = eye(r);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 3e5;
+T = 6e5;
 % the length of the burn-in period
 burn_in = 0;
 % the length of the thinning interval
