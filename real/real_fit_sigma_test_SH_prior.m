@@ -1,30 +1,16 @@
-load('data_EOF_regr.mat')
+load('data_EOF_regr_new.mat')
 resid = resid_all(1, :);
-
-resid_norm = resid/1e3;
-cf = reshape(resid_norm, size(phi));
-vmin = min(resid_norm);
-vmax = max(resid_norm);
-vmag = vmin:0.1:vmax;
-phi_rot = phi+pi/2;
-[x, y] = pol2cart(phi_rot, theta/pi*180);
-h = mypolar([0 2*pi], [0 max(theta(:))/pi*180], x, y, cf, vmag);
-delete(h)
-shading flat
-title('Electric Potential','FontName','times','Fontsize',10)
-xlabel(sprintf('Min %6.1f  Max %5.1f [kV]',vmin,vmax),'FontName','times','Fontsize',10)
-% plot_pot(reshape(resid, size(phi)), phi, theta, 1000, max(abs(resid)));
-
 
 rng(1)
 
 % sampling
 theta_vec = theta(:);
 phi_vec = phi(:);
-index = rand_sampler_real(theta_vec*4);
+w = sin(theta_vec*4);
+[pot_samples, index] = datasample(resid', 2000, 'Replace', false,...
+    'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
-pot_samples = resid(index)';
 
 % plot
 % plot_samples(theta_vec, index, phi_samples, pot_samples)
@@ -34,15 +20,15 @@ pot_samples = resid(index)';
 B = 2;
 j_min = 2;
 j_max = 4;
-nu = 3;
+nu = 4;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
 M = size(A, 2);
 
 % non-stationary variance function
-b_mat = [ones(length(theta_samples), 1) sin(theta_samples*8) cos(theta_samples*8)...
-    sin(theta_samples*16) cos(theta_samples*16)];
+[~, ~, ~, X] = SCHA_regr(zeros(size(phi)), theta, phi, 3, 3);
+b_mat = X(index, :);
 
 r = size(b_mat, 2)-1;
 
@@ -70,9 +56,9 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 5e5;
+T = 3e5;
 % the length of the burn-in period
-burn_in = 25*1e4;
+burn_in = 0;
 % the length of the thinning interval
 thin = 250;
 % the length of the interval to report progress
