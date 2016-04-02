@@ -27,8 +27,8 @@ nu = 4;
 M = size(A, 2);
 
 % non-stationary variance function
-knots = [0 0 0 1/6 2/6 3/6 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(3, knots, theta_samples*4);
+knots = [0 0 0 0 1/6 3/6 1 1 1 1]*pi;
+[b_mat, ~] = bspline_basismatrix(4, knots, theta_samples*4);
 
 r = size(b_mat, 2);
 
