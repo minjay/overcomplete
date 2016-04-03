@@ -11,6 +11,7 @@ w = sin(theta_vec*4);
     'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
+pot_samples = resid_all(1:100, index)';
 
 % plot
 % plot_samples(theta_vec, index, phi_samples, pot_samples)
@@ -56,7 +57,7 @@ mu_init = zeros(r, 1);
 Sigma_init = eye(r);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 6e5;
+T = 3e5;
 % the length of the burn-in period
 burn_in = 0;
 % the length of the thinning interval
