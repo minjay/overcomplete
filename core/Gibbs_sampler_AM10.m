@@ -1,4 +1,4 @@
-function post_samples = Gibbs_sampler_AM10(model, data, params, options)
+function post_samples = Gibbs_sampler_AM10(model, data, params, tuning, options)
 % GIBBS_SAMPLER_AM    The adaptive Metropolis-within-Gibbs sampler.
 %
 %   post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
@@ -51,6 +51,7 @@ tic
 
 % init
 A = model.A;
+b_mat = model.b_mat;
 nu = model.nu;
 
 Y = data.Y;
@@ -59,8 +60,14 @@ Npix = data.Npix;
 c = params.c;
 TT = size(c, 2);
 V_inv = params.V;
-sigma_j_sq = params.sigma_j_sq;
+sigma_j_sq = [1; params.sigma_j_sq];
+eta = params.eta;
+tau_eta_sq = params.tau_eta_sq;
 tau_sq_inv = params.tau;
+
+mu = tuning.mu;
+Sigma = tuning.Sigma;
+lambda = tuning.lambda;
 
 T = options.T;
 burn_in = options.burn_in;
@@ -83,13 +90,30 @@ for j = 1:len_j
     fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
 end
 
+r = length(eta);
+
+% optimal acceptance rate
+% see Gelman et al., 1996
+rates = [0.441 0.352 0.316 0.279 0.275 0.266 0.261 0.255 0.261 0.267 0.234];
+if r<=10
+    target_acc_rate = rates(r);
+else
+    target_acc_rate = rates(end);
+end
+
 sample_size = floor((T-burn_in)/thin);
 post_samples_c = zeros(M, sample_size);
 post_samples_V_inv = zeros(M, sample_size);
 post_samples_sigma_j_sq = zeros(len_j, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
+post_samples_eta = zeros(r, sample_size);
 
-DA = A;
+std_vec = exp(b_mat*eta);
+DA = zeros(N, M);
+for i = 1:N
+    DA(i, :) = std_vec(i)*A(i, :);
+end
+acc_times = 0;
 
 for t = 1:T 
     
@@ -113,14 +137,14 @@ for t = 1:T
     V_inv = gamrnd(shape, scale);
     
     % sample sigma_j
-    shape = nu*Npix/2;
-    scale = zeros(len_j, 1);
-    for j = 1:len_j
-        range = st(j):en(j);
+    shape = nu*Npix(2:end)/2;
+    scale = zeros(len_j-1, 1);
+    for j = 1:len_j-1
+        range = st(j+1):en(j+1);
         scale(j) = 1/sum(V_inv(range));
     end
     scale = 2/nu*scale;
-    sigma_j_sq = gamrnd(shape, scale);
+    sigma_j_sq = [1; gamrnd(shape, scale)];
     for j = 1:len_j
         range = st(j):en(j);
         fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
@@ -134,13 +158,47 @@ for t = 1:T
     scale = 2/quad_form;
     tau_sq_inv = gamrnd(shape, scale);
     
+    % sample eta
+    eta_star = mvnrnd(eta, lambda*Sigma)';
+    f1 = tau_sq_inv*quad_form/2+eta'*eta/2/tau_eta_sq;
+    std_vec = exp(b_mat*eta_star);
+    DA_star = zeros(N, M);
+    for i = 1:N
+        DA_star(i, :) = std_vec(i)*A(i, :);
+    end
+    DAc_star = DA_star*c;
+    diff_vec = Y(:)-DAc_star(:);
+    quad_form_star = diff_vec'*diff_vec;
+    f2 = tau_sq_inv*quad_form_star/2+eta_star'*eta_star/2/tau_eta_sq;
+    ratio = exp(f1-f2);
+    u = rand;
+    % accept the new sample of eta
+    if ratio>=u
+        eta = eta_star;
+        DA = DA_star;
+        acc_times = acc_times+1;
+    end 
+    
+    % adaptation step
+    % gamma != 1/t to avoid being stuck at zero
+    gamma = 1/(t+1);
+    log_lambda = log(lambda)+gamma*(min([ratio 1])-target_acc_rate);
+    lambda = exp(log_lambda);
+    diff = eta-mu;
+    mu = mu+gamma*diff;
+    Sigma = Sigma+gamma*(diff*diff'-Sigma);
+    
     % print to the screen
     if mod(t, n_report)==0
         if floor(t/n_report)==1
             disp('--------------------------------------------')
         end
         fprintf('Sampled: %d of %d\n', t, T)
+        fprintf('Current Metropolis acceptance rate: %.2f%%\n',...
+        acc_times/n_report*100)
+        fprintf('Current lambda: %5f\n', lambda)
         disp('--------------------------------------------')
+        acc_times = 0;
     end
     
     % save
@@ -151,13 +209,14 @@ for t = 1:T
         post_samples_V_inv(:, index) = V_inv;
         post_samples_sigma_j_sq(:, index) = sigma_j_sq;
         post_samples_tau_sq_inv(index) = tau_sq_inv;
+        post_samples_eta(:, index) = eta;
     end
     
 end
 
 post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
     'sigma_j_sq', post_samples_sigma_j_sq, 'tau_sq_inv',...
-    post_samples_tau_sq_inv);
+    post_samples_tau_sq_inv, 'eta', post_samples_eta);
 
 toc
 
