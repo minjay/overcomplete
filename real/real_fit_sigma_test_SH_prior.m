@@ -11,6 +11,7 @@ w = sin(theta_vec*4);
     'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
+pot_samples = resid_all(1:100, index)';
 
 % plot
 % plot_samples(theta_vec, index, phi_samples, pot_samples)
@@ -19,7 +20,7 @@ phi_samples = phi_vec(index);
 % parameter specification
 B = 2;
 j_min = 2;
-j_max = 4;
+j_max = 3;
 nu = 4;
 
 % design matrix A
@@ -76,6 +77,6 @@ tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM10(model, data, params, tuning, options);
 
 save('post_samples_real.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples')
