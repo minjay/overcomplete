@@ -36,9 +36,11 @@ r = size(b_mat, 2)-1;
 % rescale the observations
 Y = pot_samples/1e3;
 
+TT = size(Y, 2);
+
 % init
 % c
-c_init = zeros(M, 1);
+c_init = zeros(M, TT);
 % V
 V_inv_init = ones(M, 1); 
 % sigma_j_sq
