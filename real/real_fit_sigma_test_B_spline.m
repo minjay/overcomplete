@@ -20,7 +20,7 @@ pot_samples = resid_all(1:100, index)';
 % parameter specification
 B = 2;
 j_min = 2;
-j_max = 4;
+j_max = 3;
 nu = 4;
 
 % design matrix A
