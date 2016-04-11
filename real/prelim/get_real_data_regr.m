@@ -16,7 +16,7 @@ L = 3;
 M = 3;
 
 times = 1:10:T;
-resid_all = zeros(times, size(r, 2));
+resid_all = zeros(length(times), size(r, 2));
 for t = times
     [coef, resid, y_hat, ~] = SCHA_regr(reshape(r(t, :)./emp_std_vec, size(phi)), theta, phi, L, M);
     resid_all(t, :) = resid.*emp_std_vec';
