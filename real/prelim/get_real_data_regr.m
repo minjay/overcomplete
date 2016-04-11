@@ -15,6 +15,8 @@ T = size(r, 1);
 L = 3;
 M = 3;
 
+emp_std_vec = std(r, 0, 1);
+
 times = 1:10:T;
 resid_all = zeros(length(times), size(r, 2));
 for t = times
