@@ -6,9 +6,10 @@ load('theta_phi.mat')
 
 r = double(r);
 % remove the obs when theta=0
-r = r(:, 361:end);
-phi = phi(:, 2:end);
-theta = theta(:, 2:end);
+% remove the constant obs
+r = r(:, 361:(end-360));
+phi = phi(:, 2:(end-1));
+theta = theta(:, 2:(end-1));
 
 T = size(r, 1);
 
