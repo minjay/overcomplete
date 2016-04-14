@@ -19,7 +19,7 @@ phi_samples = phi_vec(index);
 % parameter specification
 B = 2;
 j_min = 2;
-j_max = 3;
+j_max = 4;
 nu = 4;
 
 % design matrix A
