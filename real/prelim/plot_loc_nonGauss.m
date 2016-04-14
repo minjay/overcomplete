@@ -1,4 +1,4 @@
-load('data_EOF_regr.mat')
+load('data_EOF_regr_new.mat')
 
 phi = phi/pi*180;
 theta = (pi/2-theta)/pi*180;
