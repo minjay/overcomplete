@@ -7,7 +7,7 @@ rng(1)
 theta_vec = theta(:);
 phi_vec = phi(:);
 w = sin(theta_vec*4);
-[pot_samples, index] = datasample(resid', 5000, 'Replace', false,...
+[pot_samples, index] = datasample(resid', 4000, 'Replace', false,...
     'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
@@ -27,7 +27,7 @@ nu = 4;
 M = size(A, 2);
 
 % non-stationary variance function
-knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
+knots = [0 0 0 0 40/180 80/180 120/180 1 1 1 1]*pi;
 [b_mat, ~] = bspline_basismatrix(4, knots, theta_samples*4);
 
 r = size(b_mat, 2);
@@ -56,7 +56,7 @@ mu_init = zeros(r, 1);
 Sigma_init = eye(r);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 4e5;
+T = 3e5;
 % the length of the burn-in period
 burn_in = 0;
 % the length of the thinning interval
