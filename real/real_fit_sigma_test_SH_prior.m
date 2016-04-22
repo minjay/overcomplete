@@ -11,7 +11,7 @@ w = sin(theta_vec*4);
     'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
-pot_samples = resid_all(1:100, index)';
+pot_samples = resid_all(1:10:end, index)';
 
 % plot
 % plot_samples(theta_vec, index, phi_samples, pot_samples)
