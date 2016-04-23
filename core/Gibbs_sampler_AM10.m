@@ -115,6 +115,8 @@ for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
 end
 acc_times = 0;
+num_acc_times = 0;
+acc_times_all = [];
 
 for t = 1:T 
     
@@ -198,6 +200,8 @@ for t = 1:T
         acc_times/n_report*100)
         fprintf('Current lambda: %5f\n', lambda)
         disp('--------------------------------------------')
+        num_acc_times = num_acc_times+1;
+        acc_times_all(num_acc_times) = acc_times;
         acc_times = 0;
     end
     
