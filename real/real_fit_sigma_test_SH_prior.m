@@ -28,7 +28,7 @@ nu = 4;
 M = size(A, 2);
 
 % non-stationary variance function
-[~, ~, ~, X] = SCHA_regr(zeros(size(phi)), theta, phi, 2, 2);
+[~, ~, ~, X] = SCHA_regr(zeros(size(phi)), theta, phi, 3, 3, 4);
 b_mat = X(index, :);
 
 r = size(b_mat, 2)-1;
@@ -50,7 +50,7 @@ eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
 tau_sigma_sq = 1e4;
 % pri_sig of eta
-tau_eta_sq = 0.25^2;
+tau_eta_sq = 1e4;
 % tau
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
