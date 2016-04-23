@@ -103,7 +103,7 @@ else
 end
 
 sample_size = floor((T-burn_in)/thin);
-post_samples_c = zeros(M, sample_size);
+post_samples_c = zeros(M, TT, sample_size);
 post_samples_V_inv = zeros(M, sample_size);
 post_samples_sigma_j_sq = zeros(len_j, sample_size);
 post_samples_tau_sq_inv = zeros(1, sample_size);
@@ -209,7 +209,7 @@ for t = 1:T
     t_diff = t-burn_in;
     if t_diff>0 && mod(t_diff, thin)==0
         index = t_diff/thin;
-        post_samples_c(:, index) = c(:, 1);
+        post_samples_c(:, :, index) = c;
         post_samples_V_inv(:, index) = V_inv;
         post_samples_sigma_j_sq(:, index) = sigma_j_sq;
         post_samples_tau_sq_inv(index) = tau_sq_inv;
