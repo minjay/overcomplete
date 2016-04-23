@@ -201,7 +201,7 @@ for t = 1:T
         fprintf('Current lambda: %5f\n', lambda)
         disp('--------------------------------------------')
         num_acc_times = num_acc_times+1;
-        acc_times_all(num_acc_times) = acc_times;
+        acc_times_all(num_acc_times) = acc_times/n_report;
         acc_times = 0;
     end
     
@@ -220,7 +220,8 @@ end
 
 post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
     'sigma_j_sq', post_samples_sigma_j_sq, 'tau_sq_inv',...
-    post_samples_tau_sq_inv, 'eta', post_samples_eta);
+    post_samples_tau_sq_inv, 'eta', post_samples_eta, 'acc_times_all',...
+    acc_times_all);
 
 toc
 
