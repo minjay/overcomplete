@@ -1,23 +1,22 @@
 load('data_EOF_regr_new.mat')
 resid = resid_all(1, :);
 
+% set seed
 rng(1)
 
 % sampling
 theta_vec = theta(:);
 phi_vec = phi(:);
 w = sin(theta_vec*4);
-[pot_samples, index] = datasample(resid', 2000, 'Replace', false,...
+[~, index] = datasample(resid', 2000, 'Replace', false,...
     'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
-pot_samples = resid_all(1:10:end, index)';
-
-% plot
-% plot_samples(theta_vec, index, phi_samples, pot_samples)
+% time interval 2*10*3=60 mins = 1 hr 
+pot_samples = resid_all(1:3:end, index)';
 
 % fit
-% parameter specification
+% parameter setting
 B = 2;
 j_min = 2;
 j_max = 3;
@@ -50,7 +49,7 @@ eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
 tau_sigma_sq = 1e4;
 % pri_sig of eta
-tau_eta_sq = 1e4;
+tau_eta_sq = 0.25^2;
 % tau
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
