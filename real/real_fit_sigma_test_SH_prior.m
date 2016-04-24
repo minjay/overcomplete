@@ -27,7 +27,7 @@ nu = 4;
 M = size(A, 2);
 
 % non-stationary variance function
-[~, ~, ~, X] = SCHA_regr(zeros(size(phi)), theta, phi, 3, 3, 4);
+[~, ~, ~, X] = SCHA_regr(zeros(size(phi)), theta, phi, 2, 2, 4);
 b_mat = X(index, :);
 
 r = size(b_mat, 2)-1;
