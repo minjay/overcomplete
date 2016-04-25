@@ -1,4 +1,4 @@
-function post_samples = Gibbs_sampler_AM10(model, data, params, tuning, options)
+function post_samples = Gibbs_sampler_AM_Gamma_prior(model, data, params, tuning, options)
 % GIBBS_SAMPLER_AM    The adaptive Metropolis-within-Gibbs sampler.
 %
 %   post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
@@ -65,6 +65,8 @@ eta = params.eta;
 tau_sigma_sq = params.tau_sigma_sq;
 tau_eta_sq = params.tau_eta_sq;
 tau_sq_inv = params.tau;
+alpha_sigma = params.alpha_sigma;
+beta_sigma = params.beta_sigma;
 
 mu = tuning.mu;
 Sigma = tuning.Sigma;
@@ -139,13 +141,13 @@ for t = 1:T
     V_inv = gamrnd(shape, scale);
     
     % sample sigma_j
-    shape = nu*Npix(2:end)/2;
+    shape = nu*Npix(2:end)/2+alpha_sigma;
     scale = zeros(len_j-1, 1);
     for j = 1:len_j-1
         range = st(j+1):en(j+1);
-        scale(j) = 1/sum(V_inv(range));
+        scale(j) = sum(V_inv(range));
     end
-    scale = 2/nu*scale;
+    scale = 1./(nu/2*scale+beta_sigma);
     sigma_j_sq = [1; gamrnd(shape, scale)];
     for j = 1:len_j
         range = st(j):en(j);
