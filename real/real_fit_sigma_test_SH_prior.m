@@ -78,7 +78,7 @@ tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM10(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 
 post_samples.c = post_samples.c(:, 1:10, :);
 
