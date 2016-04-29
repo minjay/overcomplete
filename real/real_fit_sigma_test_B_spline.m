@@ -52,8 +52,8 @@ tau_eta_sq = 1e2;
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
 % gamma prior
-alpha_gamma = (1/sqrt(2))^3;
-beta_gamma = 2;
+alpha_sigma = (1/sqrt(2))^3;
+beta_sigma = 2;
 % tuning parameters
 mu_init = zeros(r, 1);
 Sigma_init = eye(r);
@@ -72,7 +72,8 @@ model = struct('A', A, 'b_mat', b_mat, 'nu', nu);
 data = struct('Y', Y, 'Npix', Npix);
 
 params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
-    'eta', eta_init, 'tau_eta_sq', tau_eta_sq, 'tau', tau_sq_inv_init);
+    'eta', eta_init, 'tau_eta_sq', tau_eta_sq, 'tau', tau_sq_inv_init,...
+    'alpha_sigma', alpha_sigma, 'beta_sigma', beta_sigma);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
