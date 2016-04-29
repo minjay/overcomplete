@@ -64,6 +64,8 @@ sigma_j_sq = [1; params.sigma_j_sq];
 eta = params.eta;
 tau_eta_sq = params.tau_eta_sq;
 tau_sq_inv = params.tau;
+alpha_sigma = params.alpha_sigma;
+beta_sigma = params.beta_sigma;
 
 mu = tuning.mu;
 Sigma = tuning.Sigma;
@@ -114,6 +116,8 @@ for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
 end
 acc_times = 0;
+num_acc_times = 0;
+acc_times_all = [];
 
 for t = 1:T 
     
@@ -137,13 +141,13 @@ for t = 1:T
     V_inv = gamrnd(shape, scale);
     
     % sample sigma_j
-    shape = nu*Npix(2:end)/2;
+    shape = nu*Npix(2:end)/2+alpha_sigma;
     scale = zeros(len_j-1, 1);
     for j = 1:len_j-1
         range = st(j+1):en(j+1);
-        scale(j) = 1/sum(V_inv(range));
+        scale(j) = sum(V_inv(range));
     end
-    scale = 2/nu*scale;
+    scale = 1./(nu/2*scale+beta_sigma);
     sigma_j_sq = [1; gamrnd(shape, scale)];
     for j = 1:len_j
         range = st(j):en(j);
@@ -198,6 +202,8 @@ for t = 1:T
         acc_times/n_report*100)
         fprintf('Current lambda: %5f\n', lambda)
         disp('--------------------------------------------')
+        num_acc_times = num_acc_times+1;
+        acc_times_all(num_acc_times) = acc_times/n_report;
         acc_times = 0;
     end
     
@@ -216,7 +222,8 @@ end
 
 post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
     'sigma_j_sq', post_samples_sigma_j_sq, 'tau_sq_inv',...
-    post_samples_tau_sq_inv, 'eta', post_samples_eta);
+    post_samples_tau_sq_inv, 'eta', post_samples_eta, 'acc_times_all',...
+    acc_times_all);
 
 toc
 
