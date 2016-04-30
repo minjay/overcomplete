@@ -52,7 +52,7 @@ tau_eta_sq = 1e2;
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
 % gamma prior
-alpha_sigma = 2*(1/sqrt(2))^3;
+alpha_sigma = 0.1;
 beta_sigma = 2;
 % tuning parameters
 mu_init = zeros(r, 1);
