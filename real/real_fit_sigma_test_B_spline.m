@@ -52,14 +52,14 @@ tau_eta_sq = 1e2;
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
 % gamma prior
-alpha_sigma = (1/sqrt(2))^3;
+alpha_sigma = 2*(1/sqrt(2))^3;
 beta_sigma = 2;
 % tuning parameters
 mu_init = zeros(r, 1);
 Sigma_init = eye(r);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 2e5;
+T = 4e5;
 % the length of the burn-in period
 burn_in = 0;
 % the length of the thinning interval
