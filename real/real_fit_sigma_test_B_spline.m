@@ -52,8 +52,8 @@ tau_eta_sq = 1e2;
 tau_init = 0.01;
 tau_sq_inv_init = 1/tau_init^2;
 % gamma prior
-alpha_sigma = 2*0.1;
-beta_sigma = 2;
+alpha_sigma = 10*0.1;
+beta_sigma = 10;
 % tuning parameters
 mu_init = zeros(r, 1);
 Sigma_init = eye(r);
