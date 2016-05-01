@@ -60,9 +60,9 @@ Npix = data.Npix;
 
 c = params.c;
 V_inv = params.V;
-eta = params(1).eta;
-tau_sigma_sq = params(2).eta;
-tau_eta_sq = params(3).eta;
+eta = params.eta;
+tau_sigma_sq = params.tau_sigma_sq;
+tau_eta_sq = params.tau_eta_sq;
 tau_sq_inv = params.tau;
 
 mu = tuning.mu;
