@@ -7,7 +7,7 @@ rng(1)
 theta_vec = theta(:);
 phi_vec = phi(:);
 w = sin(theta_vec*4);
-[pot_samples, index] = datasample(resid', 2000, 'Replace', false,...
+[pot_samples, index] = datasample(resid', 4000, 'Replace', false,...
     'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
@@ -62,7 +62,7 @@ for j = 1:len_j
     en(j) = sum(Npix(1:j));
 end
 fj_sq = zeros(M, 1);
-sigma_j_sq = [1 0.01];
+sigma_j_sq = [1 0.01 0.0002];
 for j = 1:len_j
     range = st(j):en(j);
     fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
