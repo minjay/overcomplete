@@ -62,7 +62,7 @@ for j = 1:len_j
     en(j) = sum(Npix(1:j));
 end
 fj_sq = zeros(M, 1);
-sigma_j_sq = [1 0.02];
+sigma_j_sq = [1 0.005];
 for j = 1:len_j
     range = st(j):en(j);
     fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
