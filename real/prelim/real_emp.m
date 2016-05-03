@@ -1,16 +1,13 @@
-load('svd.mat')
-load('theta_phi.mat')
+r = resid_all;
 
 n_thin = 20;
 
 phi_vec = phi(:);
 theta_vec = theta(:);
-range = intersect(find(theta_vec>0), find(theta_vec<25/180*pi));
-range = range(1:n_thin:end);
 
-phi_vec = phi_vec(range);
-theta_vec = theta_vec(range);
-corr_mat = corr(r(:, range));
+phi_vec = phi_vec(1:n_thin:end);
+theta_vec = theta_vec(1:n_thin:end);
+corr_mat = corr(r(:, 1:n_thin:end));
 
 [x, y, z] = sph2cart(phi_vec, pi/2-theta_vec*4, 1);
 
@@ -35,7 +32,7 @@ boxplot_curve(dist_vec, corr_vec, n_bin, 'k')
 [X_MED, Y_MED, Y_LOW, Y_HIGH] = binned_plot(dist_vec, corr_vec, n_bin);
 hold on
 plot(X_MED, Y_MED, 'bo')
-plot_corr_fun(2, 2, 4, 4, 4, 10000, 'r-')
+plot_corr_fun(2, 2, 4, 4, 7.5, 10000, 'r-')
 plot_corr_fun(2, 2, 4, 4, 3, 10000, 'r-.')
 line([0 pi], [0 0], 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1.5)
 axis tight
