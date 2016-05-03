@@ -1,3 +1,4 @@
+load('data_EOF_regr_new.mat')
 r = resid_all;
 
 n_thin = 20;
@@ -27,12 +28,7 @@ for i = 1:n
     end
 end
 
-n_bin = 100;
-boxplot_curve(dist_vec, corr_vec, n_bin, 'k')
-[X_MED, Y_MED, Y_LOW, Y_HIGH] = binned_plot(dist_vec, corr_vec, n_bin);
+plot(dist_vec, corr_vec, '.')
 hold on
-plot(X_MED, Y_MED, 'bo')
-plot_corr_fun(2, 2, 4, 4, 7.5, 10000, 'r-')
-plot_corr_fun(2, 2, 4, 4, 3, 10000, 'r-.')
-line([0 pi], [0 0], 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1.5)
+plot_corr_fun(2, 2, 4, 4, 5, 10000, 'r-')
 axis tight
