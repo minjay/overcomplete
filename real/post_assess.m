@@ -54,8 +54,9 @@ std_vec = exp(b_mat*post_samples.eta);
 % plot fitted std function
 nu = 4;
 for i = 1:100:size(post_samples.eta, 2)
-    sigma_j = mean(sqrt(post_samples.sigma_j_sq), 2);
+    sigma_j = sqrt(post_samples.sigma_j_sq(:, i));
     variance = plot_corr_fun_flex(2, sigma_j, 2, 4, nu, 1000, 'r');
     std_vec(:, i) = std_vec(:, i)*sqrt(variance)*1000;
 end
+figure
 plot(theta_vec, std_vec(:, 1:100:end))
