@@ -50,6 +50,8 @@ end
 figure
 semilogy(pred_err)
 
+figure
+hold on
 std_vec = exp(b_mat*post_samples.eta);
 % plot fitted std function
 nu = 4;
