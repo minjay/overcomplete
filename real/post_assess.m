@@ -51,7 +51,7 @@ figure
 semilogy(pred_err)
 
 std_vec = exp(b_mat*post_samples.eta);
-% plot fitted correlation function
+% plot fitted std function
 nu = 4;
 for i = 1:100:size(post_samples.eta, 2)
     sigma_j = mean(sqrt(post_samples.sigma_j_sq), 2);
