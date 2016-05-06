@@ -58,6 +58,7 @@ nu = model.nu;
 Y = data.Y;
 Npix = data.Npix;
 
+m = params.m;
 c = params.c;
 V_inv = params.V;
 eta = params.eta;
@@ -81,6 +82,15 @@ for j = 1:len_j
     st(j) = sum(Npix(1:j))-Npix(j)+1;
     en(j) = sum(Npix(1:j));
 end
+
+st2 = zeros(m, 1);
+en2 = zeros(m, 1);
+ll = floor(Npix(len_j)/m);
+for k = 1:m
+    st2(k) = st(len_j)+(k-1)*ll;
+    en2(k) = st(len_j)+k*ll-1;
+end
+en2(m) = en(len_j);
 
 [N, M] = size(A);
 r = length(eta)-1;
@@ -121,16 +131,16 @@ for t = 1:T
         z = z+R'\(DA_j'*(Y-DA_not_j*c(not_range)))*tau_sq_inv;
         c(range) = R\z;
     end
-    z = randn(Npix(len_j), 1);
-    diff_const = Y-DA*c;
-    for k = 1:Npix(len_j)
-        index = st(len_j)+k-1;
-        DA_k = DA(:, index);
-        Sigma_k = 1/(tau_sq_inv*(DA_k'*DA_k)+V_inv(index));
-        diff_const = diff_const+DA_k*c(index);
-        mu = tau_sq_inv*Sigma_k*(DA_k'*diff_const);    
-        c(index) = mu+sqrt(Sigma_k)*z(k);
-        diff_const = diff_const-DA_k*c(index);
+    for k = 1:m
+        z = randn(en2(k)-st2(k)+1, 1);
+        range = st2(k):en2(k);
+        not_range = [1:st2(k)-1, en2(k)+1:M];
+        DA_j = DA(:, range);
+        DA_not_j = DA(:, not_range);
+        Sigma_inv = tau_sq_inv*(DA_j'*DA_j)+diag(V_inv(range));
+        R = chol(Sigma_inv);
+        z = z+R'\(DA_j'*(Y-DA_not_j*c(not_range)))*tau_sq_inv;
+        c(range) = R\z;
     end
  
     % sample V

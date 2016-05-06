@@ -38,6 +38,7 @@ r = size(b_mat, 2)-1;
 Y = pot_samples/1e3;
 
 % init
+m = 4;
 % c
 c_init = zeros(M, 1);
 % V
@@ -84,7 +85,7 @@ model = struct('A', A, 'b_mat', b_mat, 'nu', nu, 'fj_sq', fj_sq);
 
 data = struct('Y', Y, 'Npix', Npix);
 
-params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
+params = struct('m', m, 'c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
     'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq', 'tau_eta_sq', tau_eta_sq,...
     'tau', tau_sq_inv_init);
 
