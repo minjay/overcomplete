@@ -131,9 +131,10 @@ for t = 1:T
         z = z+R'\(DA_j'*(Y-DA_not_j*c(not_range)))*tau_sq_inv;
         c(range) = R\z;
     end
+    z = randn(Npix(len_j), 1);
     for k = 1:m
-        z = randn(en2(k)-st2(k)+1, 1);
         range = st2(k):en2(k);
+        z = z(range-st2(1)+1);
         not_range = [1:st2(k)-1, en2(k)+1:M];
         DA_j = DA(:, range);
         DA_not_j = DA(:, not_range);
