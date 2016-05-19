@@ -38,7 +38,6 @@ r = size(b_mat, 2)-1;
 Y = pot_samples/1e3;
 
 % init
-m = 4;
 % c
 c_init = zeros(M, 1);
 % V
@@ -85,7 +84,7 @@ model = struct('A', A, 'b_mat', b_mat, 'nu', nu, 'fj_sq', fj_sq);
 
 data = struct('Y', Y, 'Npix', Npix);
 
-params = struct('m', m, 'c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
+params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
     'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq', 'tau_eta_sq', tau_eta_sq,...
     'tau', tau_sq_inv_init);
 
@@ -93,6 +92,6 @@ tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM_fast(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
 
 save('post_samples_real.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples')
