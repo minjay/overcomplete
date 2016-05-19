@@ -20,7 +20,7 @@ phi_samples = phi_vec(index);
 B = 2;
 j_min = 2;
 j_max = 4;
-nu = 3;
+nu = 4;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
@@ -45,7 +45,7 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
-eta_init = zeros(r+1, 1);
+eta_init = ones(r+1, 1);
 % pri_sig of eta_0
 tau_sigma_sq = 1e2;
 % pri_sig of eta
