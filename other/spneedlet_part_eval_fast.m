@@ -12,7 +12,8 @@ if strcmp(angle, 'theta')
     dist_part = cos(theta).*cos(phi)*xyz_xi(1)+cos(theta).*sin(phi)*xyz_xi(2)...
     -sin(theta)*xyz_xi(3);
 elseif strcmp(angle, 'phi')
-    dist_part = -sin(theta).*sin(phi)*xyz_xi(1)+sin(theta).*cos(phi)*xyz_xi(2);
+    % here dist_part = correct dist_part/sin(theta)
+    dist_part = -sin(phi)*xyz_xi(1)+cos(phi)*xyz_xi(2);
 end
 
 for i = 1:n
