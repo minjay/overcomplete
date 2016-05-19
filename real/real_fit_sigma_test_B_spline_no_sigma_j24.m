@@ -20,7 +20,7 @@ phi_samples = phi_vec(index);
 B = 2;
 j_min = 2;
 j_max = 4;
-nu = 4;
+nu = 3;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
