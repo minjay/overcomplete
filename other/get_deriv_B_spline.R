@@ -7,4 +7,4 @@ x = data$theta[1, ]*4
 breaks = c(0, 40/180, 80/180, 1)*pi
 
 bS = bsplineS(x, breaks, nderiv=1)
-writeMat('deriv_B_spline.mat', )
+writeMat('deriv_B_spline.mat', bS=bS)
