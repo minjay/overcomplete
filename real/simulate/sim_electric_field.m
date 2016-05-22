@@ -45,7 +45,7 @@ A = A(361:(N-360), :);
 b_mat_theta = kron(bS, ones(360, 1));
 std_vec_theta = exp(b_mat*post_samples_eta).*(b_mat_theta*post_samples.eta);
 
-T = 9;
+T = 1e3;
 neg_Y_theta = zeros(N, T);
 neg_Y_phi = zeros(N, T);
 DA_theta = zeros(N, M);
@@ -72,3 +72,7 @@ for t = 1:T
     neg_Y_phi(:, t) = DA_phi*c*1e3;
     
 end
+
+relative_energy = neg_Y_theta.^2+neg_Y_phi.^2;
+
+save('sim_energy.mat', 'neg_Y_theta', 'neg_Y_phi', 'relative_energy')
