@@ -2,6 +2,7 @@
 load('data_EOF_regr_new.mat')
 % load pre-computed design matrix
 load('mat_A.mat')
+load('post_samples_real_new_resid_j24_pen_B_spline_cubic_2knots_aurora_n4000_sigma_j_sq_0.01_0.0002_nu4_long_init0.mat')
 
 % set seed
 rng(1)
@@ -39,7 +40,7 @@ std_vec = exp(b_mat*post_samples_eta);
 A = A(361:(N-360), :);
 [N, M] = size(A);
 
-T = 4;
+T = 9;
 Y = zeros(N, T);
 Y_comp = zeros(3, N, T);
 rng(1)
@@ -62,4 +63,21 @@ for t = 1:T
     end
     Y(:, t) = (DA*c+post_samples_tau(i)*randn(N, 1))*1e3;
 
+end
+
+load('WHI_quad.mat')
+load('theta_phi_R.mat')
+whole_field = all_Pot_N{1}(:);
+whole_field = whole_field(361:(end-360));
+resid = resid_all(1, :)';
+large_scale = whole_field-resid;
+
+figure
+plot_pot(reshape(large_scale, size(phi)), phi, theta, 1000, max(abs(large_scale)))
+
+figure
+for t = 1:9
+    sim_whole_field = large_scale+Y(:, t);
+    subplot(3, 3, t)
+    plot_pot(reshape(sim_whole_field, size(phi)), phi, theta, 1000, max(abs(sim_whole_field)))
 end
