@@ -39,8 +39,9 @@ std_vec = exp(b_mat*post_samples_eta);
 A = A(361:(N-360), :);
 [N, M] = size(A);
 
-T = 9;
+T = 4;
 Y = zeros(N, T);
+Y_comp = zeros(3, N, T);
 rng(1)
 
 for t = 1:T
@@ -57,12 +58,21 @@ for t = 1:T
         range = st:st+Npix(index_j)-1;
         c(range) = post_samples_sigma_j(index_j)*trnd(nu, Npix(index_j), 1);
         st = st+Npix(index_j);
+        Y_comp(j-j_min+1, :, t) = DA(:, range)*c(range)*1e3;     
     end
     Y(:, t) = (DA*c+post_samples_tau(i)*randn(N, 1))*1e3;
-    subplot(3, 3, t)
-    plot_pot(reshape(Y(:, t), size(phi)), phi, theta, 1000, max(abs(Y(:, t))))
 
 end
 
+% plot
+for t = 1:T
+    subplot(4, 4, (t-1)*4+1)
+    plot_pot(reshape(Y(:, t), size(phi)), phi, theta, 1000, max(abs(Y(:))))
+    for j = j_min:j_max
+        subplot(4, 4, (t-1)*4+j-j_min+2)
+        plot_pot(reshape(Y_comp(j-j_min+1, :, t), size(phi)), phi, theta, 1000, max(max(abs(Y_comp(j-j_min+1, :, :)))))
+    end
+end
+
 % save
-save('uncond_sim.mat', 'Y')
+save('uncond_sim.mat', 'Y', 'Y_comp')
