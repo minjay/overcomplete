@@ -46,7 +46,7 @@ c_init = zeros(M, TT);
 % V
 V_inv_init = ones(M, 1); 
 % sigma_j_sq
-sigma_j_sq_init = [0.01; 0.0002];
+sigma_j_sq_init = [0.1; 0.01].^2;
 % eta
 eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
