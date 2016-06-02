@@ -11,10 +11,14 @@ end
 subplot(3, 3, 7)
 plot(post_samples.sigma_j_sq(2, :))
 axis tight
+hline = refline(0, 1e-2);
+set(hline,'Color','r')
 title('sigmajsq2')
 subplot(3, 3, 8)
 plot(post_samples.sigma_j_sq(3, :))
 axis tight
+hline = refline(0, 2e-4);
+set(hline,'Color','r')
 title('sigmajsq3')
 subplot(3, 3, 9)
 plot(post_samples.tau_sq_inv)
@@ -31,6 +35,8 @@ theta_vec = theta(:);
 % non-stationary variance function
 knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
 [b_mat, ~] = bspline_basismatrix(4, knots, theta_vec*4);
+
+b_mat(:, 1) = 1;
 
 st = 1;
 en = size(post_samples.eta, 2);
