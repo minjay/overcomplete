@@ -4,6 +4,7 @@ load('theta_phi_R.mat')
 load('deriv_B_spline.mat')
 load('mat_A.mat')
 load('mat_A_part.mat')
+load('post_samples_real_new_resid_j24_pen_B_spline_cubic_2knots_aurora_n4000_sigma_j_sq_0.01_0.0002_nu4_long_init0.mat')
 load('beta_hat_needlet.mat')
 
 % set seed
