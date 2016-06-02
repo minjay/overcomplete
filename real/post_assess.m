@@ -13,11 +13,15 @@ plot(post_samples.sigma_j_sq(2, :))
 axis tight
 hline = refline(0, 1e-2);
 set(hline,'Color','r')
+hline = refline(0, (1.5+2)/2*1e-2);
+set(hline,'Color','r')
 title('sigmajsq2')
 subplot(3, 3, 8)
 plot(post_samples.sigma_j_sq(3, :))
 axis tight
 hline = refline(0, 2e-4);
+set(hline,'Color','r')
+hline = refline(0, 3e-4);
 set(hline,'Color','r')
 title('sigmajsq3')
 subplot(3, 3, 9)
