@@ -43,9 +43,11 @@ std_vec_theta = exp(b_mat*eta).*(b_mat_theta*eta);
 T = 1e3;
 neg_Y_theta_Gau_need = zeros(N, T);
 neg_Y_phi_Gau_need = zeros(N, T);
+Y_Gau_need = zeros(N, T);
 DA_theta = zeros(N, M);
 DA_phi = zeros(N, M);
 D_thetaA = zeros(N, M);
+DA = zeros(N, M);
 
 for t = 1:T
     
@@ -53,6 +55,7 @@ for t = 1:T
         DA_theta(j, :) = std_vec(j)*A_part_theta(j, :);
         DA_phi(j, :) = std_vec(j)*A_part_phi(j, :);
         D_thetaA(j, :) = std_vec_theta(j)*A(j, :);
+        DA(j, :) = std_vec(j)*A(j, :);
     end
     c = zeros(M, 1);
     st = 1;
@@ -64,9 +67,11 @@ for t = 1:T
     end
     neg_Y_theta_Gau_need(:, t) = (D_thetaA+DA_theta)*c*1e3;
     neg_Y_phi_Gau_need(:, t) = DA_phi*c*1e3;
+    Y_Gau_need(:, t) = DA*c*1e3;
     
 end
 
 relative_energy_Gau_need = neg_Y_theta_Gau_need.^2+neg_Y_phi_Gau_need.^2;
 
-save('sim_energy_Gau_need.mat', 'neg_Y_theta_Gau_need', 'neg_Y_phi_Gau_need', 'relative_energy_Gau_need')
+save('sim_energy_Gau_need.mat', 'neg_Y_theta_Gau_need', 'neg_Y_phi_Gau_need',...
+    'relative_energy_Gau_need', 'Y_Gau_need')
