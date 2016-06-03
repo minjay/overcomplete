@@ -68,6 +68,8 @@ for i = 1:9
 end
 
 % save figure
+% set white background
+set(gcf, 'Color', 'w');
 % 2.5 times resolution
 export_fig cmp_energy_dist.png -m2.5
 
