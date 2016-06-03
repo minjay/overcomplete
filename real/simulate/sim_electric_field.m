@@ -48,9 +48,11 @@ std_vec_theta = exp(b_mat*post_samples_eta).*(b_mat_theta*post_samples_eta);
 T = 1e3;
 neg_Y_theta = zeros(N, T);
 neg_Y_phi = zeros(N, T);
+Y = zeros(N, T);
 DA_theta = zeros(N, M);
 DA_phi = zeros(N, M);
 D_thetaA = zeros(N, M);
+DA = zeros(N, M);
 
 for t = 1:T
     
@@ -59,6 +61,7 @@ for t = 1:T
         DA_theta(j, :) = std_vec(j, i)*A_part_theta(j, :);
         DA_phi(j, :) = std_vec(j, i)*A_part_phi(j, :);
         D_thetaA(j, :) = std_vec_theta(j, i)*A(j, :);
+        DA(j, :) = std_vec(j, i)*A(j, :);
     end
     c = zeros(M, 1);
     st = 1;
@@ -70,9 +73,10 @@ for t = 1:T
     end
     neg_Y_theta(:, t) = (D_thetaA+DA_theta)*c*1e3;
     neg_Y_phi(:, t) = DA_phi*c*1e3;
+    Y(:, t) = DA*c*1e3;
     
 end
 
 relative_energy = neg_Y_theta.^2+neg_Y_phi.^2;
 
-save('sim_energy.mat', 'neg_Y_theta', 'neg_Y_phi', 'relative_energy')
+save('sim_energy.mat', 'neg_Y_theta', 'neg_Y_phi', 'relative_energy', 'Y')
