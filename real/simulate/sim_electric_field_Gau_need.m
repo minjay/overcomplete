@@ -40,7 +40,7 @@ A = A(361:(N-360), :);
 b_mat_theta = kron(bS, ones(360, 1));
 std_vec_theta = exp(b_mat*eta).*(b_mat_theta*eta);
 
-T = 1e3;
+T = 5e3;
 neg_Y_theta_Gau_need = zeros(N, T);
 neg_Y_phi_Gau_need = zeros(N, T);
 Y_Gau_need = zeros(N, T);
@@ -73,5 +73,7 @@ end
 
 relative_energy_Gau_need = neg_Y_theta_Gau_need.^2+neg_Y_phi_Gau_need.^2;
 
-save('sim_energy_Gau_need.mat', 'neg_Y_theta_Gau_need', 'neg_Y_phi_Gau_need',...
-    'relative_energy_Gau_need', 'Y_Gau_need')
+relative_energy_Gau_need = relative_energy_Gau_need(1:5:end, :);
+Y_Gau_need = Y_Gau_need(1:5:end, :);
+
+save('sim_energy_Gau_need.mat', 'relative_energy_Gau_need', 'Y_Gau_need')
