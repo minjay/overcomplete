@@ -26,7 +26,7 @@ knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
 b_mat(:, 1) = 1;
 
 % discard burn-in period
-burn_in = 500;
+burn_in = 1500;
 post_samples_eta = post_samples.eta(:, burn_in+1:end);
 post_samples_sigma_j = sqrt([1; 0.01; 0.0002]);
 post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(burn_in+1:end));
@@ -56,9 +56,11 @@ DA_phi = zeros(N, M);
 D_thetaA = zeros(N, M);
 DA = zeros(N, M);
 
+samples = randsample(n_sample, T, true);
+
 for t = 1:T
     
-    i = n_sample;
+    i = samples(t);
     for j = 1:N
         DA_theta(j, :) = std_vec(j, i)*A_part_theta(j, :);
         DA_phi(j, :) = std_vec(j, i)*A_part_phi(j, :);
