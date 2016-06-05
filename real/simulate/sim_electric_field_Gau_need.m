@@ -73,7 +73,4 @@ end
 
 relative_energy_Gau_need = neg_Y_theta_Gau_need.^2+neg_Y_phi_Gau_need.^2;
 
-relative_energy_Gau_need = relative_energy_Gau_need(1:5:end, :);
-Y_Gau_need = Y_Gau_need(1:5:end, :);
-
 save('sim_energy_Gau_need.mat', 'relative_energy_Gau_need', 'Y_Gau_need')

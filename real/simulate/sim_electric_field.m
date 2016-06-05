@@ -79,7 +79,4 @@ end
 
 relative_energy = neg_Y_theta.^2+neg_Y_phi.^2;
 
-relative_energy = relative_energy(1:5:end, :);
-Y = Y(1:5:end, :);
-
 save('sim_energy.mat', 'relative_energy', 'Y')
