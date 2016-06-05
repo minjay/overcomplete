@@ -43,6 +43,8 @@ A = A(361:(N-360), :);
 [N, M] = size(A);
 
 b_mat_theta = kron(bS, ones(360, 1));
+% the first column should be zero
+b_mat_theta(:, 1) = 0;
 std_vec_theta = exp(b_mat*post_samples_eta).*(b_mat_theta*post_samples_eta);
 
 T = 5e3;
