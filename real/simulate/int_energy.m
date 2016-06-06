@@ -24,11 +24,11 @@ end
 R = 6.5*1e6;
 tot_area = 4*pi*R^2;
 T = size(energy, 2);
-int_energy = zeros(1, T);
+int_energy_need = zeros(1, T);
 int_energy_Gau_need = zeros(1, T);
 for t = 1:T
     energy_one = reshape(energy(:, t)+energy_large_scale, size(phi));
-    int_energy(t) = sum(mean(energy_one, 1).*area_theta);
+    int_energy_need(t) = sum(mean(energy_one, 1).*area_theta);
     energy_Gau_need_one = reshape(energy_Gau_need(:, t)+energy_large_scale, size(phi));
     int_energy_Gau_need(t) = sum(mean(energy_Gau_need_one, 1).*area_theta);
 end
@@ -37,15 +37,15 @@ end
 energy_large_scale_one = reshape(energy_large_scale, size(phi));
 int_energy_large_scale = sum(mean(energy_large_scale_one, 1).*area_theta)*tot_area/1e9;
 
-int_energy = int_energy*tot_area/1e9;
+int_energy_need = int_energy_need*tot_area/1e9;
 int_energy_Gau_need = int_energy_Gau_need*tot_area/1e9;
 
 % set up colormap
 map = brewermap(2, 'Set1');
 
 subplot(2, 1, 1)
-xs = linspace(0, max(int_energy), 200);
-histf(int_energy, xs,...
+xs = linspace(0, max(int_energy_need), 200);
+histf(int_energy_need, xs,...
     'facecolor', map(1, :), 'facealpha', .5, 'edgecolor', 'none')
 hold on
 histf(int_energy_Gau_need, xs,...
@@ -56,11 +56,11 @@ plot([int_energy_large_scale int_energy_large_scale], y_range, 'LineWidth', 2)
 legalpha('nonGau-need','Gau-need', 'large-scale','location', 'northeast')
 legend boxoff
 set(gca, 'FontSize', 12)
-xlim([0 max(int_energy)/2])
+xlim([0 max(int_energy_need)/2])
 xlabel('Integrated Joule heating rate (GW)')
 
 subplot(2, 1, 2)
-int_energy_norm = (int_energy-mean(int_energy))/std(int_energy);
+int_energy_norm = (int_energy_need-mean(int_energy_need))/std(int_energy_need);
 int_energy_Gau_need_norm = (int_energy_Gau_need-mean(int_energy_Gau_need))/...
     std(int_energy_Gau_need);
 xs = linspace(min(int_energy_Gau_need_norm), max(int_energy_norm), 200);
