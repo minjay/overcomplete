@@ -24,7 +24,7 @@ knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
 b_mat(:, 1) = 1;
 
 % discard burn-in period
-burn_in = 500;
+burn_in = 1500;
 post_samples_eta = post_samples.eta(:, burn_in+1:end);
 post_samples_sigma_j = sqrt([1; 0.01; 0.0002]);
 post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(burn_in+1:end));
@@ -45,9 +45,11 @@ Y = zeros(N, T);
 Y_comp = zeros(3, N, T);
 rng(1)
 
+samples = randsample(n_sample, T, true);
+
 for t = 1:T
     
-    i = n_sample;
+    i = samples(t);
     DA = zeros(N, M);
     for j = 1:N
         DA(j, :) = std_vec(j, i)*A(j, :);
@@ -76,8 +78,23 @@ figure
 plot_pot(reshape(large_scale, size(phi)), phi, theta, 1000, max(abs(large_scale)))
 
 figure
+subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.05], [0.05 0.05], [0.05 0.2]);
+
+cmax = 0;
+for t = 1:9
+    sim_whole_field = large_scale+Y(:, t);
+    cmax = max(cmax, max(abs(sim_whole_field)));
+end
+
 for t = 1:9
     sim_whole_field = large_scale+Y(:, t);
     subplot(3, 3, t)
-    plot_pot(reshape(sim_whole_field, size(phi)), phi, theta, 1000, max(abs(sim_whole_field)))
+    cf = reshape(sim_whole_field, size(phi));
+    vmag = linspace(min(cf(:)), max(cf(:)), 10);
+    h = mypolar([0 2*pi], [0 max(theta(:))/pi*180], x, y, cf, vmag);
+    delete(h)
+    shading flat
+    caxis([-cmax cmax])
 end
+h = colorbar;
+set(h, 'Position', [.85 .05 .05 .9]);
