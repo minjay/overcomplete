@@ -82,6 +82,9 @@ for t = 1:T
 end
 
 % the "4" comes from the stretching
+R = 6.5*1e6;
+E_theta = -4*neg_Y_theta/R;
+E_phi = -neg_Y_phi/R;
 relative_energy = (4*neg_Y_theta).^2+neg_Y_phi.^2;
 
-save('sim_energy.mat', 'relative_energy', 'Y')
+save('sim_energy.mat', 'E_theta', 'E_phi')
