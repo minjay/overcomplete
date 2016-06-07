@@ -86,6 +86,9 @@ for t = 1:9
     cmax = max(cmax, max(abs(sim_whole_field)));
 end
 
+phi_rot = phi+pi/2;
+[x, y] = pol2cart(phi_rot, theta/pi*180);
+
 for t = 1:9
     sim_whole_field = large_scale+Y(:, t);
     subplot(3, 3, t)
