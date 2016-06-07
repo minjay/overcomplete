@@ -60,36 +60,29 @@ int_energy_Gau_need = int_energy_Gau_need*tot_area/1e9;
 % set up colormap
 map = brewermap(2, 'Set1');
 
-subplot(2, 1, 1)
 xs = linspace(0, max(int_energy_need), 200);
-histf(int_energy_need, xs,...
-    'facecolor', map(1, :), 'facealpha', .5, 'edgecolor', 'none')
+width = xs(2)-xs(1);
+[nele, xs] = hist(int_energy_need, xs);
+b1 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(1, :));
+set(get(b1, 'Children'), 'FaceAlpha', 0.5)
 hold on
-histf(int_energy_Gau_need, xs,...
-    'facecolor', map(2, :), 'facealpha', .5, 'edgecolor', 'none')
+[f, xs] = ksdensity(int_energy_need, xs);
+plot(xs, f, 'r', 'LineWidth', 2)
+[nele, xs] = hist(int_energy_Gau_need, xs);
+b2 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(2, :));
+set(get(b2, 'Children'), 'FaceAlpha', 0.5)
+[f, xs] = ksdensity(int_energy_Gau_need, xs);
+plot(xs, f, 'b--', 'LineWidth', 2)
 axis tight
 y_range = get(gca, 'ylim');
-plot([int_energy_large_scale int_energy_large_scale], y_range, 'LineWidth', 2)
-legalpha('nonGau-need','Gau-need', 'large-scale','location', 'northeast')
+h = plot([int_energy_large_scale int_energy_large_scale], y_range, 'k', 'LineWidth', 2);
+legalpha([b1 b2 h], {'nonGau-need', 'Gau-need', 'large-scale'},...
+    'location', 'northeast')
 legend boxoff
 set(gca, 'FontSize', 12)
 xlim([0 max(int_energy_need)/2])
 xlabel('Integrated Joule heating rate (GW)')
-
-subplot(2, 1, 2)
-int_energy_norm = (int_energy_need-mean(int_energy_need))/std(int_energy_need);
-int_energy_Gau_need_norm = (int_energy_Gau_need-mean(int_energy_Gau_need))/...
-    std(int_energy_Gau_need);
-xs = linspace(min(int_energy_Gau_need_norm), max(int_energy_norm), 200);
-[f, xi] = ksdensity(int_energy_norm, xs);
-plot(xi, f, 'r', 'LineWidth', 2)
-hold on
-[f, xi] = ksdensity(int_energy_Gau_need_norm, xs);
-plot(xi, f, 'b--', 'LineWidth', 2)
-xlim([min(xs) max(xs)/2])
-legend('nonGau-need','Gau-need','location', 'northeast')
-legend boxoff
-set(gca, 'FontSize', 12)
+ylabel('Density')
 
 % save figure
 % set white background
