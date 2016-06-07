@@ -74,6 +74,9 @@ for t = 1:T
 end
 
 % the "4" comes from the stretching
+R = 6.5*1e6;
+E_theta_Gau_need = -4*neg_Y_theta_Gau_need/R;
+E_phi_Gau_need = -neg_Y_phi_Gau_need/R;
 relative_energy_Gau_need = (4*neg_Y_theta_Gau_need).^2+neg_Y_phi_Gau_need.^2;
 
-save('sim_energy_Gau_need.mat', 'relative_energy_Gau_need', 'Y_Gau_need')
+save('sim_energy_Gau_need.mat', 'E_theta_Gau_need', 'E_phi_Gau_need')
