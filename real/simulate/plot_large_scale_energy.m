@@ -28,4 +28,5 @@ for t = 1:720
 
     plot_pot(reshape(energy_large_scale, size(phi)), phi, theta, 1000, max(abs(energy_large_scale)))
     print(['./plots/', 'fig', num2str(t)], '-dpng')
+    close
 end
