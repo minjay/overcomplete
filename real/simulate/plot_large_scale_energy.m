@@ -26,7 +26,7 @@ for t = 1:720
     P_cond = P_cond(361:(end-360));
     energy_large_scale = energy_large_scale(:).*P_cond;
 
-    plot_pot(reshape(energy_large_scale, size(phi)), phi, theta, 1000, max(abs(energy_large_scale)))
+    plot_pot(reshape(energy_large_scale*1e3, size(phi)), phi, theta, 1000, max(abs(energy_large_scale*1e3)))
     print(['./plots/', 'fig', num2str(t)], '-dpng')
     close
 end
