@@ -1,6 +1,23 @@
-load('energy_both.mat')
+load('sim_energy.mat')
+load('sim_energy_Gau_need.mat')
+load('WHI_quad_cond.mat')
 load('theta_phi_R.mat')
 load('energy_large_scale.mat')
+
+P_cond = all_Cond_N{1}(:);
+P_cond = P_cond(361:(end-360));
+
+E_theta_large_scale = E_theta_large_scale(:);
+E_phi_large_scale = E_phi_large_scale(:);
+
+T = 5e3;
+E_theta_sum = repmat(E_theta_large_scale, 1, T)+E_theta;
+E_phi_sum = repmat(E_phi_large_scale, 1, T)+E_phi;
+energy = (E_theta_sum.^2+E_phi_sum.^2).*repmat(P_cond, 1, T);
+E_theta_sum_Gau_need = repmat(E_theta_large_scale, 1, T)+E_theta_Gau_need;
+E_phi_sum_Gau_need = repmat(E_phi_large_scale, 1, T)+E_phi_Gau_need;
+energy_Gau_need = (E_theta_sum_Gau_need.^2+E_phi_sum_Gau_need.^2).*repmat(P_cond, 1, T);
+energy_large_scale = (E_theta_large_scale.^2+E_phi_large_scale.^2).*P_cond;
 
 % compute the area of each latitudinal band
 theta_one = theta(1, :);
@@ -27,9 +44,9 @@ T = size(energy, 2);
 int_energy_need = zeros(1, T);
 int_energy_Gau_need = zeros(1, T);
 for t = 1:T
-    energy_one = reshape(energy(:, t)+energy_large_scale, size(phi));
+    energy_one = reshape(energy(:, t), size(phi));
     int_energy_need(t) = sum(mean(energy_one, 1).*area_theta);
-    energy_Gau_need_one = reshape(energy_Gau_need(:, t)+energy_large_scale, size(phi));
+    energy_Gau_need_one = reshape(energy_Gau_need(:, t), size(phi));
     int_energy_Gau_need(t) = sum(mean(energy_Gau_need_one, 1).*area_theta);
 end
 
