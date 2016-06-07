@@ -14,3 +14,5 @@ real/*.mat
 # except
 !data_sim_2dot5.mat
 *.mat
+
+*.png
