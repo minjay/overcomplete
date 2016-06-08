@@ -1,5 +1,6 @@
 % load data
 load('data_EOF_regr_new.mat')
+load('post_samples_real_new_resid_j24_pen_B_spline_cubic_2knots_aurora_n4000_sigma_j_sq_0.01_0.0002_nu4_long_init0.mat')
 resid = resid_all(1, :);
 
 for i = 1:6
@@ -39,9 +40,15 @@ end
 figure
 semilogy(pred_err)
 
+eta_est = mean(post_samples.eta(:, 1501:end), 2);
+std_vec_est = exp(b_mat*eta_est);
+Y_pred_need = std_vec_est.*mean(Ac(:, 1501:end), 2)*1e3;
+
 figure
-Y_err = resid'-DAc(:, en-st+1);
-plot_pot_with_obs(reshape(Y_err, size(phi)), phi, theta, phi_samples, theta_samples, 1000)
+Y_err_need = resid'-Y_pred_need;
+plot_pot_with_obs(reshape(Y_err_need, size(phi)), phi, theta, phi_samples, theta_samples, 1000)
+
+save('Y_pred_need.mat', Y_pred_need, Y_err_need)
 
 figure
 hold on
