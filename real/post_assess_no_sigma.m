@@ -48,7 +48,7 @@ figure
 Y_err_need = resid'-Y_pred_need;
 plot_pot_with_obs(reshape(Y_err_need, size(phi)), phi, theta, phi_samples, theta_samples, 1000)
 
-save('Y_pred_need.mat', Y_pred_need, Y_err_need)
+save('Y_pred_need.mat', 'Y_pred_need', 'Y_err_need')
 
 figure
 hold on
