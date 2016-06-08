@@ -105,21 +105,21 @@ contourf(x, y, cf, vmag)
     hhh = plot(xunit*i,yunit*i,'--','color',tc,'linewidth',0.0001,...
                    'handlevisibility','off');
     set(hhh,'linestyle','-') % Make outer circle solid
-    i = 15;
+    i = 45;
     text((i+rinc/20)*c82,(i+rinc/20)*s82, ...
             ['  15^o'],'verticalalignment','bottom' , ...
-            'handlevisibility','off', 'FontSize',18,'FontName','times')
-    i = 30;
-    text((i+rinc/20)*c82,(i+rinc/20)*s82, ...
-            ['  30^o'],'verticalalignment','bottom' , ...
-            'handlevisibility','off', 'FontSize',18,'FontName','times')
+            'handlevisibility','off', 'FontSize',12,'FontName','times')
+%     i = 30;
+%     text((i+rinc/20)*c82,(i+rinc/20)*s82, ...
+%             ['  30^o'],'verticalalignment','bottom' , ...
+%             'handlevisibility','off', 'FontSize',12,'FontName','times')
 
 % annotate spokes in local time
     rt = 1.1*rmax;
     for i = 1:length(th);
         text(rt*cst(i),rt*snt(i),int2str(((24/360)*i*90) + 6),...
              'horizontalalignment','center',...
-             'handlevisibility','off','FontSize',18,'FontName','times');
+             'handlevisibility','off','FontSize',12,'FontName','times');
         if i == length(th);
 %            loc = int2str(6);
              loc = '06';
@@ -128,7 +128,7 @@ contourf(x, y, cf, vmag)
              loc = '00';
         end
         text(-rt*cst(i),-rt*snt(i),loc,'horizontalalignment','center',...
-             'handlevisibility','off','FontSize',18,'FontName','times')
+             'handlevisibility','off','FontSize',12,'FontName','times')
     end
 
     ii = 1;
