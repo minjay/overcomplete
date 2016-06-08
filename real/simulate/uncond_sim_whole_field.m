@@ -82,7 +82,7 @@ subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.05], [0.05 0.05], [0.05 0.2]);
 
 cmax = 0;
 for t = 1:9
-    sim_whole_field = large_scale+Y(:, t);
+    sim_whole_field = (large_scale+Y(:, t))/1e3;
     cmax = max(cmax, max(abs(sim_whole_field)));
 end
 
@@ -90,7 +90,7 @@ phi_rot = phi+pi/2;
 [x, y] = pol2cart(phi_rot, theta/pi*180);
 
 for t = 1:9
-    sim_whole_field = large_scale+Y(:, t);
+    sim_whole_field = (large_scale+Y(:, t))/1e3;
     subplot(3, 3, t)
     cf = reshape(sim_whole_field, size(phi));
     vmag = linspace(min(cf(:)), max(cf(:)), 10);
@@ -98,6 +98,8 @@ for t = 1:9
     delete(h)
     shading flat
     caxis([-cmax cmax])
+    text(-50, -50, sprintf('Min\n%2.1f',min(cf(:))),'FontName','times','Fontsize',10)
+    text(30, -50, sprintf('Max\n%2.1f [kV]',max(cf(:))),'FontName','times','Fontsize',10)
 end
 h = colorbar;
 set(h, 'Position', [.85 .05 .05 .9]);
