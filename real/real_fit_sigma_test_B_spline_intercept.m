@@ -1,5 +1,5 @@
 load('data_EOF_regr_new.mat')
-resid = resid_all(1, :);
+resid = resid_all(10, :);
 
 rng(1)
 
