@@ -67,6 +67,10 @@ for t = 1:T
 
 end
 
+Y_sim_need = Y';
+
+save('Y_sim_need.mat', 'Y_sim_need')
+
 load('WHI_quad.mat')
 load('theta_phi_R.mat')
 whole_field = all_Pot_N{1}(:);
