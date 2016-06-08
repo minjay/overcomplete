@@ -11,6 +11,10 @@ subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.05], [0.05 0.05], [0.05 0.15])
 phi_rot = phi+pi/2;
 [x, y] = pol2cart(phi_rot, theta/pi*180);
 
+Y_err_need = Y_err_need/1e3;
+Y_err_Gau_need = Y_err_Gau_need/1e3;
+Y_err_Matern = Y_err_Matern/1e3;
+
 cmax = max([max(abs(Y_err_need)) max(abs(Y_err_Gau_need)) max(abs(Y_err_Matern))]);
 
 subplot(1, 3, 1)
@@ -23,7 +27,7 @@ delete(h)
 shading flat
 caxis([-cmax cmax])
 title('nonGau-need')
-xlabel(sprintf('Min %6.1f  Max %5.1f [V]',vmin,vmax),'FontName','times','Fontsize',10)
+xlabel(sprintf('Min %6.3f  Max %5.3f [kV]',vmin,vmax),'FontName','times','Fontsize',10)
 
 subplot(1, 3, 2)
 cf = reshape(Y_err_Gau_need, size(phi));
@@ -35,7 +39,7 @@ delete(h)
 shading flat
 caxis([-cmax cmax])
 title('Gau-need')
-xlabel(sprintf('Min %6.1f  Max %5.1f [V]',vmin,vmax),'FontName','times','Fontsize',10)
+xlabel(sprintf('Min %6.3f  Max %5.3f [kV]',vmin,vmax),'FontName','times','Fontsize',10)
 
 subplot(1, 3, 3)
 cf = reshape(Y_err_Matern, size(phi));
@@ -47,7 +51,7 @@ delete(h)
 shading flat
 caxis([-cmax cmax])
 title('Gau-Matern')
-xlabel(sprintf('Min %6.1f  Max %5.1f [V]',vmin,vmax),'FontName','times','Fontsize',10)
+xlabel(sprintf('Min %6.3f  Max %5.3f [kV]',vmin,vmax),'FontName','times','Fontsize',10)
 
 h = colorbar;
 set(h, 'Position', [.9 .05 .025 .9]);
