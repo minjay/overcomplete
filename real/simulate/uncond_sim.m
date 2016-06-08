@@ -61,9 +61,9 @@ for t = 1:T
         range = st:st+Npix(index_j)-1;
         c(range) = post_samples_sigma_j(index_j)*trnd(nu, Npix(index_j), 1);
         st = st+Npix(index_j);
-        Y_comp(j-j_min+1, :, t) = DA(:, range)*c(range)*1e3;     
+        Y_comp(j-j_min+1, :, t) = DA(:, range)*c(range);     
     end
-    Y(:, t) = (DA*c+post_samples_tau(i)*randn(N, 1))*1e3;
+    Y(:, t) = (DA*c+post_samples_tau(i)*randn(N, 1));
 
 end
 
@@ -82,6 +82,9 @@ for t = 1:T
     delete(h)
     shading flat
     caxis([-cmax cmax])
+    title(num2str(t))
+    text(-50, -50, sprintf('Min\n%2.1f',min(cf(:))),'FontName','times','Fontsize',10)
+    text(30, -50, sprintf('Max\n%2.1f [kV]',max(cf(:))),'FontName','times','Fontsize',10)
 end
 h = colorbar;
 set(h, 'Position', [.85 1-0.2-0.04 .025 .2]);
@@ -95,7 +98,9 @@ for j = j_min:j_max
         h = mypolar([0 2*pi], [0 max(theta(:))/pi*180], x, y, cf, vmag);
         delete(h)
         shading flat
-        caxis([-cmax cmax])    
+        caxis([-cmax cmax]) 
+        text(-50, -50, sprintf('Min\n%2.1f',min(cf(:))),'FontName','times','Fontsize',10)
+        text(30, -50, sprintf('Max\n%2.1f [kV]',max(cf(:))),'FontName','times','Fontsize',10)
     end
     h = colorbar;
     set(h, 'Position', [.85 1-(0.2+0.04)*(j-j_min+2) .025 .2]);
