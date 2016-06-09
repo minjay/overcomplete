@@ -98,9 +98,3 @@ set(gca, 'FontSize', 12)
 xlim([0 max(int_energy_need)/2])
 xlabel('Integrated Joule heating rate (GW)')
 ylabel('Density')
-
-% save figure
-% set white background
-set(gcf, 'Color', 'w');
-% 2.5 times resolution
-export_fig int_energy_dist.png -m2.5
