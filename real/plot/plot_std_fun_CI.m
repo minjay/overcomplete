@@ -53,7 +53,7 @@ j_min = 2;
 j_max = 4;
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_vec*4, phi_vec);
 cov_mat = get_cov_Gaussian_needlet(beta, b_mat, Npix, A);
-h4 = plot(theta_vec/pi*180, sqrt(diag(cov_mat)), 'LineWidth', 2);
+h4 = plot(theta_vec/pi*180, sqrt(diag(cov_mat)), 'g', 'LineWidth', 2);
 
 %%% plot fitted std function by Matern
 load('beta_hat.mat')
@@ -63,7 +63,7 @@ beta = beta_hat(1:end-1);
 % get distance matrix
 r = get_chordal_dist(x, y, z);
 cov_mat = get_cov_nonsta_Matern(beta, r, b_mat);
-h5 = plot(theta_vec/pi*180, sqrt(diag(cov_mat)), 'LineWidth', 2);
+h5 = plot(theta_vec/pi*180, sqrt(diag(cov_mat)), 'c', 'LineWidth', 2);
 
 lg = legend([h1 h2 h3 h4 h5], {'Empirical std function', 'Est. std function (nonGau-need)',...
     '95% CI endpoints', 'Est. std function (Gau-need)', 'Est. std function (Gau-Matern)'});
