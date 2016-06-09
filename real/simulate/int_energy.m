@@ -1,5 +1,6 @@
 load('sim_energy.mat')
 load('sim_energy_Gau_need.mat')
+load('sim_energy_Matern.mat')
 load('WHI_quad_cond.mat')
 load('theta_phi_R.mat')
 load('energy_large_scale.mat')
@@ -17,6 +18,9 @@ energy = (E_theta_sum.^2+E_phi_sum.^2).*repmat(P_cond, 1, T);
 E_theta_sum_Gau_need = repmat(E_theta_large_scale, 1, T)+E_theta_Gau_need;
 E_phi_sum_Gau_need = repmat(E_phi_large_scale, 1, T)+E_phi_Gau_need;
 energy_Gau_need = (E_theta_sum_Gau_need.^2+E_phi_sum_Gau_need.^2).*repmat(P_cond, 1, T);
+E_theta_sum_Matern = repmat(E_theta_large_scale, 1, T)+E_theta_Matern;
+E_phi_sum_Matern = repmat(E_phi_large_scale, 1, T)+E_phi_Matern;
+energy_Matern = (E_theta_sum_Matern.^2+E_phi_sum_Matern.^2).*repmat(P_cond, 1, T);
 energy_large_scale = (E_theta_large_scale.^2+E_phi_large_scale.^2).*P_cond;
 
 % compute the area of each latitudinal band
@@ -43,11 +47,14 @@ tot_area = 4*pi*R^2;
 T = size(energy, 2);
 int_energy_need = zeros(1, T);
 int_energy_Gau_need = zeros(1, T);
+int_energy_Matern = zeros(1, T);
 for t = 1:T
     energy_one = reshape(energy(:, t), size(phi));
     int_energy_need(t) = sum(mean(energy_one, 1).*area_theta);
     energy_Gau_need_one = reshape(energy_Gau_need(:, t), size(phi));
     int_energy_Gau_need(t) = sum(mean(energy_Gau_need_one, 1).*area_theta);
+    energy_Matern_one = reshape(energy_Matern(:, t), size(phi));
+    int_energy_Matern(t) = sum(mean(energy_Matern_one, 1).*area_theta);
 end
 
 % compute integrated energy for large scale component
@@ -56,28 +63,36 @@ int_energy_large_scale = sum(mean(energy_large_scale_one, 1).*area_theta)*tot_ar
 
 int_energy_need = int_energy_need*tot_area/1e9;
 int_energy_Gau_need = int_energy_Gau_need*tot_area/1e9;
+int_energy_Matern = int_energy_Matern*tot_area/1e9;
 
 % set up colormap
-map = brewermap(2, 'Set1');
+map = brewermap(3, 'Set1');
 
 xs = linspace(0, max(int_energy_need), 200);
 width = xs(2)-xs(1);
 [nele, xs] = hist(int_energy_need, xs);
 b1 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(1, :));
-set(get(b1, 'Children'), 'FaceAlpha', 0.5)
+b1.FaceAlpha = 0.5;
 hold on
 [f, xs] = ksdensity(int_energy_need, xs);
 plot(xs, f, 'r', 'LineWidth', 2)
 [nele, xs] = hist(int_energy_Gau_need, xs);
 b2 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(2, :));
-set(get(b2, 'Children'), 'FaceAlpha', 0.5)
+b2.FaceAlpha = 0.5;
 [f, xs] = ksdensity(int_energy_Gau_need, xs);
-plot(xs, f, 'b--', 'LineWidth', 2)
+plot(xs, f, 'b', 'LineWidth', 2)
+[nele, xs] = hist(int_energy_Matern, xs);
+b3 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(3, :));
+b3.FaceAlpha = 0.5;
+[f, xs] = ksdensity(int_energy_Matern, xs);
+plot(xs, f, 'g', 'LineWidth', 2)
 axis tight
 y_range = get(gca, 'ylim');
 h = plot([int_energy_large_scale int_energy_large_scale], y_range, 'k', 'LineWidth', 2);
-legalpha([b1 b2 h], {'nonGau-need', 'Gau-need', 'large-scale'},...
-    'location', 'northeast')
+lg = legend([b1 b2 b3 h], {'nonGau-need', 'Gau-need', 'Gau-Matern', 'large-scale'},...
+    'location', 'northeast');
+PatchInLegend = findobj(lg, 'type', 'patch');
+set(PatchInLegend, 'facea', 0.5)
 legend boxoff
 set(gca, 'FontSize', 12)
 xlim([0 max(int_energy_need)/2])
