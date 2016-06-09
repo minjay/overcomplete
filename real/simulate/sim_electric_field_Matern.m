@@ -24,7 +24,8 @@ beta = beta_hat(1:end-1);
 tau = beta_hat(end);
 
 % get cov mat
-cov_mat_Matern = get_cov_nonsta_Matern(beta, r, b_mat)+tau^2*eye(N);
+% measurement error is not included given that it is not differentiable
+cov_mat_Matern = get_cov_nonsta_Matern(beta, r, b_mat);
 
 % figure
 T = 5e3;
