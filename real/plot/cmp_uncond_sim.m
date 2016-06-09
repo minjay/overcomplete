@@ -34,7 +34,7 @@ for t = 1:4
     end
 end
 h = colorbar;
-set(h, 'Position', [.95 1-0.325 .025 .3]);
+set(h, 'Position', [.925 1-0.275 .025 .2]);
 
 % plot Gau-need
 cmax = max(abs(Y_sim_Gau_need(:)));
@@ -53,7 +53,7 @@ for t = 1:4
     end
 end
 h = colorbar;
-set(h, 'Position', [.95 1-0.325*2 .025 .3]);
+set(h, 'Position', [.925 1-0.3*2 .025 .2]);
 
 % plot Gau-Matern
 cmax = max(abs(Y_sim_Matern(:)));
@@ -72,4 +72,4 @@ for t = 1:4
     end
 end
 h = colorbar;
-set(h, 'Position', [.95 1-0.325*3 .025 .3]);
+set(h, 'Position', [.925 0.075 .025 .2]);
