@@ -45,7 +45,7 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = ones(j_max-j_min, 1);
 % eta
-eta_init = zeros(r+1, 1);
+eta_init = ones(r+1, 1);
 % pri_sig of eta_0
 tau_sigma_sq = 1e2;
 % pri_sig of eta
@@ -62,7 +62,7 @@ for j = 1:len_j
     en(j) = sum(Npix(1:j));
 end
 fj_sq = zeros(M, 1);
-sigma_j_sq = [1 (1.5+2)/2*1e-2 3e-4];
+sigma_j_sq = [1 0.01 0.0002];
 for j = 1:len_j
     range = st(j):en(j);
     fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
@@ -72,7 +72,7 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 6e5;
+T = 12*1e5;
 % the length of the burn-in period
 burn_in = 0;
 % the length of the thinning interval
