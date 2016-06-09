@@ -76,7 +76,7 @@ if ~hold_state
 x = [x; x(1, :)];
 y = [y; y(1, :)];
 cf = [cf; cf(1, :)];
-contourf(x, y, cf, vmag)
+contourf(x, y, cf, vmag, 'linestyle', 'none')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % plot spokes
