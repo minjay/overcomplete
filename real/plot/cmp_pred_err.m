@@ -78,4 +78,5 @@ hold on
 scatter(x_samples(:), y_samples(:), 5, '.')
 
 h = colorbar;
+colormap(jet)
 set(h, 'Position', [.9 .05 .025 .9]);
