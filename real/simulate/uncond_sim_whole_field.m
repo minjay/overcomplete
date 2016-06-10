@@ -102,6 +102,7 @@ for t = 1:9
     delete(h)
     shading flat
     caxis([-cmax cmax])
+    colormap(jet)
     text(-50, -50, sprintf('Min\n%2.1f',min(cf(:))),'FontName','times','Fontsize',10)
     text(30, -50, sprintf('Max\n%2.1f [kV]',max(cf(:))),'FontName','times','Fontsize',10)
 end
