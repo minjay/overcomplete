@@ -34,6 +34,7 @@ for t = 1:4
     end
 end
 h = colorbar;
+colormap(jet)
 set(h, 'Position', [.925 1-0.275 .025 .2]);
 
 % plot Gau-need
@@ -53,6 +54,7 @@ for t = 1:4
     end
 end
 h = colorbar;
+colormap(jet)
 set(h, 'Position', [.925 1-0.3*2 .025 .2]);
 
 % plot Gau-Matern
@@ -72,4 +74,5 @@ for t = 1:4
     end
 end
 h = colorbar;
+colormap(jet)
 set(h, 'Position', [.925 0.075 .025 .2]);
