@@ -74,9 +74,11 @@ for t = 1:T
 end
 
 % the "4" comes from the stretching
+% sin(\theta')/sin(\theta)
 R = 6.5*1e6;
 E_theta_Gau_need = -4*neg_Y_theta_Gau_need/R;
-E_phi_Gau_need = -neg_Y_phi_Gau_need/R;
+factor = sin(theta_vec*4)./sin(theta_vec);
+E_phi_Gau_need = -repmat(factor, 1, T).*neg_Y_phi_Gau_need/R;
 relative_energy_Gau_need = (4*neg_Y_theta_Gau_need).^2+neg_Y_phi_Gau_need.^2;
 
 save('sim_energy_Gau_need.mat', 'E_theta_Gau_need', 'E_phi_Gau_need')
