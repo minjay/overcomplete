@@ -25,11 +25,15 @@ j_max = 3;
 [N, M] = size(A);
 
 sigma_j = B.^(-alpha/2*(j_min:j_max));
+sigma_j = sigma_j/sigma_j(1);
 
 % non-stationary variance function
-m = 4;
-lambda_inv = 2.5;
-b_mat = get_nonsta_var(m, lambda_inv, theta_vec);
+knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
+[b_mat, ~] = bspline_basismatrix(4, knots, theta_vec);
+
+b_mat(:, 1) = 1;
+
+m = size(b_mat, 2)-1;
 
 rng(2)
 eta = [1.5; randn(m, 1)];
@@ -45,7 +49,7 @@ st = 1;
 for j = j_min:j_max
     index_j = j-j_min+1;
     range = st:st+Npix(index_j)-1;
-    fj_sq(range) = B^(-alpha*j)*ones(Npix(index_j), 1);
+    fj_sq(range) = sigma_j(index_j)^2*ones(Npix(index_j), 1);
     c(range) = sigma_j(index_j)*trnd(nu, Npix(index_j), 1);
     st = st+Npix(index_j);
 end
