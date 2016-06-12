@@ -37,7 +37,7 @@ sigma_j = B.^(-alpha/2*(j_min:j_max));
 sigma_j = sigma_j/sigma_j(1);
 
 % non-stationary variance function
-knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
+knots = [0 0 0 0 0.5 1 1 1 1]*pi;
 [b_mat, ~] = bspline_basismatrix(4, knots, theta);
 
 b_mat(:, 1) = 1;
