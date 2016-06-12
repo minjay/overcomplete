@@ -69,7 +69,7 @@ c_init = zeros(M, 1);
 % V
 V_inv_init = ones(M, 1); 
 % sigma_j_sq
-sigma_j_sq_init = ones(j_max-j_min, 1);
+sigma_j_sq_init = 0.5;
 % eta
 eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
