@@ -89,4 +89,5 @@ factor = sin(theta_vec*4)./sin(theta_vec);
 E_phi = -repmat(factor, 1, T).*neg_Y_phi/R;
 relative_energy = (4*neg_Y_theta).^2+neg_Y_phi.^2;
 
-save('sim_energy.mat', 'E_theta', 'E_phi')
+%save('sim_energy.mat', 'E_theta', 'E_phi')
+save('sim_field.mat', 'Y')
