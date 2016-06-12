@@ -1,6 +1,6 @@
 clear
 
-rng(1)
+rng(2)
 
 nu = 4;
 alpha = 3;
@@ -28,7 +28,7 @@ sigma_j = sigma_j/sigma_j(1);
 r = 5;
 eta = [1.5; randn(r, 1)];
 
-R = 100;
+R = 20;
 eta_est = zeros(r+1, R);
 sigma_j_est = zeros(j_max-j_min+1, R);
 tau_est = zeros(1, R);
@@ -119,4 +119,4 @@ for rep = 1:R
     
 end
 
-save('sim_rep.mat', 'eta_est', 'sigma_j_est', 'tau_est', 'eta', 'sigma_j', 'tau')
+save('sim_rep2.mat', 'eta_est', 'sigma_j_est', 'tau_est', 'eta', 'sigma_j', 'tau')
