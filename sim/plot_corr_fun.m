@@ -16,6 +16,6 @@ for j = j_min:j_max
     cov_vec = cov_vec+nu*(sigma_j(j-j_min+1))^2/(nu-2)*tmp;
 end
 
-plot(acos(dist_vec), cov_vec/cov_vec(dist_vec==1), prop, 'LineWidth', 1.5)
+plot(acos(dist_vec), cov_vec/cov_vec(dist_vec==1), prop, 'LineWidth', 2)
 
 end
