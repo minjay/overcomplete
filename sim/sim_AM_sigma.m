@@ -8,7 +8,7 @@ tau = 0.1;
 
 % the grid
 B = 2;
-Nside = 16;
+Nside = 8;
 tp = pix2ang(Nside, 'nest', false);
 N = length(tp);
 theta = zeros(N, 1);
@@ -27,7 +27,7 @@ phi(phi<0) = phi(phi<0)+2*pi;
 phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
 
 j_min = 2;
-j_max = 4;
+j_max = 3;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta, phi);
@@ -35,15 +35,13 @@ M = size(A, 2);
 
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 
-% non-stationary variance funcion
-r = 4;
-mu = pi/(r+1)*(1:r);
-lambda = pi/(r+1)*2.5/2;
-b_mat = zeros(N, r+1);
+% non-stationary variance function
+knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
+[b_mat, ~] = bspline_basismatrix(4, knots, theta);
+
 b_mat(:, 1) = 1;
-for i = 2:r+1
-    b_mat(:, i) = exp(-(theta-mu(i-1)).^2/2/lambda^2);
-end
+
+r = size(b_mat, 2)-1;
 
 rng(2)
 eta = [1.5; randn(r, 1)];
@@ -105,6 +103,6 @@ tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM2(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 
 save('post_samples.mat', 'post_samples', 'c', 'eta', 'theta', 'phi', 'sigma_j')
