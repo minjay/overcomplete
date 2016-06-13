@@ -1,33 +1,37 @@
+load('post_samples_real_new_resid_j24_pen_B_spline_cubic_2knots_aurora_n4000_nu4_long_init0.mat')
+
 % load data
 load('data_EOF_regr_new.mat')
 resid = resid_all(1, :);
+
+figure
+subplot = @(m,n,p) subtightplot (m, n, p, [0.1 0.1], [0.05 0.05], [0.1 0.05]);
 
 for i = 1:6
     subplot(3, 3, i)
     plot(post_samples.eta(i, :))
     axis tight
-    title(['eta', num2str(i)])
+    title(['\eta_', num2str(i-1)])
 end
 subplot(3, 3, 7)
 plot(post_samples.sigma_j_sq(2, :))
 axis tight
 hline = refline(0, 1e-2);
-set(hline,'Color','r')
-hline = refline(0, (1.5+2)/2*1e-2);
-set(hline,'Color','r')
-title('sigmajsq2')
+hline.Color = 'r';
+hline.LineWidth = 2;
+title('\sigma_3^2')
 subplot(3, 3, 8)
 plot(post_samples.sigma_j_sq(3, :))
 axis tight
 hline = refline(0, 2e-4);
+hline.Color = 'r';
+hline.LineWidth = 2;
 set(hline,'Color','r')
-hline = refline(0, 3e-4);
-set(hline,'Color','r')
-title('sigmajsq3')
+title('\sigma_4^2')
 subplot(3, 3, 9)
 plot(post_samples.tau_sq_inv)
 axis tight
-title('tausqinv')
+title('1/\tau^2')
 
 load('mat_A.mat')
 [N, M] = size(A);
