@@ -21,6 +21,7 @@ end
 index = randsample(N, 1e3);
 theta = theta(index);
 phi = phi(index);
+N = 1e3;
 
 j_min = 2;
 j_max = 3;
