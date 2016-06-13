@@ -19,7 +19,8 @@ caxis([-cmax cmax])
 colormap(jet)
 hold on
 for i = 1:5
-    text(x(index(i)), y(index(i)), num2str(i))
+    t = text(x(index(i)), y(index(i)), num2str(i));
+    t.FontName = 'Times';
 end
 
 h = subplot('position', [0.65 1-0.3 0.2 0.2]);
