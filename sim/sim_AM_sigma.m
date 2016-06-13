@@ -8,7 +8,7 @@ tau = 0.1;
 
 % the grid
 B = 2;
-Nside = 8;
+Nside = 16;
 tp = pix2ang(Nside, 'nest', false);
 N = length(tp);
 theta = zeros(N, 1);
@@ -18,13 +18,9 @@ for i = 1:N
     phi(i) = tp{i}(2);
 end
 
-% perturbation
-theta = theta+randn(N, 1)*pi/10;
-theta(theta<0) = theta(theta<0)+pi;
-theta(theta>pi) = theta(theta>pi)-pi;
-phi = phi+randn(N, 1)*2*pi/10;
-phi(phi<0) = phi(phi<0)+2*pi;
-phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
+index = randsample(N, 1e3);
+theta = theta(index);
+phi = phi(index);
 
 j_min = 2;
 j_max = 3;
