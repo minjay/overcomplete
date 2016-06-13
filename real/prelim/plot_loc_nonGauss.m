@@ -1,5 +1,4 @@
 load('data_EOF_regr_new.mat')
-resid = resid_all(1, :)';
 
 figure
 
