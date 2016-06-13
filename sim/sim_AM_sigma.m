@@ -69,9 +69,9 @@ c_init = zeros(M, 1);
 % V
 V_inv_init = ones(M, 1); 
 % sigma_j_sq
-sigma_j_sq_init = 0.5;
+sigma_j_sq_init = 0.1^2;
 % eta
-eta_init = zeros(r+1, 1);
+eta_init = [1; zeros(r, 1)];
 % pri_sig of eta_0
 tau_sigma_sq = 1e2;
 % pri_sig of eta
