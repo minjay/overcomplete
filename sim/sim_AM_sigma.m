@@ -18,6 +18,14 @@ for i = 1:N
     phi(i) = tp{i}(2);
 end
 
+% perturbation
+theta = theta+randn(N, 1)*pi/10;
+theta(theta<0) = theta(theta<0)+pi;
+theta(theta>pi) = theta(theta>pi)-pi;
+phi = phi+randn(N, 1)*2*pi/10;
+phi(phi<0) = phi(phi<0)+2*pi;
+phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
+
 j_min = 2;
 j_max = 3;
 
@@ -36,7 +44,14 @@ b_mat(:, 1) = 1;
 
 r = size(b_mat, 2)-1;
 
-std_vec = exp(-(theta-pi/2).^2/(pi/4)^2);
+std_vec = 2*sin(theta*2) + 2.8;
+eta_hat = (b_mat'*b_mat)\(b_mat'*log(std_vec));
+
+figure
+plot(theta, std_vec, '.')
+hold on
+plot(theta, exp(b_mat*eta_hat), 'r.')
+
 DA = zeros(N, M);
 for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
@@ -76,7 +91,7 @@ lambda = 0.05;
 % the number of MCMC iterations
 T = 3e5;
 % the length of the burn-in period
-burn_in = 1e5;
+burn_in = 0;
 % the length of the thinning interval
 thin = 200;
 % the length of the interval to report progress
@@ -96,4 +111,4 @@ options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report)
 
 post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 
-save('post_samples.mat', 'post_samples', 'sigma_j', 'eta', 'c', 'tau', 'theta', 'phi')
+save('post_samples.mat', 'post_samples', 'sigma_j', 'eta_hat', 'c', 'tau', 'theta', 'phi')
