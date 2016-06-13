@@ -1,38 +1,59 @@
 load('data_EOF_regr_new.mat')
-
-phi = phi/pi*180;
-theta = (pi/2-theta)/pi*180;
-
-theta_vec = theta(:);
-phi_vec = phi(:);
-theta_min = min(theta_vec);
-
-lonlim = [0 360];
-latlim = [theta_min 90];
-
-index = 1500*(1:9);
-worldmap(latlim, lonlim)
-for i = 1:9
-    textm(theta_vec(index(i)), phi_vec(index(i)), num2str(i))
-end
+resid = resid_all(1, :)';
 
 figure
-for i = 1:9
-    subplot(3, 3, i)
-    [f, xi] = ksdensity(resid_all(:, index(i)));
-    plot(xi, f)
-    hold on
-    ff = normpdf(xi, mean(resid_all(:, index(i))), std(resid_all(:, index(i))));
-    plot(xi, ff, 'r')
+
+phi_rot = phi+pi/2;
+[x, y] = pol2cart(phi_rot, theta/pi*180);
+
+index = 3000*(1:5);
+
+subplot('position', [0.05 0.35 0.6 0.6])
+cmax = max(abs(resid/1e3));
+cf = reshape(resid/1e3, size(phi));
+vmag = linspace(min(cf(:)), max(cf(:)), 10);
+h = mypolar([0 2*pi], [0 max(theta(:))/pi*180], x, y, cf, vmag);
+delete(h)
+shading flat
+caxis([-cmax cmax])
+colormap(jet)
+hold on
+for i = 1:5
+    text(x(index(i)), y(index(i)), num2str(i))
 end
 
-figure
-for i = 1:9
-    h = subplot(3, 3, i);
-    qqplot(resid_all(:, index(i)));
-    delete(findall(h,'Type','text'))
-    xlabel('Theoretical Quantiles')
-    ylabel('Sample Quantiles')
-end
+h = subplot('position', [0.65 1-0.3 0.2 0.2]);
+qqplot(resid_all(:, index(1)));
+delete(findall(h,'Type','text'))
+ylabel('Sample Quantiles')
+title('1')
+axis square
 
-    
+h = subplot('position', [0.65 1-0.6 0.2 0.2]);
+qqplot(resid_all(:, index(2)));
+delete(findall(h,'Type','text'))
+ylabel('Sample Quantiles')
+title('2')
+axis square
+
+h = subplot('position', [0.65 1-0.9 0.2 0.2]);
+qqplot(resid_all(:, index(5)));
+delete(findall(h,'Type','text'))
+xlabel('Theoretical Quantiles')
+title('5')
+axis square
+
+h = subplot('position', [0.15 1-0.9 0.2 0.2]);
+qqplot(resid_all(:, index(3)));
+delete(findall(h,'Type','text'))
+xlabel('Theoretical Quantiles')
+ylabel('Sample Quantiles')
+title('3')
+axis square
+
+h = subplot('position', [0.4 1-0.9 0.2 0.2]);
+qqplot(resid_all(:, index(4)));
+delete(findall(h,'Type','text'))
+xlabel('Theoretical Quantiles')
+title('4')
+axis square
