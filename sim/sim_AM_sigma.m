@@ -8,7 +8,7 @@ tau = 0.1;
 
 % the grid
 B = 2;
-Nside = 16;
+Nside = 8;
 tp = pix2ang(Nside, 'nest', false);
 N = length(tp);
 theta = zeros(N, 1);
@@ -17,11 +17,6 @@ for i = 1:N
     theta(i) = tp{i}(1);
     phi(i) = tp{i}(2);
 end
-
-index = randsample(N, 1e3);
-theta = theta(index);
-phi = phi(index);
-N = 1e3;
 
 j_min = 2;
 j_max = 3;
@@ -68,7 +63,7 @@ V_inv_init = ones(M, 1);
 % sigma_j_sq
 sigma_j_sq_init = 0.1^2;
 % eta
-eta_init = [1; zeros(r, 1)];
+eta_init = zeros(r+1, 1);
 % pri_sig of eta_0
 tau_sigma_sq = 1e2;
 % pri_sig of eta
@@ -79,11 +74,11 @@ tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
-lambda = 0.01;
+lambda = 0.05;
 % the number of MCMC iterations
-T = 4e5;
+T = 3e5;
 % the length of the burn-in period
-burn_in = 2e5;
+burn_in = 1e5;
 % the length of the thinning interval
 thin = 200;
 % the length of the interval to report progress
