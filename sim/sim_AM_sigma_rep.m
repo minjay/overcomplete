@@ -119,7 +119,7 @@ for rep = 1:R
     sigma_j_est(:, rep) = mean(sqrt(post_samples.sigma_j_sq), 2);
     tau_est(rep) = mean(1./sqrt(post_samples.tau_sq_inv));
     
-    sigma_j_est
+    sigma_j_est(:, rep)'
     
 end
 
