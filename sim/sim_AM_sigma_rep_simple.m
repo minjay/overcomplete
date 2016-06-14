@@ -1,4 +1,4 @@
-function [] = sim_AM_sigma_rep(seed)
+function [] = sim_AM_sigma_rep_simple(seed)
 
 nu = 4;
 alpha = 3;
@@ -24,9 +24,8 @@ sigma_j = B.^(-alpha/2*(j_min:j_max));
 sigma_j = sigma_j/sigma_j(1);
 
 rng(2)
-knots = [0 0 0 0 0.5 1 1 1 1]*pi;
-r = 4;
-eta = randn(r+1, 1);
+knots = [0 0 0 0 1 1 1 1]*pi;
+r = 3;
 
 R = 20;
 eta_est = zeros(r+1, R);
@@ -53,7 +52,7 @@ for rep = 1:R
 
     b_mat(:, 1) = 1;
 
-    std_vec = exp(b_mat*eta);
+    std_vec = exp(-(theta-pi/2).^2/2/(pi/4)^2);
     DA = zeros(N, M);
     for i = 1:N
         DA(i, :) = std_vec(i)*A(i, :);
@@ -121,7 +120,7 @@ for rep = 1:R
     
 end
 
-filename = ['sim_rep', num2str(seed), '.mat'];
-save(filename, 'eta_est', 'sigma_j_est', 'tau_est', 'eta', 'sigma_j', 'tau')
+filename = ['sim_rep_simple', num2str(seed), '.mat'];
+save(filename, 'eta_est', 'sigma_j_est', 'tau_est', 'sigma_j', 'tau')
 
 end
