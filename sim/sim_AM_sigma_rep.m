@@ -1,6 +1,6 @@
 clear
 
-rng(1)
+seed = 1;
 
 nu = 4;
 alpha = 3;
@@ -25,7 +25,9 @@ j_max = 3;
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 sigma_j = sigma_j/sigma_j(1);
 
-r = 5;
+rng(2)
+knots = [0 0 0 0 0.5 1 1 1 1]*pi;
+r = 4;
 eta = randn(r+1, 1);
 
 R = 20;
@@ -33,6 +35,7 @@ eta_est = zeros(r+1, R);
 sigma_j_est = zeros(j_max-j_min+1, R);
 tau_est = zeros(1, R);
 
+rng(seed)
 for rep = 1:R
     rep
     % perturbation
@@ -48,7 +51,6 @@ for rep = 1:R
     M = size(A, 2); 
 
     % non-stationary variance function
-    knots = [0 0 0 0 0.5 1 1 1 1]*pi;
     [b_mat, ~] = bspline_basismatrix(4, knots, theta);
 
     b_mat(:, 1) = 1;
@@ -119,4 +121,5 @@ for rep = 1:R
     
 end
 
-save('sim_rep.mat', 'eta_est', 'sigma_j_est', 'tau_est', 'eta', 'sigma_j', 'tau')
+filename = ['sim_rep', num2str(seed), '.mat'];
+save(filename, 'eta_est', 'sigma_j_est', 'tau_est', 'eta', 'sigma_j', 'tau')
