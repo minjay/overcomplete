@@ -37,21 +37,16 @@ sigma_j = B.^(-alpha/2*(j_min:j_max));
 sigma_j = sigma_j/sigma_j(1);
 
 % non-stationary variance function
-knots = [0 0 0 0 0.25 0.5 0.75 1 1 1 1]*pi;
+knots = [0 0 0 0 0.5 1 1 1 1]*pi;
 [b_mat, ~] = bspline_basismatrix(4, knots, theta);
 
 b_mat(:, 1) = 1;
 
 r = size(b_mat, 2)-1;
 
-std_vec = 2*sin(theta*2) + 2.8;
-eta_hat = (b_mat'*b_mat)\(b_mat'*log(std_vec));
-
-figure
-plot(theta, std_vec, '.')
-hold on
-plot(theta, exp(b_mat*eta_hat), 'r.')
-
+rng(2)
+eta = randn(r+1, 1);
+std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
 for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
@@ -111,4 +106,4 @@ options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report)
 
 post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 
-save('post_samples.mat', 'post_samples', 'sigma_j', 'eta_hat', 'c', 'tau', 'theta', 'phi')
+save('post_samples.mat', 'post_samples', 'sigma_j', 'eta', 'c', 'tau', 'theta', 'phi')
