@@ -27,17 +27,7 @@ j_max = 3;
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 sigma_j = sigma_j/sigma_j(1);
 
-% non-stationary variance function
-knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(4, knots, theta_vec);
-
-b_mat(:, 1) = 1;
-
-m = size(b_mat, 2)-1;
-
-rng(2)
-eta = [1.5; randn(m, 1)];
-std_vec = exp(b_mat*eta);
+std_vec = exp(-(theta_vec-pi/2).^2/2/(pi/4)^2);
 DA = zeros(N, M);
 for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
@@ -57,6 +47,6 @@ end
 Y = DA*c+tau*randn(N, 1);
 
 save(['data_sim_', name, '.mat'], 'theta', 'phi', 'theta_mat', 'phi_mat', 'theta_vec',...
-    'phi_vec', 'Y', 'nu', 'alpha', 'tau', 'sigma_j', 'eta', 'fj_sq')
+    'phi_vec', 'Y', 'nu', 'alpha', 'tau', 'sigma_j', 'fj_sq')
 
 end
