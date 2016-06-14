@@ -26,7 +26,7 @@ sigma_j = B.^(-alpha/2*(j_min:j_max));
 sigma_j = sigma_j/sigma_j(1);
 
 r = 5;
-eta = [1.5; randn(r, 1)];
+eta = randn(r+1, 1);
 
 R = 20;
 eta_est = zeros(r+1, R);
@@ -48,7 +48,7 @@ for rep = 1:R
     M = size(A, 2); 
 
     % non-stationary variance function
-    knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
+    knots = [0 0 0 0 0.5 1 1 1 1]*pi;
     [b_mat, ~] = bspline_basismatrix(4, knots, theta);
 
     b_mat(:, 1) = 1;
@@ -76,7 +76,7 @@ for rep = 1:R
     % V
     V_inv_init = ones(M, 1); 
     % sigma_j_sq
-    sigma_j_sq_init = ones(j_max-j_min, 1);
+    sigma_j_sq_init = 0.1^2;
     % eta
     eta_init = zeros(r+1, 1);
     % pri_sig of eta_0
@@ -91,13 +91,13 @@ for rep = 1:R
     Sigma_init = eye(r+1);
     lambda = 0.01;
     % the number of MCMC iterations
-    T = 3e5;
+    T = 4e5;
     % the length of the burn-in period
-    burn_in = 1e5;
+    burn_in = 2e5;
     % the length of the thinning interval
     thin = 200;
     % the length of the interval to report progress
-    n_report = 100;
+    n_report = 1e3;
 
     model = struct('A', A, 'b_mat', b_mat, 'nu', nu);
 
