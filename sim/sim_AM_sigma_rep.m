@@ -1,6 +1,4 @@
-clear
-
-seed = 1;
+function [] = sim_AM_sigma_rep(seed)
 
 nu = 4;
 alpha = 3;
@@ -125,3 +123,5 @@ end
 
 filename = ['sim_rep', num2str(seed), '.mat'];
 save(filename, 'eta_est', 'sigma_j_est', 'tau_est', 'eta', 'sigma_j', 'tau')
+
+end
