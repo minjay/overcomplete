@@ -18,9 +18,12 @@ j_max = 3;
 M = size(A, 2); 
 
 % non-stationary variance function
-m = 4;
-lambda_inv = 2.5;
-b_mat = get_nonsta_var(m, lambda_inv, theta_samples);
+knots = [0 0 0 0 1 1 1 1]*pi;
+[b_mat, ~] = bspline_basismatrix(4, knots, theta_samples);
+
+b_mat(:, 1) = 1;
+
+m = size(b_mat, 2)-1;
 
 % init
 % c
@@ -53,7 +56,8 @@ model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
 
 data = struct('Y', Y, 'Npix', Npix);
 
-params = struct('c', c_init, 'V', V_inv_init, 'eta', {eta_init, tau_sigma_sq, tau_eta_sq},...
+params = struct('c', c_init, 'V', V_inv_init, 'eta', eta_init,...
+    'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
     'tau', tau_sq_inv_init);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
