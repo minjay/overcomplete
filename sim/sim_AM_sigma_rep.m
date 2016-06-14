@@ -91,7 +91,7 @@ for rep = 1:R
     % tuning parameters
     mu_init = zeros(r+1, 1);
     Sigma_init = eye(r+1);
-    lambda = 0.01;
+    lambda = 0.05;
     % the number of MCMC iterations
     T = 4e5;
     % the length of the burn-in period
