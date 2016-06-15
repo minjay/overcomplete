@@ -16,15 +16,18 @@ Y = Y(index);
 r = get_chordal_dist(x, y, z);
 
 % non-stationary variance function
-m = 4;
-lambda_inv = 2.5;
-b_mat = get_nonsta_var(m, lambda_inv, theta_samples);
+knots = [0 0 0 0 1 1 1 1]*pi;
+[b_mat, ~] = bspline_basismatrix(4, knots, theta_samples);
 
-beta_init = [zeros(1, m+1) 2 1 0.1];
+b_mat(:, 1) = 1;
+
+m = size(b_mat, 2)-1;
+
+beta_init = [zeros(1, m+1) 2 10 0.1];
 negloglik1 = @(beta_all) negloglik_nonsta_Matern(beta_all, r, b_mat, Y);
 
-lb = [-Inf -Inf -Inf -Inf -Inf 0 0 0];
-ub = [Inf Inf Inf Inf Inf 5 Inf Inf];
+lb = [-Inf(1, m+1) 0 0 1e-3];
+ub = [Inf(1, m+1) 10 Inf Inf];
 
 [beta_hat, f_min] = nonsta_Matern_fit(negloglik1, beta_init, lb, ub, true);
 
