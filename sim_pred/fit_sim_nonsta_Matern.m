@@ -26,8 +26,8 @@ m = size(b_mat, 2)-1;
 beta_init = [zeros(1, m+1) 2 10 0.1];
 negloglik1 = @(beta_all) negloglik_nonsta_Matern(beta_all, r, b_mat, Y);
 
-lb = [-Inf(1, m+1) 0 0 1e-3];
-ub = [Inf(1, m+1) 10 Inf Inf];
+lb = [-10*ones(1, m+1) 0 0 1e-3];
+ub = [10*ones(1, m+1) 10 Inf Inf];
 
 [beta_hat, f_min] = nonsta_Matern_fit(negloglik1, beta_init, lb, ub, true);
 
