@@ -14,8 +14,7 @@ end
 
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
-cmin = min(min(Y), min(Y_pred));
-cmax = max(max(Y), max(Y_pred));
+cmax = max(max(abs(Y)), max(abs(Y_pred)));
 
 % plot1
 figure
@@ -27,10 +26,11 @@ hold on
 plot([pi-pi/18 pi-pi/18], [0 pi], 'k--', 'LineWidth', 1.5)
 plot([pi+pi/18 pi+pi/18], [0 pi], 'k--', 'LineWidth', 1.5)
 scatter(phi_samples, theta_samples, 'k.')
-caxis([cmin cmax])
+caxis([-cmax cmax])
 xlabel('Longitude')
 ylabel('Colatitude')
 title('Data')
+colormap(jet)
 
 subplot('position', [0 0.1 0.9 0.35])
 pcolor(phi_mat, theta_mat, reshape(Y_pred, size(phi_mat)))
@@ -39,7 +39,7 @@ axis image
 hold on
 plot([pi-pi/18 pi-pi/18], [0 pi], 'k--', 'LineWidth', 1.5)
 plot([pi+pi/18 pi+pi/18], [0 pi], 'k--', 'LineWidth', 1.5)
-caxis([cmin cmax])
+caxis([-cmax cmax])
 xlabel('Longitude')
 ylabel('Colatitude')
 if strcmp(model, 'Matern')
@@ -47,6 +47,7 @@ if strcmp(model, 'Matern')
 else
     title('Predictions using needlet model')
 end
+colormap(jet)
 
 % colorbar
 h = colorbar;
@@ -65,6 +66,7 @@ plot([pi-pi/18 pi-pi/18], [0 pi], 'k--', 'LineWidth', 1.5)
 plot([pi+pi/18 pi+pi/18], [0 pi], 'k--', 'LineWidth', 1.5)
 scatter(phi_samples, theta_samples, 'k.')
 caxis([-max(abs(err)) max(abs(err))])
+colormap(jet)
 colorbar
 xlabel('Longitude')
 ylabel('Colatitude')
