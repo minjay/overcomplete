@@ -13,9 +13,10 @@ j_max = 3;
 N = size(A, 1);
 
 % non-stationary variance function
-m = 4;
-lambda_inv = 2.5;
-b_mat = get_nonsta_var(m, lambda_inv, theta_vec);
+knots = [0 0 0 0 1 1 1 1]*pi;
+[b_mat, ~] = bspline_basismatrix(4, knots, theta_vec);
+
+b_mat(:, 1) = 1;
 
 % predict
 T = size(post_samples.eta, 2);
