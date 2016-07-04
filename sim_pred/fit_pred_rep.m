@@ -1,7 +1,5 @@
 name = '4';
 
-load(['data_sim_', name, '.mat'])
-
 % 20 times
 T = 20;
 
