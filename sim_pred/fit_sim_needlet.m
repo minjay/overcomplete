@@ -1,10 +1,10 @@
-function [post_samples, Npix, index] = fit_sim_needlet(seed, flag, name)
+function [post_samples, Npix, index, index_region] = fit_sim_needlet(seed, flag, name, width)
 
 load(['data_sim_', name, '.mat'])
 rng(seed)
 
 % sampling
-index = rand_sampler(theta_vec, phi_vec);
+[index, index_region] = rand_sampler(theta_vec, phi_vec, width);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
 Y = Y(index);
@@ -33,7 +33,7 @@ V_inv_init = ones(M, 1);
 % eta
 eta_init = zeros(m+1, 1);
 % pri_sig of eta_0
-tau_sigma_sq = 1e4;
+tau_sigma_sq = 1e2;
 % pri_sig of eta
 tau_eta_sq = 0.25^2;
 % tau
