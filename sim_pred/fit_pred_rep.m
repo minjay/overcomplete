@@ -15,7 +15,7 @@ for t = 1:T
     % no save
     [post_samples, ~, index, index_region] = fit_sim_needlet(t, 0, name, width);
     [MSPE_needlet_out_region, MSPE_needlet_region, MAE_needlet_out_region, MAE_needlet_region] = ...
-        pred_sim_needlet(t, 0, name, post_samples, index, index_region);
+        pred_sim_needlet(name, post_samples, index, index_region);
     MSPE_needlet_out_region_all(t) = MSPE_needlet_out_region;
     MSPE_needlet_region_all(t) = MSPE_neeldet_region;
     MAE_needlet_out_region_all(t) = MAE_needlet_out_region;
