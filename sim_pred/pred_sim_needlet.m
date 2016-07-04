@@ -28,7 +28,6 @@ Y_pred_all = zeros(N, T);
 for t = 1:T
     Y_pred_all(:, t) = std_vec.*Ac(:, t);
 end
-Y_pred_all = Y_pred_all+tau_mean*randn(N, T);
 
 Y_pred_needlet = mean(Y_pred_all, 2);
 
