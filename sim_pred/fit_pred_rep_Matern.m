@@ -19,7 +19,7 @@ for t = 1:T
     MSPE_Matern_out_region_all(t) = MSPE_Matern_out_region;
     MSPE_Matern_region_all(t) = MSPE_Matern_region;
     MAE_Matern_out_region_all(t) = MAE_Matern_out_region;
-    MAE_Matern_region_all(t) = MAE_needlet_region;
+    MAE_Matern_region_all(t) = MAE_Matern_region;
 end
 
 save(['sim_pred_err_Matern_rep_', name, '.mat'], 'MSPE_Matern_out_region_all', 'MSPE_Matern_region_all',...
