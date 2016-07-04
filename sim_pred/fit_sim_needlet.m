@@ -48,9 +48,9 @@ T = 15e5;
 % the length of the burn-in period
 burn_in = 5e5;
 % the length of the thinning interval
-thin = 200;
+thin = 1000;
 % the length of the interval to report progress
-n_report = 100;
+n_report = 1000;
 
 model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
 
