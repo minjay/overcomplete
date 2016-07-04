@@ -1,7 +1,7 @@
-function pred_sim_needlet(seed, flag, name, extra)
+function [MSPE_needlet_out_region, MSPE_needlet_region, MAE_needlet_out_region, MAE_needlet_region] = ...
+    pred_sim_needlet(name, post_samples, index, index_region)
 
 load(['data_sim_', name, '.mat'])
-load(['post_samples_', name, '_', num2str(seed), extra, '.mat']) 
 
 % specify parameters
 B = 2;
@@ -33,26 +33,18 @@ Y_pred_all = Y_pred_all+tau_mean*randn(N, T);
 Y_pred_needlet = mean(Y_pred_all, 2);
 
 index_pred = setdiff(1:N, index);
+index_pred_out_region = setdiff(index_pred, index_region);
+index_pred_region = index_region;
 
-Y_err_needlet = Y(index_pred)-Y_pred_needlet(index_pred);
-Y_err_needlet_in = Y(index)-Y_pred_needlet(index);
+Y_err_needlet_out_region = Y(index_pred_out_region)-Y_pred_needlet(index_pred_out_region);
+Y_err_needlet_region = Y(index_pred_region)-Y_pred_needlet(index_pred_region);
 
 % MSPE
-MSPE_needlet = mean(Y_err_needlet.^2);
-MSPE_needlet_in = mean(Y_err_needlet_in.^2);
-fprintf('Out-of-sample MSPE of needlet is %5f\n', MSPE_needlet)
-fprintf('In-sample MSPE of needlet is %5f\n', MSPE_needlet_in)
+MSPE_needlet_out_region = mean(Y_err_needlet_out_region.^2);
+MSPE_needlet_region = mean(Y_err_needlet_region.^2);
 
 % MAE
-MAE_needlet = mean(abs(Y_err_needlet));
-MAE_needlet_in = mean(abs(Y_err_needlet_in));
-fprintf('Out-of-sample MAE of needlet is %5f\n', MAE_needlet)
-fprintf('In-sample MAE of needlet is %5f\n', MAE_needlet_in)
-
-if flag
-    save(['Y_pred_needlet_', name, '_', num2str(seed), extra, '.mat'],...
-        'Y_pred_needlet', 'Y_pred_all', 'Y', 'index', 'index_pred',...
-        'MSPE_needlet', 'MAE_needlet')
-end
+MAE_needlet_out_region = mean(abs(Y_err_needlet_out_region));
+MAE_needlet_region = mean(abs(Y_err_needlet_region));
 
 end
