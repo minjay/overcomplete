@@ -1,11 +1,11 @@
-function [beta_hat, index] = fit_sim_nonsta_Matern(seed, flag, name)
+function [beta_hat, index, index_region] = fit_sim_nonsta_Matern(seed, flag, name, width)
 
 load(['data_sim_', name, '.mat'])
 
 rng(seed)
 
 % sampling
-index = rand_sampler(theta_vec, phi_vec);
+[index, index_region] = rand_sampler(theta_vec, phi_vec, width);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
 Y = Y(index);
@@ -32,7 +32,7 @@ ub = [10*ones(1, m+1) 10 Inf Inf];
 [beta_hat, f_min] = nonsta_Matern_fit(negloglik1, beta_init, lb, ub, true);
 
 if flag
-    save(['beta_hat_', name, '_', num2str(seed), '.mat'], 'beta_hat', 'index')
+    save(['beta_hat_', name, '_', num2str(seed), '.mat'], 'beta_hat', 'index', 'index_region')
 end
 
 end
