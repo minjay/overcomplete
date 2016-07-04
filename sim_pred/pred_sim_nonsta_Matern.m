@@ -1,7 +1,7 @@
-function pred_sim_nonsta_Matern(seed, flag, name)
+function [MSPE_Matern_out_region, MSPE_Matern_region, MAE_Matern_out_region, MAE_Matern_region] = ...
+    pred_sim_nonsta_Matern(name, index, index_region)
 
 load(['data_sim_', name, '.mat'])
-load(['beta_hat_', name, '_', num2str(seed), '.mat']) 
 
 % sampling
 N = length(Y);
@@ -30,32 +30,20 @@ Sigma00 = cov_mat(index, index);
 tmp = Sigma00\reshape(Y_samples, n, 1);
 
 index_pred = setdiff(1:N, index);
+index_pred_out_region = setdiff(index_pred, index_region);
+index_pred_region = index_region;
 SigmaP0 = cov_mat(:, index);
 Y_pred_Matern = SigmaP0*tmp;
 
-SigmaPP = cov_mat;
-std_Y_pred_Matern = sqrt(diag(SigmaPP-SigmaP0*(Sigma00\SigmaP0')));
-std_Y_pred_Matern = std_Y_pred_Matern(index_pred);
-
-Y_err_Matern = Y(index_pred)-Y_pred_Matern(index_pred);
-Y_err_Matern_in = Y(index)-Y_pred_Matern(index);
+Y_err_Matern_out_region = Y(index_pred_out_region)-Y_pred_Matern(index_pred_out_region);
+Y_err_Matern_region = Y(index_pred_region)-Y_pred_Matern(index_pred_region);
 
 % MSPE
-MSPE_Matern = mean(Y_err_Matern.^2);
-MSPE_Matern_in = mean(Y_err_Matern_in.^2);
-fprintf('Out-of-sample MSPE of Matern is %5f\n', MSPE_Matern)
-fprintf('In-sample MSPE of Matern is %5f\n', MSPE_Matern_in)
+MSPE_Matern_out_region = mean(Y_err_Matern_out_region.^2);
+MSPE_Matern_region = mean(Y_err_Matern_region.^2);
 
 % MAE
-MAE_Matern = mean(abs(Y_err_Matern));
-MAE_Matern_in = mean(abs(Y_err_Matern_in));
-fprintf('Out-of-sample MAE of Matern is %5f\n', MAE_Matern)
-fprintf('In-sample MAE of Matern is %5f\n', MAE_Matern_in)
-
-if flag
-    save(['Y_pred_Matern_', name, '_', num2str(seed), '.mat'],...
-        'Y_pred_Matern', 'Y', 'index', 'index_pred', 'MSPE_Matern',...
-        'MAE_Matern', 'std_Y_pred_Matern')
-end
+MAE_Matern_out_region = mean(abs(Y_err_Matern_out_region));
+MAE_Matern_region = mean(abs(Y_err_Matern_region));
 
 end
