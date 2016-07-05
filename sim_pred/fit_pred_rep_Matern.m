@@ -15,7 +15,7 @@ for t = 1:T
     % no save
     [beta_hat, index, index_region] = fit_sim_nonsta_Matern(t, 0, name, width);
     [MSPE_Matern_out_region, MSPE_Matern_region, MAE_Matern_out_region, MAE_Matern_region] = ...
-        pred_sim_nonsta_Matern(name, index, index_region);
+        pred_sim_nonsta_Matern(name, beta_hat, index, index_region);
     MSPE_Matern_out_region_all(t) = MSPE_Matern_out_region;
     MSPE_Matern_region_all(t) = MSPE_Matern_region;
     MAE_Matern_out_region_all(t) = MAE_Matern_out_region;

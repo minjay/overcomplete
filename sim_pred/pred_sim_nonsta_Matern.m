@@ -1,5 +1,5 @@
 function [MSPE_Matern_out_region, MSPE_Matern_region, MAE_Matern_out_region, MAE_Matern_region] = ...
-    pred_sim_nonsta_Matern(name, index, index_region)
+    pred_sim_nonsta_Matern(name, beta_hat, index, index_region)
 
 load(['data_sim_', name, '.mat'])
 
