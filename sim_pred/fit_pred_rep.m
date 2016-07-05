@@ -1,4 +1,4 @@
-name = '4';
+name = '3';
 
 % 20 times
 T = 20;
