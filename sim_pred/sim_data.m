@@ -10,7 +10,8 @@ tau = 0.1;
 res = 100;
 
 theta = linspace(0, pi, res/2);
-phi = linspace(0, 2*pi, res);
+d_phi = 2*pi/res;
+phi = linspace(0, 2*pi-d_phi, res);
 
 [phi_mat, theta_mat] = meshgrid(phi, theta);
 theta_vec = theta_mat(:);
