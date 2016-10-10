@@ -17,33 +17,30 @@ knots = [0 0 0 0 0.5 1 1 1 1]*pi;
 
 b_mat(:, 1) = 1;
 
-subplot('position', [0.1 0.575 0.6 0.375])
-boxplot(eta_est_all', 'Labels', {'0', '1', '2', '3', '4'})
-yl = ylim;
-ylim([min(eta)-0.1 yl(2)])
-for i = 1:5
-    line([i-0.4 i+0.4], [eta(i) eta(i)], 'LineWidth', 2)
-end
-title('\eta')
-set(gca, 'FontSize', 12)
-
-subplot('position', [0.1 0.1 0.6 0.375])
-plot(theta, exp(b_mat*eta_est_all))
+n_line = size(eta_est_all, 2);
+color_mat = colormap(jet(n_line));
+subplot('position', [0.1 0.1 0.7 0.85])
+fitted = exp(b_mat*eta_est_all);
 hold on
+for i = 1:n_line
+    h = plot(theta, fitted(:, i));
+    % 0.3 represents the transparency
+    h.Color = [color_mat(i, :) 0.3];
+end
 plot(theta, exp(b_mat*eta), 'k', 'LineWidth', 2)
 axis tight
-xlabel('Co-latitude')
+xlabel('Co-latitude (rad)')
 ylabel('Standard deviation')
 set(gca, 'FontSize', 12)
 
-subplot('position', [0.8 0.575 0.15 0.375])
+subplot('position', [0.875 0.575 0.1 0.375])
 boxplot(sigma_j_est_all', 'widths', 0.4)
-line([1-0.4 1+0.4], [sigma_j(2) sigma_j(2)], 'LineWidth', 2)
-title('\sigma_3')
+line([1-0.4 1+0.4], [sigma_j(2) sigma_j(2)], 'Color', 'k', 'LineStyle', '--', 'LineWidth', 2)
+title('\sigma_j, j=3')
 set(gca, 'FontSize', 12)
 
-subplot('position', [0.8 0.1 0.15 0.375])
+subplot('position', [0.875 0.1 0.1 0.375])
 boxplot(tau_est_all', 'widths', 0.4)
-line([1-0.4 1+0.4], [tau tau], 'LineWidth', 2)
+line([1-0.4 1+0.4], [tau tau], 'Color', 'k', 'LineStyle', '--', 'LineWidth', 2)
 title('\tau')
 set(gca, 'FontSize', 12)
