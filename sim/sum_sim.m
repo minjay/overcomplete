@@ -25,7 +25,7 @@ hold on
 for i = 1:n_line
     h = plot(theta, fitted(:, i));
     % 0.3 represents the transparency
-    h.Color = [color_mat(i, :) 0.3];
+    h.Color = [color_mat(i, :) 0.5];
 end
 plot(theta, exp(b_mat*eta), 'k', 'LineWidth', 2)
 axis tight
