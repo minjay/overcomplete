@@ -1,6 +1,6 @@
-function [] = sim_AM_sigma_rep(seed)
+function [] = sim_AM_sigma_rep2(seed)
 % simulation study
-% generate non-stationary std function using random seed 2
+% generate non-stationary std function using random seed 3
 
 nu = 4;
 alpha = 3;
@@ -25,7 +25,7 @@ j_max = 3;
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 sigma_j = sigma_j/sigma_j(1);
 
-rng(2)
+rng(3)
 knots = [0 0 0 0 0.5 1 1 1 1]*pi;
 r = 4;
 eta = randn(r+1, 1);

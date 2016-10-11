@@ -1,4 +1,6 @@
 function [] = sim_AM_sigma_rep(seed)
+% simulation study
+% generate non-stationary std function using random seed 2
 
 nu = 4;
 alpha = 3;
