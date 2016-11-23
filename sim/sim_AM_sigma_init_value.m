@@ -8,7 +8,7 @@ addpath(genpath('/home/minjay/bspline'))
 clear
 rng(1)
 
-nu = 2.5;
+nu = 2.1;
 alpha = 3;
 
 tau = 0.1;
