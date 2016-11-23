@@ -51,7 +51,7 @@ b_mat(:, 1) = 1;
 
 r = size(b_mat, 2)-1;
 
-rng(2)
+rng(3)
 eta = randn(r+1, 1);
 std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
