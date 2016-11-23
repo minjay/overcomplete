@@ -1,3 +1,10 @@
+addpath(genpath('/home/minjay/NeedMat'))
+addpath(genpath('/home/minjay/overcomplete'))
+addpath(genpath('/home/minjay/div_curl'))
+addpath(genpath('/home/minjay/model_output'))
+addpath(genpath('/home/minjay/nonsta_matern'))
+addpath(genpath('/home/minjay/bspline'))
+
 clear
 rng(1)
 
@@ -63,21 +70,30 @@ end
 
 Y = DA*c+randn(N, 1)*tau;
 
+% get init values for MCMC
+beta_init = [zeros(1, r+1) 0.1^2 1e-2];
+negloglik1 = @(beta_all) negloglik_Gaussian_needlet(beta_all, b_mat, Y, Npix, A);
+
+lb = [-10*ones(1, r+1) 0 1e-3];
+ub = [10*ones(1, r+1) 1 Inf];
+
+[beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, true);
+
 % init
 % c
 c_init = zeros(M, 1);
 % V
 V_inv_init = ones(M, 1); 
 % sigma_j_sq
-sigma_j_sq_init = 0.1^2;
+sigma_j_sq_init = beta_hat(end-1);
 % eta
-eta_init = zeros(r+1, 1);
+eta_init = beta_hat(1:r+1)';
 % pri_sig of eta_0
 tau_sigma_sq = 1e2;
 % pri_sig of eta
 tau_eta_sq = 0.25^2;
 % tau
-tau_init = 0.01;
+tau_init = beta_hat(end);
 tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(r+1, 1);
