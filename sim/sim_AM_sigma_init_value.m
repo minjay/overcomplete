@@ -8,7 +8,7 @@ addpath(genpath('/home/minjay/bspline'))
 clear
 rng(1)
 
-nu = 100;
+nu = 3;
 alpha = 3;
 
 tau = 0.1;
@@ -65,7 +65,7 @@ st = 1;
 for j = j_min:j_max
     index_j = j-j_min+1;
     range = st:st+Npix(index_j)-1;
-    c(range) = sigma_j(index_j)*randn(Npix(index_j), 1);
+    c(range) = sigma_j(index_j)*trnd(nu, Npix(index_j), 1);
     st = st+Npix(index_j);
 end
 
