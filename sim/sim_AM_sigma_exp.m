@@ -51,7 +51,7 @@ b_mat(:, 1) = 1;
 
 r = size(b_mat, 2)-1;
 
-rng(3)
+rng(2)
 eta = randn(r+1, 1);
 std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
@@ -91,14 +91,14 @@ eta_init = beta_hat(1:r+1)';
 % pri_sig of eta_0
 tau_sigma_sq = 1e2;
 % pri_sig of eta
-tau_eta_sq = 0.25^2;
+tau_eta_sq = 1e2;
 % tau
 tau_init = beta_hat(end);
 tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
-lambda = 0.05;
+lambda = 0.01;
 % the number of MCMC iterations
 T = 3e5;
 % the length of the burn-in period
