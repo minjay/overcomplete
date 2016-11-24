@@ -91,7 +91,7 @@ eta_init = beta_hat(1:r+1)';
 % pri_sig of eta_0
 tau_sigma_sq = 1e2;
 % pri_sig of eta
-tau_eta_sq = 0.25^2;
+tau_eta_sq = 1e2;
 % tau
 tau_init = beta_hat(end);
 tau_sq_inv_init = 1/tau_init^2;
