@@ -1,6 +1,6 @@
-function [] = sim_AM_sigma_rep(seed)
+function [eta_est, sigma_j_est, tau_est, eta, sigma_j, tau] = sim_AM_sigma_rep(eta_seed, R, seed)
 % simulation study
-% generate non-stationary std function using random seed 2
+% generate non-stationary std function using random seed eta_seed
 
 nu = 4;
 alpha = 3;
@@ -25,12 +25,11 @@ j_max = 3;
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 sigma_j = sigma_j/sigma_j(1);
 
-rng(2)
+rng(eta_seed)
 knots = [0 0 0 0 0.5 1 1 1 1]*pi;
 r = 4;
 eta = randn(r+1, 1);
 
-R = 20;
 eta_est = zeros(r+1, R);
 sigma_j_est = zeros(j_max-j_min+1, R);
 tau_est = zeros(1, R);
@@ -71,6 +70,15 @@ for rep = 1:R
     end
 
     Y = DA*c+randn(N, 1)*tau;
+    
+    % get init values for MCMC
+    beta_init = [zeros(1, r+1) 0.1^2 1e-2];
+    negloglik1 = @(beta_all) negloglik_Gaussian_needlet(beta_all, b_mat, Y, Npix, A);
+
+    lb = [-10*ones(1, r+1) 0 1e-3];
+    ub = [10*ones(1, r+1) 1 Inf];
+
+    [beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, false);
 
     % init
     % c
@@ -78,15 +86,15 @@ for rep = 1:R
     % V
     V_inv_init = ones(M, 1); 
     % sigma_j_sq
-    sigma_j_sq_init = 0.1^2;
+    sigma_j_sq_init = beta_hat(end-1);
     % eta
-    eta_init = zeros(r+1, 1);
+    eta_init = beta_hat(1:r+1)';
     % pri_sig of eta_0
     tau_sigma_sq = 1e2;
     % pri_sig of eta
-    tau_eta_sq = 0.25^2;
+    tau_eta_sq = 1e2;
     % tau
-    tau_init = 0.01;
+    tau_init = beta_hat(end);
     tau_sq_inv_init = 1/tau_init^2;
     % tuning parameters
     mu_init = zeros(r+1, 1);
@@ -119,11 +127,6 @@ for rep = 1:R
     sigma_j_est(:, rep) = mean(sqrt(post_samples.sigma_j_sq), 2);
     tau_est(rep) = mean(1./sqrt(post_samples.tau_sq_inv));
     
-    sigma_j_est(:, rep)'
-    
 end
-
-filename = ['sim_rep', num2str(seed), '.mat'];
-save(filename, 'eta_est', 'sigma_j_est', 'tau_est', 'eta', 'sigma_j', 'tau')
 
 end
