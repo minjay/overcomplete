@@ -13,9 +13,9 @@ eta_seed = 2;
 R = 20;
 n_seed = 10;
 
-eta_est_cell = cell(n_seed, 1);
-sigma_j_est_cell = cell(n_seed, 1);
-tau_est_cell = cell(n_seed, 1);
+eta_est_cell = cell(1, n_seed);
+sigma_j_est_cell = cell(1, n_seed);
+tau_est_cell = cell(1, n_seed);
 
 parfor seed = 1:n_seed
     maxNumCompThreads(4);
