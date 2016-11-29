@@ -29,5 +29,20 @@ eta_est_all = cell2mat(eta_est_cell);
 sigma_j_est_all = cell2mat(sigma_j_est_cell);
 tau_est_all = cell2mat(tau_est_cell);
 
+tau = 0.1;
+
+B = 2;
+j_min = 2;
+j_max = 3;
+alpha = 3;
+
+sigma_j = B.^(-alpha/2*(j_min:j_max));
+sigma_j = sigma_j/sigma_j(1);
+
+rng(eta_seed)
+knots = [0 0 0 0 0.5 1 1 1 1]*pi;
+r = 4;
+eta = randn(r+1, 1);
+
 filename = ['sim_rep', num2str(eta_seed), '.mat'];
 save(filename, 'eta_est_all', 'sigma_j_est_all', 'tau_est_all', 'eta', 'sigma_j', 'tau')
