@@ -63,7 +63,7 @@ c_init = zeros(M, TT);
 % V
 V_inv_init = ones(M, 1); 
 % sigma_j_sq
-sigma_j_sq_init = beta_hat(end-2:end-1);
+sigma_j_sq_init = beta_hat(end-2:end-1)';
 % eta
 eta_init = beta_hat(1:r+1)';
 % pri_sig of eta_0
