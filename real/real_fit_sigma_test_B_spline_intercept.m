@@ -1,4 +1,5 @@
 load('data_EOF_regr_new.mat')
+% work on the data at the first time point
 resid = resid_all(1, :);
 
 rng(1)
@@ -20,7 +21,7 @@ phi_samples = phi_vec(index);
 B = 2;
 j_min = 2;
 j_max = 4;
-nu = 3;
+nu = 4;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
@@ -38,6 +39,15 @@ r = size(b_mat, 2)-1;
 % rescale the observations
 Y = pot_samples/1e3;
 
+% get init values for MCMC
+beta_init = [zeros(1, r+1) 0.1^2 0.01^2 1e-2];
+negloglik1 = @(beta_all) negloglik_Gaussian_needlet(beta_all, b_mat, Y, Npix, A);
+
+lb = [-10*ones(1, r+1) 0 0 1e-3];
+ub = [10*ones(1, r+1) 1 1 Inf];
+
+[beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, true);
+
 TT = size(Y, 2);
 
 % init
@@ -46,15 +56,15 @@ c_init = zeros(M, TT);
 % V
 V_inv_init = ones(M, 1); 
 % sigma_j_sq
-sigma_j_sq_init = [0.1; 0.01].^2;
+sigma_j_sq_init = beta_hat(end-2:end-1);
 % eta
-eta_init = zeros(r+1, 1);
+eta_init = beta_hat(1:r+1)';
 % pri_sig of eta_0
 tau_sigma_sq = 1e2;
 % pri_sig of eta
 tau_eta_sq = 0.25^2;
 % tau
-tau_init = 0.01;
+tau_init = beta_hat(end);
 tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(r+1, 1);
