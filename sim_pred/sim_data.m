@@ -66,7 +66,7 @@ end
 
 Y = DA*c+tau*randn(N, 1);
 
-save(['data_sim_', name, '.mat'], 'theta', 'phi', 'theta',...
-    'phi', 'Y', 'nu', 'alpha', 'tau', 'sigma_j', 'fj_sq')
+save(['data_sim_', name, '.mat'], 'theta', 'phi',...
+    'Y', 'nu', 'alpha', 'tau', 'sigma_j', 'fj_sq')
 
 end
