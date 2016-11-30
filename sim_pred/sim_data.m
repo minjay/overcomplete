@@ -53,7 +53,6 @@ for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
 end
 
-fj_sq = zeros(M, 1);
 c = zeros(M, 1);
 st = 1;
 for j = j_min:j_max
