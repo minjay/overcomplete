@@ -1,4 +1,4 @@
-function [post_samples, Npix, index, index_region] = fit_sim_needlet(seed, flag, name, width)
+function [post_samples, Npix, index, index_region, beta_hat] = fit_sim_needlet(seed, flag, name, width)
 % seed is the random seed used to sample data
 % flag determines whether to save file
 % name is one of 2dot5, 3 or 4
@@ -82,7 +82,8 @@ options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report)
 post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 
 if flag
-    save(['post_samples_', name, '_', num2str(seed), '.mat'], 'post_samples', 'Npix', 'index', 'index_region')
+    save(['post_samples_', name, '_', num2str(seed), '.mat'], 'post_samples', 'Npix',...
+        'index', 'index_region', 'beta_hat')
 end
 
 end
