@@ -1,13 +1,10 @@
-function [index, index_region] = rand_sampler(theta_vec, phi_vec, width)
+function [index, index_region] = rand_sampler(phi_vec, width)
 
-lb = rand*(2*pi-width);
-rb = lb+width;
-index = find((phi_vec<=lb | phi_vec>=rb) & theta_vec>=pi/6 & theta_vec<=5*pi/6);
-n = 1e3;
-index1 = randsample(index, n*0.9);
-index = find((phi_vec<=lb | phi_vec>=rb) & (theta_vec<pi/6 | theta_vec>5*pi/6));
-index2 = randsample(index, n*0.1);
-index = [index1; index2];
+lb = pi-width/2;
+rb = pi+width/2;
+index = find(phi_vec<=lb | phi_vec>=rb);
+n = 500;
+index = randsample(index, n);
 index_region = find(phi_vec>lb & phi_vec<rb);
 
 end

@@ -4,9 +4,9 @@ load(['data_sim_', name, '.mat'])
 rng(seed)
 
 % sampling
-[index, index_region] = rand_sampler(theta_vec, phi_vec, width);
-theta_samples = theta_vec(index);
-phi_samples = phi_vec(index);
+[index, index_region] = rand_sampler(phi, width);
+theta_samples = theta(index);
+phi_samples = phi(index);
 Y = Y(index);
 
 B = 2;
@@ -18,53 +18,64 @@ j_max = 3;
 M = size(A, 2); 
 
 % non-stationary variance function
-knots = [0 0 0 0 1 1 1 1]*pi;
+knots = [0 0 0 0 0.5 1 1 1 1]*pi;
 [b_mat, ~] = bspline_basismatrix(4, knots, theta_samples);
 
 b_mat(:, 1) = 1;
 
-m = size(b_mat, 2)-1;
+r = size(b_mat, 2)-1;
+
+% get init values for MCMC
+beta_init = [zeros(1, r+1) 0.1^2 1e-2];
+negloglik1 = @(beta_all) negloglik_Gaussian_needlet(beta_all, b_mat, Y, Npix, A);
+
+lb = [-10*ones(1, r+1) 0 1e-3];
+ub = [10*ones(1, r+1) 1 Inf];
+
+[beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, true);
 
 % init
 % c
 c_init = zeros(M, 1);
 % V
 V_inv_init = ones(M, 1); 
+% sigma_j_sq
+sigma_j_sq_init = beta_hat(end-1);
 % eta
-eta_init = zeros(m+1, 1);
+eta_init = beta_hat(1:r+1)';
 % pri_sig of eta_0
 tau_sigma_sq = 1e2;
 % pri_sig of eta
-tau_eta_sq = 0.25^2;
+tau_eta_sq = 1e2;
 % tau
-tau_init = 0.01;
+tau_init = beta_hat(end);
 tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
-mu_init = zeros(m+1, 1);
-Sigma_init = eye(m+1);
-lambda = 0.002;
+mu_init = zeros(r+1, 1);
+Sigma_init = eye(r+1);
+lambda = 0.05;
 % the number of MCMC iterations
-T = 1e6;
+T = 3e5;
 % the length of the burn-in period
-burn_in = 5e5;
+burn_in = 0;
 % the length of the thinning interval
-thin = 500;
+thin = 200;
 % the length of the interval to report progress
-n_report = 1000;
+n_report = 100;
 
-model = struct('A', A, 'fj_sq', fj_sq, 'b_mat', b_mat, 'nu', nu);
+model = struct('A', A, 'b_mat', b_mat, 'nu', nu);
 
 data = struct('Y', Y, 'Npix', Npix);
 
-params = struct('c', c_init, 'V', V_inv_init, 'eta', eta_init,...
-    'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
+params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
+    'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq, 'tau_eta_sq', tau_eta_sq,...
     'tau', tau_sq_inv_init);
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
 
-post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
+post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 
 if flag
     save(['post_samples_', name, '_', num2str(seed), '.mat'], 'post_samples', 'Npix', 'index', 'index_region')
