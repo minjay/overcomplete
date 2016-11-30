@@ -1,7 +1,7 @@
 function [post_samples, Npix, index, index_region] = fit_sim_needlet(seed, flag, name, width)
 % seed is the random seed used to sample data
 % flag determines whether to save file
-% name is one of 2dot5, 3 or 4.
+% name is one of 2dot5, 3 or 4
 % width is the width of the region
 
 load(['data_sim_', name, '.mat'])
