@@ -57,7 +57,7 @@ lambda = 0.05;
 % the number of MCMC iterations
 T = 3e5;
 % the length of the burn-in period
-burn_in = 0;
+burn_in = 1e5;
 % the length of the thinning interval
 thin = 200;
 % the length of the interval to report progress
