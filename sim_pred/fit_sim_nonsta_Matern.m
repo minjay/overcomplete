@@ -13,7 +13,7 @@ Y = Y(index);
 [x, y, z] = trans_coord(theta_samples, phi_samples);
 
 % get distance matrix
-r = get_chordal_dist(x, y, z);
+r_dist = get_chordal_dist(x, y, z);
 
 % non-stationary variance function
 knots = [0 0 0 0 0.5 1 1 1 1]*pi;
@@ -24,7 +24,7 @@ b_mat(:, 1) = 1;
 r = size(b_mat, 2)-1;
 
 beta_init = [zeros(1, r+1) 2 10 1e-2];
-negloglik1 = @(beta_all) negloglik_nonsta_Matern(beta_all, r, b_mat, Y);
+negloglik1 = @(beta_all) negloglik_nonsta_Matern(beta_all, r_dist, b_mat, Y);
 
 lb = [-10*ones(1, r+1) 0 0 1e-3];
 ub = [10*ones(1, r+1) 10 Inf Inf];
