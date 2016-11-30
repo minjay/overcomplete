@@ -1,4 +1,5 @@
 function sim_data(nu, name)
+% function to simulate data on a perturbed HEALPix grid
 
 rng(1)
 
@@ -7,28 +8,46 @@ alpha = 3;
 tau = 0.1;
 
 % the grid
-res = 100;
+Nside = 8;
+tp = pix2ang(Nside, 'nest', false);
+N = length(tp);
+theta0 = zeros(N, 1);
+phi0 = zeros(N, 1);
+for i = 1:N
+    theta0(i) = tp{i}(1);
+    phi0(i) = tp{i}(2);
+end
 
-theta = linspace(0, pi, res/2);
-d_phi = 2*pi/res;
-phi = linspace(0, 2*pi-d_phi, res);
-
-[phi_mat, theta_mat] = meshgrid(phi, theta);
-theta_vec = theta_mat(:);
-phi_vec = phi_mat(:);
+% perturbation
+theta = theta0+randn(N, 1)*pi/10;
+theta(theta<0) = theta(theta<0)+pi;
+theta(theta>pi) = theta(theta>pi)-pi;
+phi = phi0+randn(N, 1)*2*pi/10;
+phi(phi<0) = phi(phi<0)+2*pi;
+phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
 
 B = 2;
 j_min = 2;
 j_max = 3;
 
 % design matrix A
-[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_vec, phi_vec);
+[Npix, ~, A] = get_A_ss(B, j_min, j_max, theta, phi);
 [N, M] = size(A);
 
 sigma_j = B.^(-alpha/2*(j_min:j_max));
 sigma_j = sigma_j/sigma_j(1);
 
-std_vec = exp(-(theta_vec-pi/2).^2/2/(pi/4)^2);
+% non-stationary variance function
+knots = [0 0 0 0 0.5 1 1 1 1]*pi;
+[b_mat, ~] = bspline_basismatrix(4, knots, theta);
+
+b_mat(:, 1) = 1;
+
+r = size(b_mat, 2)-1;
+
+rng(2)
+eta = randn(r+1, 1);
+std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
 for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
@@ -47,7 +66,7 @@ end
 
 Y = DA*c+tau*randn(N, 1);
 
-save(['data_sim_', name, '.mat'], 'theta', 'phi', 'theta_mat', 'phi_mat', 'theta_vec',...
-    'phi_vec', 'Y', 'nu', 'alpha', 'tau', 'sigma_j', 'fj_sq')
+save(['data_sim_', name, '.mat'], 'theta', 'phi', 'theta',...
+    'phi', 'Y', 'nu', 'alpha', 'tau', 'sigma_j', 'fj_sq')
 
 end
