@@ -59,7 +59,6 @@ st = 1;
 for j = j_min:j_max
     index_j = j-j_min+1;
     range = st:st+Npix(index_j)-1;
-    fj_sq(range) = sigma_j(index_j)^2*ones(Npix(index_j), 1);
     c(range) = sigma_j(index_j)*trnd(nu, Npix(index_j), 1);
     st = st+Npix(index_j);
 end
@@ -67,6 +66,6 @@ end
 Y = DA*c+tau*randn(N, 1);
 
 save(['data_sim_', name, '.mat'], 'theta', 'phi',...
-    'Y', 'nu', 'alpha', 'tau', 'sigma_j', 'fj_sq')
+    'Y', 'nu', 'alpha', 'tau', 'sigma_j')
 
 end
