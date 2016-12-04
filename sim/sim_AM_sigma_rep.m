@@ -1,11 +1,8 @@
-function [eta_est, sigma_j_est, tau_est, eta, sigma_j, tau] = sim_AM_sigma_rep(eta_seed, R, seed)
+function [eta_est, sigma_j_est, tau_est] = sim_AM_sigma_rep(R, seed, eta, sigma_j, tau)
 % simulation study
 % generate non-stationary std function using random seed eta_seed
 
 nu = 4;
-alpha = 3;
-
-tau = 0.1;
 
 % the grid
 B = 2;
@@ -22,13 +19,7 @@ end
 j_min = 2;
 j_max = 3;
 
-sigma_j = B.^(-alpha/2*(j_min:j_max));
-sigma_j = sigma_j/sigma_j(1);
-
-rng(eta_seed)
-knots = [0 0 0 0 0.5 1 1 1 1]*pi;
 r = 4;
-eta = randn(r+1, 1);
 
 eta_est = zeros(r+1, R);
 sigma_j_est = zeros(j_max-j_min+1, R);
