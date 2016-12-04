@@ -44,7 +44,7 @@ MSPE_in = mean(Y_err_in.^2);
 MAE_out = mean(abs(Y_err_out));
 MAE_in = mean(abs(Y_err_in));
 
-%CRPS
+% CRPS
 CRPS_out = mean(CRPS(Y(index_pred_out), Y_pred_Matern(index_pred_out),...
     Var_Y_pred_Matern(index_pred_out)));
 CRPS_in = mean(CRPS(Y(index_pred_in), Y_pred_Matern(index_pred_in),...

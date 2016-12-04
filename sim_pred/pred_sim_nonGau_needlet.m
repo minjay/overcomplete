@@ -41,7 +41,7 @@ MSPE_in = mean(Y_err_in.^2);
 MAE_out = mean(abs(Y_err_out));
 MAE_in = mean(abs(Y_err_in));
 
-%CRPS
+% CRPS
 CRPS_out_MC = zeros(length(index_pred_out), T);
 CRPS_in_MC = zeros(length(index_pred_in), T);
 for t = 1:T
