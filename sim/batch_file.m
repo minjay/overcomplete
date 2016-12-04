@@ -36,7 +36,7 @@ eta
 
 parfor seed = 1:n_seed
     maxNumCompThreads(4);
-    [eta_est, sigma_j_est, tau_est] = sim_AM_sigma_rep(eta_seed, R, seed, eta, sigma_j, tau);
+    [eta_est, sigma_j_est, tau_est] = sim_AM_sigma_rep(R, seed, eta, sigma_j, tau);
     eta_est_cell{seed} = eta_est;
     sigma_j_est_cell{seed} = sigma_j_est;
     tau_est_cell{seed} = tau_est;
