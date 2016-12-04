@@ -16,6 +16,6 @@ T = 20;
 width = pi/6;
 
 parfor t = 1:T
-    maxNumCompThreads(4);
+    maxNumCompThreads(3);
     fit_sim_needlet(t, true, name, width);
 end
