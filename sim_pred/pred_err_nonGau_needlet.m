@@ -15,7 +15,7 @@ for t = 1:T
     t
     load(['post_samples_', name, '_', num2str(t), '.mat'])
     [MSPE_out, MSPE_in, MAE_out, MAE_in, CRPS_out, CRPS_in] = ...
-        pred_sim_needlet(name, post_samples, index, index_region);
+        pred_sim_nonGau_needlet(name, post_samples, index, index_region);
     MSPE_out_all(t) = MSPE_out;
     MSPE_in_all(t) = MSPE_in;
     MAE_out_all(t) = MAE_out;
