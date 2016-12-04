@@ -96,7 +96,7 @@ params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
-options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
+options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report, 'save', true);
 
 post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 

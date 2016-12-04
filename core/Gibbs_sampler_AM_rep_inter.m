@@ -33,6 +33,7 @@ function post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, 
 %       options.burn_in - the length of the burn-in period
 %       options.thin - the length of the thinning interval
 %       options.n_report - the length of the interval to report progress
+%       options.save - whether save intermediate results
 % Outputs:
 %   post_samples - the posterior samples after discarding the samples in the
 %   burn-in period and thinning
@@ -214,6 +215,14 @@ for t = 1:T
         post_samples_sigma_j_sq(:, index) = sigma_j_sq;
         post_samples_tau_sq_inv(index) = tau_sq_inv;
         post_samples_eta(:, index) = eta;
+    end
+    
+    if options.save && mod(t, 1e4)==0
+        post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
+        'sigma_j_sq', post_samples_sigma_j_sq, 'tau_sq_inv',...
+        post_samples_tau_sq_inv, 'eta', post_samples_eta, 'acc_times_all',...
+        acc_times_all);
+        save('post_samples_real_inter.mat', 'post_samples')
     end
     
 end
