@@ -19,6 +19,7 @@ end
 j_min = 2;
 j_max = 3;
 
+knots = [0 0 0 0 0.5 1 1 1 1]*pi;
 r = 4;
 
 eta_est = zeros(r+1, R);
