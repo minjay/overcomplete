@@ -55,6 +55,8 @@ ub = [10*ones(1, r+1) 1 1 Inf];
 
 [beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, true);
 
+delete(gcp)
+
 TT = size(Y, 2);
 
 % init
@@ -78,7 +80,7 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.001;
 % the number of MCMC iterations
-T = 6e5;
+T = 6e5+1e4;
 % the length of the burn-in period
 burn_in = 0;
 % the length of the thinning interval
@@ -100,4 +102,4 @@ options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report,
 
 post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 
-save('post_samples_real.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples')
+save('post_samples_real.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples', 'beta_hat')
