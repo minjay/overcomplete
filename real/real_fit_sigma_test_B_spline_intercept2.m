@@ -55,6 +55,8 @@ ub = [10*ones(1, r+1) 1 1 Inf];
 
 [beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, true);
 
+delete(gcp)
+
 TT = size(Y, 2);
 
 % init
@@ -96,7 +98,7 @@ params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
 
 tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
-options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
+options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report, 'save', true);
 
 post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 
