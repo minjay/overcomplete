@@ -10,11 +10,17 @@ sim_pred/results
 real_old/
 real/prelim/*.mat
 real/*.mat
+*.mat
+*.png
+*.mp4
 
 # except
 !data_sim_2dot5.mat
-*.mat
-
-*.png
-
-*.mp4
+!data_sim_3.mat
+!data_sim_4.mat
+!sim_pred_err_Matern_2dot5.mat
+!sim_pred_err_Matern_3.mat
+!sim_pred_err_Matern_4.mat
+!sim_pred_err_nonGau_needlet_2dot5.mat
+!sim_pred_err_nonGau_needlet_3.mat
+!sim_pred_err_nonGau_needlet_4.mat
