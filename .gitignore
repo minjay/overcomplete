@@ -24,3 +24,6 @@ real/*.mat
 !sim_pred_err_nonGau_needlet_2dot5.mat
 !sim_pred_err_nonGau_needlet_3.mat
 !sim_pred_err_nonGau_needlet_4.mat
+!sim_pred_err_Gau_needlet_2dot5.mat
+!sim_pred_err_Gau_needlet_3.mat
+!sim_pred_err_Gau_needlet_4.mat
