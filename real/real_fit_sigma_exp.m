@@ -5,9 +5,7 @@ addpath(genpath('/home/minjay/model_output'))
 addpath(genpath('/home/minjay/nonsta_matern'))
 addpath(genpath('/home/minjay/bspline'))
 
-load('data_EOF_regr_new.mat')
-% work on the data at the first time point
-resid = resid_all(1, :);
+load('data_exp.mat')
 
 rng(1)
 
