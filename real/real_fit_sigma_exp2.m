@@ -12,10 +12,11 @@ resid = resid_all(1, :);
 rng(1)
 
 % sampling
+n = 4000;
 theta_vec = theta(:);
 phi_vec = phi(:);
 w = sin(theta_vec*4);
-[pot_samples, index] = datasample(resid', 4000, 'Replace', false,...
+[pot_samples, index] = datasample(resid', n, 'Replace', false,...
     'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
@@ -35,11 +36,11 @@ nu = 4;
 M = size(A, 2);
 
 % non-stationary variance function
-knots = [0 0 0 0 60/180 120/180 1 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(4, knots, theta_samples*4);
-
-% replace the first B-spline basis function by intercept
-b_mat(:, 1) = 1;
+% the first column is all ones
+load('ns.mat')
+b_mat_full = repelem(b_mat, size(theta, 1), 1);
+b_mat = b_mat_full(index, :);
+b_mat = [ones(n, 1) b_mat];
 
 r = size(b_mat, 2)-1;
 
