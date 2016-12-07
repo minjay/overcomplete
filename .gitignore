@@ -29,3 +29,4 @@ real/*.mat
 !sim_pred_err_Gau_needlet_4.mat
 !sim_rep2.mat
 !sim_rep3.mat
+!ns.mat
