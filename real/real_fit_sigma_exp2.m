@@ -38,7 +38,7 @@ M = size(A, 2);
 % non-stationary variance function
 % the first column is all ones
 load('ns.mat')
-b_mat_full = repelem(b_mat, size(theta, 1), 1);
+b_mat_full = kron(b_mat, ones(size(theta, 1), 1));
 b_mat = b_mat_full(index, :);
 b_mat = [ones(n, 1) b_mat];
 
