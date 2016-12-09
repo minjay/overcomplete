@@ -1,15 +1,8 @@
 clear
 
-% summarize sim results
-eta_est_all = [];
-sigma_j_est_all = [];
-tau_est_all = [];
-for i = 1:10
-    load(['sim_rep', num2str(i), '.mat'])
-    eta_est_all = [eta_est_all eta_est];
-    sigma_j_est_all = [sigma_j_est_all sigma_j_est(2, :)];
-    tau_est_all = [tau_est_all tau_est];
-end
+load('sim_rep2.mat')
+
+sigma_j_est_all = sigma_j_est_all(2, :);
 
 theta = 0:0.01:pi;
 
