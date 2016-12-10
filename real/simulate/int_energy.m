@@ -68,12 +68,14 @@ int_energy_Matern = int_energy_Matern*tot_area/1e9;
 % set up colormap
 map = brewermap(3, 'Set1');
 
+figure
+hold on
+
 xs = linspace(0, max(int_energy_need), 200);
 width = xs(2)-xs(1);
 [nele, xs] = hist(int_energy_Matern, xs);
 b1 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(1, :));
 b1.FaceAlpha = 0.5;
-hold on
 [f, xs] = ksdensity(int_energy_Matern, xs);
 plot(xs, f, 'r', 'LineWidth', 2)
 [nele, xs] = hist(int_energy_Gau_need, xs);
@@ -94,7 +96,7 @@ lg = legend([b1 b2 b3 h], {'Gau-Matern', 'Gau-need', 'nonGau-need', 'large-scale
 PatchInLegend = findobj(lg, 'type', 'patch');
 set(PatchInLegend, 'facea', 0.5)
 legend boxoff
-set(gca, 'FontSize', 12)
+set(gca, 'FontSize', 14)
 xlim([0 max(int_energy_need)/2])
 xlabel('Integrated Joule heating rate (GW)')
 ylabel('Density')
