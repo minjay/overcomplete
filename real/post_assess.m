@@ -1,37 +1,39 @@
-load('post_samples_real_new_resid_j24_pen_B_spline_cubic_2knots_aurora_n4000_nu4_long_init0.mat')
+% assess predictive performance
+
+clear
+
+% load fitted result
+load('post_samples_real_exp.mat')
 
 % load data
 load('data_EOF_regr_new.mat')
 resid = resid_all(1, :);
 
 figure
-subplot = @(m,n,p) subtightplot (m, n, p, [0.1 0.1], [0.05 0.05], [0.1 0.05]);
+subplot = @(m,n,p) subtightplot (m, n, p, [0.1 0.05], [0.05 0.05], [0.05 0.02]);
 
-for i = 1:6
-    subplot(3, 3, i)
+for i = 1:4
+    subplot(2, 4, i)
     plot(post_samples.eta(i, :))
     axis tight
     title(['\eta_', num2str(i-1)])
 end
-subplot(3, 3, 7)
+subplot(2, 4, 5)
 plot(post_samples.sigma_j_sq(2, :))
 axis tight
-hline = refline(0, 1e-2);
-hline.Color = 'r';
-hline.LineWidth = 2;
 title('\sigma_3^2')
-subplot(3, 3, 8)
+subplot(2, 4, 6)
 plot(post_samples.sigma_j_sq(3, :))
 axis tight
-hline = refline(0, 2e-4);
-hline.Color = 'r';
-hline.LineWidth = 2;
-set(hline,'Color','r')
 title('\sigma_4^2')
-subplot(3, 3, 9)
+subplot(2, 4, 7)
 plot(post_samples.tau_sq_inv)
 axis tight
 title('1/\tau^2')
+subplot(2, 4, 8)
+plot(post_samples.acc_times_all)
+axis tight
+title('Acceptance rate')
 
 load('mat_A.mat')
 [N, M] = size(A);
@@ -41,38 +43,26 @@ A = A(361:N-360, :);
 theta_vec = theta(:);
 
 % non-stationary variance function
-knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(4, knots, theta_vec*4);
+load('ns.mat')
+b_mat = kron(b_mat, ones(size(theta, 1), 1));
+b_mat = [ones(N, 1) b_mat];
 
-b_mat(:, 1) = 1;
-
-st = 1;
-en = size(post_samples.eta, 2);
+st = 2001;
+en = 3000;
 T = en-st+1;
 Ac = A*post_samples.c(:, st:en);
-DAc = zeros(N, T);
-pred_err = zeros(T, 1);
+Y_pred_all = zeros(N, T);
+std_vec_all = exp(b_mat*post_samples.eta(:, st:en));
+err_all = randn(1, T).*(1./sqrt(post_samples.tau_sq_inv(st:en)));
 
-% test prediction errors
-for t = st:en
-    std_vec = exp(b_mat*post_samples.eta(:, t));
-    DAc(:, t-st+1) = std_vec.*Ac(:, t-st+1)*1e3;
-    pred_err(t-st+1) = norm(DAc(:, t-st+1)-resid', 2);
+for t = 1:T
+    Y_pred_all(:, t) = (std_vec_all(:, t).*Ac(:, t)+err_all(t))*1e3;
 end
 
-% log plot
-figure
-semilogy(pred_err)
+Y_pred_need = mean(Y_pred_all, 2);
 
 figure
-hold on
-std_vec = exp(b_mat*post_samples.eta);
-% plot fitted std function
-nu = 4;
-for i = 1:100:size(post_samples.eta, 2)
-    sigma_j = sqrt(post_samples.sigma_j_sq(:, i));
-    variance = plot_corr_fun_flex(2, sigma_j, 2, 4, nu, 1000, 'r');
-    std_vec(:, i) = std_vec(:, i)*sqrt(variance)*1000;
-end
-figure
-plot(theta_vec, std_vec(:, 1:100:end))
+Y_err_need = resid'-Y_pred_need;
+plot_pot_with_obs(reshape(Y_err_need, size(phi)), phi, theta, phi_samples, theta_samples, 1000)
+
+save('Y_pred_need.mat', 'Y_pred_need', 'Y_err_need')
