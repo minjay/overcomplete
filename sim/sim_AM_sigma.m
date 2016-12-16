@@ -36,6 +36,7 @@ phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
 index = find(phi<=3/2*pi);
 theta = theta(index);
 phi = phi(index);
+N = length(index);
 
 j_min = 2;
 j_max = 3;
