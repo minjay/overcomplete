@@ -33,6 +33,10 @@ phi = phi+randn(N, 1)*2*pi/10;
 phi(phi<0) = phi(phi<0)+2*pi;
 phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
 
+index = find(phi<=3/2*pi);
+theta = theta(index);
+phi = phi(index);
+
 j_min = 2;
 j_max = 3;
 
@@ -51,7 +55,7 @@ b_mat(:, 1) = 1;
 
 r = size(b_mat, 2)-1;
 
-rng(3)
+rng(2)
 eta = randn(r+1, 1);
 std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
@@ -98,7 +102,7 @@ tau_sq_inv_init = 1/tau_init^2;
 % tuning parameters
 mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
-lambda = 0.01;
+lambda = 0.05;
 % the number of MCMC iterations
 T = 3e5;
 % the length of the burn-in period
