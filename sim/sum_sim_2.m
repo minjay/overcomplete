@@ -1,13 +1,8 @@
-% summarize sim results
-eta_est_all = [];
-sigma_j_est_all = [];
-tau_est_all = [];
-for i = 1:10
-    load(['sim_rep', num2str(i), '_2.mat'])
-    eta_est_all = [eta_est_all eta_est];
-    sigma_j_est_all = [sigma_j_est_all sigma_j_est(2, :)];
-    tau_est_all = [tau_est_all tau_est];
-end
+clear
+
+load('sim_rep2.mat')
+
+sigma_j_est_all = sigma_j_est_all(2, :);
 
 theta = 0:0.01:pi;
 
@@ -18,32 +13,43 @@ knots = [0 0 0 0 0.5 1 1 1 1]*pi;
 b_mat(:, 1) = 1;
 
 subplot('position', [0.1 0.575 0.6 0.375])
-boxplot(eta_est_all', 'Labels', {'0', '1', '2', '3', '4'})
+bh = boxplot(eta_est_all', 'Labels', {'0', '1', '2', '3', '4'});
+set(bh(6, :), 'LineWidth', 1.5)
 yl = ylim;
 ylim([min(eta)-0.1 yl(2)])
 for i = 1:5
-    line([i-0.4 i+0.4], [eta(i) eta(i)], 'LineWidth', 2)
+    line([i-0.4 i+0.4], [eta(i) eta(i)], 'LineWidth', 1.5, 'LineStyle', '--', 'Color', 'k')
 end
 title('\eta')
 set(gca, 'FontSize', 12)
 
 subplot('position', [0.1 0.1 0.6 0.375])
-plot(theta, exp(b_mat*eta_est_all))
+fitted = exp(b_mat*eta_est_all);
+med = median(fitted, 2);
+lb = quantile(fitted, 0.05, 2);
+ub = quantile(fitted, 0.95, 2);
+plot(theta, med, 'r', 'LineWidth', 2)
 hold on
-plot(theta, exp(b_mat*eta), 'k', 'LineWidth', 2)
+plot(theta, exp(b_mat*eta), 'k--', 'LineWidth', 2)
+plot(theta, lb, 'b-.', 'LineWidth', 2)
+plot(theta, ub, 'b-.', 'LineWidth', 2)
 axis tight
-xlabel('Co-latitude')
+xlabel('Co-latitude (rad)')
 ylabel('Standard deviation')
+legend('Pointwise median', 'True', '5% pointwise quantile',...
+    '95% pointwise quantile', 'Location', 'Best')
 set(gca, 'FontSize', 12)
 
 subplot('position', [0.8 0.575 0.15 0.375])
-boxplot(sigma_j_est_all', 'widths', 0.4)
-line([1-0.4 1+0.4], [sigma_j(2) sigma_j(2)], 'LineWidth', 2)
+bh = boxplot(sigma_j_est_all', 'widths', 0.4);
+set(bh(6, :), 'linewidth', 1.5)
+line([1-0.4 1+0.4], [sigma_j(2) sigma_j(2)], 'LineWidth', 1.5, 'LineStyle', '--', 'Color', 'k')
 title('\sigma_3')
 set(gca, 'FontSize', 12)
 
 subplot('position', [0.8 0.1 0.15 0.375])
-boxplot(tau_est_all', 'widths', 0.4)
-line([1-0.4 1+0.4], [tau tau], 'LineWidth', 2)
+bh = boxplot(tau_est_all', 'widths', 0.4);
+set(bh(6, :), 'linewidth', 1.5)
+line([1-0.4 1+0.4], [tau tau], 'LineWidth', 1.5, 'LineStyle', '--', 'Color', 'k')
 title('\tau')
 set(gca, 'FontSize', 12)
