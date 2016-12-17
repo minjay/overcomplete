@@ -1,6 +1,6 @@
 clear
 
-load('post_samples_missing_phi.mat')
+load('post_samples_mid_latitude.mat')
 load('ss.mat')
 
 B = 2;
@@ -37,12 +37,14 @@ for j = j_min:j_max
     x_grid = grid_points{index_j}(:, 1);
     y_grid = grid_points{index_j}(:, 2);
     z_grid = grid_points{index_j}(:, 3);
-    [phi_grid, ~, ~] = cart2sph(x_grid, y_grid, z_grid);
+    [phi_grid, theta_grid, ~] = cart2sph(x_grid, y_grid, z_grid);
     phi_grid(phi_grid<0) = phi_grid(phi_grid<0)+2*pi;
+    theta_grid = pi/2-theta_grid;
     c_j = c(st:st+Npix-1);
     c_est_j = c_est(st:st+Npix-1);
-    index = find(phi_grid>3/2*pi);
-    index2 = find(phi_grid<=3/2*pi);
+    index2 = find((theta_grid<=2/3*pi) |...
+    ((theta_grid>2/3*pi) & (phi_grid<=pi/2)));
+    index = setdiff(1:Npix, index2);
     subplot(1, 2, index_j)
     plot(c_est_j(index2), c_j(index2), 'o')
     hold on
