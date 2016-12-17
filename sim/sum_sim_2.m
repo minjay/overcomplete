@@ -53,3 +53,5 @@ set(bh(6, :), 'linewidth', 1.5)
 line([1-0.4 1+0.4], [tau tau], 'LineWidth', 1.5, 'LineStyle', '--', 'Color', 'k')
 title('\tau')
 set(gca, 'FontSize', 12)
+
+suptitle('(a)')
