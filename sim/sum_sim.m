@@ -40,3 +40,5 @@ boxplot(tau_est_all', 'widths', 0.4)
 line([1-0.4 1+0.4], [tau tau], 'Color', 'k', 'LineStyle', '--', 'LineWidth', 2)
 title('\tau')
 set(gca, 'FontSize', 12)
+
+suptitle('(a)')
