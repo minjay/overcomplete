@@ -33,7 +33,10 @@ phi = phi+randn(N, 1)*2*pi/10;
 phi(phi<0) = phi(phi<0)+2*pi;
 phi(phi>2*pi) = phi(phi>2*pi)-2*pi;
 
-index = find(phi<=3/2*pi);
+% consider an extreme case
+index = find(((theta<=pi/3) & (phi<=2/3*pi)) |...
+    ((theta>pi/3) & (theta<=2/3*pi) & (phi>2/3*pi) & (phi<=4/3*pi)) |...
+    ((theta>2/3*pi) & (phi>4/3*pi)));
 theta = theta(index);
 phi = phi(index);
 N = length(index);
