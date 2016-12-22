@@ -1,4 +1,6 @@
-function [MSPE_out, MSPE_in, MAE_out, MAE_in, CRPS_out, CRPS_in] = ...
+function [MSPE_out, MSPE_in, MAE_out, MAE_in, CRPS_out, CRPS_in,...
+    avg_len_90_out, avg_len_90_in, avg_len_50_out, avg_len_50_in,...
+    cp_90_out, cp_90_in, cp_50_out, cp_50_in] = ...
     pred_sim_nonGau_needlet(name, post_samples, index, index_region)
 
 load(['data_sim_', name, '.mat'])
@@ -26,6 +28,12 @@ end
 
 Y_pred_needlet = mean(Y_pred_all, 2);
 
+% get quantiles
+Y_lb_90 = quantile(Y_pred_all, 0.05, 2);
+Y_ub_90 = quantile(Y_pred_all, 0.95, 2);
+Y_lb_50 = quantile(Y_pred_all, 0.25, 2);
+Y_ub_50 = quantile(Y_pred_all, 0.75, 2);
+
 index_pred = setdiff(1:N, index);
 index_pred_out = setdiff(index_pred, index_region);
 index_pred_in = index_region;
@@ -42,15 +50,33 @@ MAE_out = mean(abs(Y_err_out));
 MAE_in = mean(abs(Y_err_in));
 
 % CRPS
-CRPS_out_MC = zeros(length(index_pred_out), T);
-CRPS_in_MC = zeros(length(index_pred_in), T);
-for t = 1:T
-    CRPS_out_MC(:, t) = CRPS(Y(index_pred_out),...
-        std_vec_all(index_pred_out, t).*Ac(index_pred_out, t), 1/post_samples.tau_sq_inv(t));
-    CRPS_in_MC(:, t) = CRPS(Y(index_pred_in),...
-        std_vec_all(index_pred_in, t).*Ac(index_pred_in, t), 1/post_samples.tau_sq_inv(t));
+mu_all = std_vec_all(index_pred, :).*Ac(index_pred, :);
+sigma_sq_all = 1./post_samples.tau_sq_inv;
+n_index_pred = length(index_pred);
+% create the full array
+CRPS_all = zeros(N, 1);
+
+for i = 1:n_index_pred
+    term2 = CRPS_term2(mu_all(i, :), sigma_sq_all);
+    term1 = mean(fun_A(Y(index_pred(i))-mu_all(i, :), sigma_sq_all));
+    CRPS_all(index_pred(i)) = term1-term2;
 end
-CRPS_out = mean(mean(CRPS_out_MC));
-CRPS_in = mean(mean(CRPS_in_MC));
+
+CRPS_out = mean(CRPS_all(index_pred_out));
+CRPS_in = mean(CRPS_all(index_pred_in));
+
+% PI
+avg_len_90 = Y_ub_90-Y_lb_90;
+avg_len_90_out = mean(avg_len_90(index_pred_out));
+avg_len_90_in = mean(avg_len_90(index_pred_in));
+avg_len_50 = Y_ub_50-Y_lb_50;
+avg_len_50_out = mean(avg_len_50(index_pred_out));
+avg_len_50_in = mean(avg_len_50(index_pred_in));
+cp_90 = Y>=Y_lb_90 & Y<=Y_ub_90;
+cp_90_out = mean(cp_90(index_pred_out));
+cp_90_in = mean(cp_90(index_pred_in));
+cp_50 = Y>=Y_lb_50 & Y<=Y_ub_50;
+cp_50_out = mean(cp_50(index_pred_out));
+cp_50_in = mean(cp_50(index_pred_in));
 
 end
