@@ -1,4 +1,6 @@
-function [MSPE_out, MSPE_in, MAE_out, MAE_in, CRPS_out, CRPS_in] = ...
+function [MSPE_out, MSPE_in, MAE_out, MAE_in, CRPS_out, CRPS_in,...
+    avg_len_90_out, avg_len_90_in, avg_len_50_out, avg_len_50_in,...
+    cp_90_out, cp_90_in, cp_50_out, cp_50_in] = ...
     pred_sim_nonsta_Matern(name, beta_hat, index, index_region)
 
 load(['data_sim_', name, '.mat'])
@@ -36,6 +38,12 @@ Var_Y_pred_Matern = diag(SigmaPP-SigmaP0*(Sigma00\Sigma0P));
 Y_err_out = Y(index_pred_out)-Y_pred_Matern(index_pred_out);
 Y_err_in = Y(index_pred_in)-Y_pred_Matern(index_pred_in);
 
+% get quantiles
+Y_lb_90 = Y_pred_Matern-norminv(0.95)*sqrt(Var_Y_pred_Matern);
+Y_ub_90 = Y_pred_Matern+norminv(0.95)*sqrt(Var_Y_pred_Matern);
+Y_lb_50 =  Y_pred_Matern-norminv(0.75)*sqrt(Var_Y_pred_Matern);
+Y_ub_50 = Y_pred_Matern+norminv(0.75)*sqrt(Var_Y_pred_Matern);
+
 % MSPE
 MSPE_out = mean(Y_err_out.^2);
 MSPE_in = mean(Y_err_in.^2);
@@ -49,5 +57,19 @@ CRPS_out = mean(CRPS(Y(index_pred_out), Y_pred_Matern(index_pred_out),...
     Var_Y_pred_Matern(index_pred_out)));
 CRPS_in = mean(CRPS(Y(index_pred_in), Y_pred_Matern(index_pred_in),...
     Var_Y_pred_Matern(index_pred_in)));
+
+% PI
+avg_len_90 = Y_ub_90-Y_lb_90;
+avg_len_90_out = mean(avg_len_90(index_pred_out));
+avg_len_90_in = mean(avg_len_90(index_pred_in));
+avg_len_50 = Y_ub_50-Y_lb_50;
+avg_len_50_out = mean(avg_len_50(index_pred_out));
+avg_len_50_in = mean(avg_len_50(index_pred_in));
+cp_90 = Y>=Y_lb_90 & Y<=Y_ub_90;
+cp_90_out = mean(cp_90(index_pred_out));
+cp_90_in = mean(cp_90(index_pred_in));
+cp_50 = Y>=Y_lb_50 & Y<=Y_ub_50;
+cp_50_out = mean(cp_50(index_pred_out));
+cp_50_in = mean(cp_50(index_pred_in));
 
 end
