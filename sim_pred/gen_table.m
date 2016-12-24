@@ -22,18 +22,6 @@ disp('50_out_4')
 round(mean(cp_50_out_4, 1)*100, 1)
 round(mean(len_50_out_4, 1), 2)
 
-disp('50_in_2dot5')
-round(mean(cp_50_in_2dot5, 1)*100, 1)
-round(mean(len_50_in_2dot5, 1), 2)
-
-disp('50_in_3')
-round(mean(cp_50_in_3, 1)*100, 1)
-round(mean(len_50_in_3, 1), 2)
-
-disp('50_in_4')
-round(mean(cp_50_in_4, 1)*100, 1)
-round(mean(len_50_in_4, 1), 2)
-
 disp('90_out_2dot5')
 round(mean(cp_90_out_2dot5, 1)*100, 1)
 round(mean(len_90_out_2dot5, 1), 2)
@@ -45,6 +33,18 @@ round(mean(len_90_out_3, 1), 2)
 disp('90_out_4')
 round(mean(cp_90_out_4, 1)*100, 1)
 round(mean(len_90_out_4, 1), 2)
+
+disp('50_in_2dot5')
+round(mean(cp_50_in_2dot5, 1)*100, 1)
+round(mean(len_50_in_2dot5, 1), 2)
+
+disp('50_in_3')
+round(mean(cp_50_in_3, 1)*100, 1)
+round(mean(len_50_in_3, 1), 2)
+
+disp('50_in_4')
+round(mean(cp_50_in_4, 1)*100, 1)
+round(mean(len_50_in_4, 1), 2)
 
 disp('90_in_2dot5')
 round(mean(cp_90_in_2dot5, 1)*100, 1)
