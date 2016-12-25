@@ -2,10 +2,7 @@
 load('data_EOF_regr_new.mat')
 % load pre-computed design matrix
 load('mat_A.mat')
-load('post_samples_real_new_resid_j24_pen_B_spline_cubic_2knots_aurora_n4000_sigma_j_sq_0.01_0.0002_nu4_long_init0.mat')
-
-% set seed
-rng(1)
+load('post_samples_real_exp3.mat')
 
 % parameter setting
 % d.f.
@@ -19,15 +16,14 @@ theta_vec = theta(:);
 
 % simulate
 % non-stationary variance function
-knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(4, knots, theta_vec*4);
-b_mat(:, 1) = 1;
+load('ns.mat')
+b_mat = kron(b_mat, ones(size(theta, 1), 1));
+b_mat = [ones(length(theta_vec), 1) b_mat];
 
 % discard burn-in period
-burn_in = 1500;
-post_samples_eta = post_samples.eta(:, burn_in+1:end);
-post_samples_sigma_j = sqrt([1; 0.01; 0.0002]);
-post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(burn_in+1:end));
+post_samples_eta = post_samples.eta(:, 2001:3000);
+post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 2001:3000));
+post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(2001:3000));
 
 % num of posterior samples
 n_sample = size(post_samples_eta, 2);
@@ -42,7 +38,6 @@ A = A(361:(N-360), :);
 
 T = 9;
 Y = zeros(N, T);
-Y_comp = zeros(3, N, T);
 rng(1)
 
 samples = randsample(n_sample, T, true);
@@ -59,9 +54,8 @@ for t = 1:T
     for j = j_min:j_max
         index_j = j-j_min+1;
         range = st:st+Npix(index_j)-1;
-        c(range) = post_samples_sigma_j(index_j)*trnd(nu, Npix(index_j), 1);
+        c(range) = post_samples_sigma_j(index_j, i)*trnd(nu, Npix(index_j), 1);
         st = st+Npix(index_j);
-        Y_comp(j-j_min+1, :, t) = DA(:, range)*c(range)*1e3;     
     end
     Y(:, t) = (DA*c+post_samples_tau(i)*randn(N, 1))*1e3;
 
