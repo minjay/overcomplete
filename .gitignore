@@ -30,3 +30,5 @@ real/*.mat
 !sim_rep2.mat
 !sim_rep3.mat
 !ns.mat
+
+*.eps
