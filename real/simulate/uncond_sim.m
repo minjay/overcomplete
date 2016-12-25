@@ -99,6 +99,11 @@ for j = j_min:j_max
         shading flat
         caxis([-cmax cmax])
         colormap(jet)
+        if j==j_min
+            title('||')
+        else
+            title('+')
+        end
         text(-50, -50, sprintf('Min\n%2.1f',min(cf(:))),'FontName','times','Fontsize',10)
         text(30, -50, sprintf('Max\n%2.1f [kV]',max(cf(:))),'FontName','times','Fontsize',10)
     end
