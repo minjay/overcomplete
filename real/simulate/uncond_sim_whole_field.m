@@ -1,3 +1,5 @@
+clear
+
 % load data
 load('data_EOF_regr_new.mat')
 % load pre-computed design matrix
