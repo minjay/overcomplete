@@ -27,9 +27,11 @@ tau = beta_hat(end);
 % measurement error is not included given that it is not differentiable
 cov_mat_Matern = get_cov_nonsta_Matern(beta, r, b_mat);
 
+cov_mat_Matern_noise = cov_mat_Matern+1e-6*eye(N);
+
 % figure
 T = 5e3;
-Y_sim_Matern = mvnrnd(zeros(T, N), cov_mat_Matern)*1000;
+Y_sim_Matern = mvnrnd(zeros(T, N), cov_mat_Matern_noise)*1000;
 
 HX = theta(1, :);
 HY = phi(:, 1);
