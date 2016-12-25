@@ -1,5 +1,6 @@
 load('data_EOF_regr_new.mat')
-load('beta_hat.mat')
+% load beta_hat fitted with good init values
+load('beta_hat_good_init.mat')
 
 % set seed
 rng(1)
@@ -15,10 +16,9 @@ N = length(x);
 r = get_chordal_dist(x, y, z);
 
 % non-stationary variance function
-knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(4, knots, theta_vec*4);
-
-b_mat(:, 1) = 1;
+load('ns.mat')
+b_mat = kron(b_mat, ones(size(theta, 1), 1));
+b_mat = [ones(length(theta_vec), 1) b_mat];
 
 beta = beta_hat(1:end-1);
 tau = beta_hat(end);
