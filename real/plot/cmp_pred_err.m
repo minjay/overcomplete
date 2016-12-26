@@ -7,7 +7,7 @@ load('theta_phi_R.mat')
 
 % get theta_samples and phi_samples
 load('data_EOF_regr_new.mat')
-resid = resid_all(10, :);
+resid = resid_all(1, :);
 
 rng(1)
 
@@ -80,3 +80,5 @@ scatter(x_samples(:), y_samples(:), 5, '.')
 h = colorbar;
 colormap(jet)
 set(h, 'Position', [.9 .05 .025 .9]);
+
+print -painters -depsc cmp_pred_err.eps
