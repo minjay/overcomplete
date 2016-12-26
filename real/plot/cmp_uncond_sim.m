@@ -2,14 +2,13 @@ clear
 
 % load data 
 load('Y_sim_need.mat')
-load('Y_sim_Gau_need.mat')
 load('Y_sim_Matern.mat')
 load('theta_phi_R.mat')
 
 % rescale
-Y_sim_need = Y_sim_need(1:4, :)/1e3;
-Y_sim_Gau_need = Y_sim_Gau_need(1:4, :)/1e3;
-Y_sim_Matern = Y_sim_Matern(1:4, :)/1e3;
+Y_sim_need = Y_sim_need(5:8, :)/1e3;
+Y_sim_Gau_need = Y_sim_Gau_need(5:8, :)/1e3;
+Y_sim_Matern = Y_sim_Matern(5:8, :)/1e3;
 
 figure
 subplot = @(m,n,p) subtightplot (m, n, p, [0.1 0.05], [0.05 0.05], [0.05 0.1]);
