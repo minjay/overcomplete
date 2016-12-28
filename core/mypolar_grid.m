@@ -1,4 +1,4 @@
-function hpol = mypolar_grid(theta,rho,x,y,cf,vmag)
+function hpol = mypolar_grid(theta,rho)
 %POLAR  Polar coordinate plot.
 %   POLAR(THETA, RHO) makes a plot using polar coordinates of
 %   the angle THETA, in radians, versus the radius RHO.
@@ -73,10 +73,10 @@ if ~hold_state
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%% TOMOKO USE THIS SECTION TO ANNOTATE
 
-x = [x; x(1, :)];
-y = [y; y(1, :)];
-cf = [cf; cf(1, :)];
-contourf(x, y, cf, vmag, 'linestyle', 'none')
+% x = [x; x(1, :)];
+% y = [y; y(1, :)];
+% cf = [cf; cf(1, :)];
+% contourf(x, y, cf, vmag, 'linestyle', 'none')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % plot spokes
