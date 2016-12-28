@@ -38,7 +38,7 @@ M = size(A, 2);
 % non-stationary variance function
 % the first column is all ones
 load('ns.mat')
-b_mat_full = kron(b_mat, ones(size(theta, 1), 1));
+b_mat_full = kron(b_mat_fine, ones(size(theta, 1), 1));
 b_mat = b_mat_full(index, :);
 b_mat = [ones(n, 1) b_mat];
 
@@ -56,4 +56,4 @@ ub = [10*ones(1, r+1) 1 1 Inf];
 
 [beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, true);
 
-save('post_samples_exp2.mat', 'beta_hat')
+save('post_samples_exp22.mat', 'beta_hat')
