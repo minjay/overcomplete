@@ -1,8 +1,14 @@
+clear
+
+% obtained by script sim_electric_field.m
 load('sim_energy.mat')
+% obtained by script sim_electric_field_Gau_need.m
 load('sim_energy_Gau_need.mat')
+% obtained by script sim_electric_field_Matern.m
 load('sim_energy_Matern.mat')
 load('WHI_quad_cond.mat')
 load('theta_phi_R.mat')
+% obtained by script get_large_scale_energy.m
 load('energy_large_scale.mat')
 
 P_cond = all_Cond_N{1}(:);
@@ -11,7 +17,7 @@ P_cond = P_cond(361:(end-360));
 E_theta_large_scale = E_theta_large_scale(:);
 E_phi_large_scale = E_phi_large_scale(:);
 
-T = 5e3;
+T = size(E_theta, 2);
 E_theta_sum = repmat(E_theta_large_scale, 1, T)+E_theta;
 E_phi_sum = repmat(E_phi_large_scale, 1, T)+E_phi;
 energy = (E_theta_sum.^2+E_phi_sum.^2).*repmat(P_cond, 1, T);
