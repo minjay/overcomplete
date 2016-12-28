@@ -1,11 +1,11 @@
 % R is the radius of the ionosphere
 
 load('theta_phi_R.mat')
-load('deriv_B_spline.mat')
+load('ns.mat')
+load('ns_deriv.mat')
 load('mat_A.mat')
 load('mat_A_part.mat')
-load('post_samples_real_new_resid_j24_pen_B_spline_cubic_2knots_aurora_n4000_sigma_j_sq_0.01_0.0002_nu4_long_init0.mat')
-load('beta_hat_needlet.mat')
+load('post_samples_real_exp3.mat')
 
 % set seed
 rng(1)
@@ -20,9 +20,8 @@ theta_vec = theta(:);
 
 % simulate
 % non-stationary variance function
-knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(4, knots, theta_vec*4);
-b_mat(:, 1) = 1;
+b_mat = kron(b_mat, ones(size(theta, 1), 1));
+b_mat = [ones(length(theta_vec), 1) b_mat];
 
 m = size(b_mat, 2);
 
@@ -37,19 +36,16 @@ sigma_j = [1 sqrt(beta_hat(m+1:end-1))];
 A = A(361:(N-360), :);
 [N, M] = size(A);
 
-b_mat_theta = kron(bS, ones(360, 1));
-% the first column should be zero
-b_mat_theta(:, 1) = 0;
+b_mat_theta = kron(b_mat_deriv, ones(size(theta, 1), 1));
+b_mat_theta = [zeros(length(theta_vec), 1) b_mat_theta];
 std_vec_theta = exp(b_mat*eta).*(b_mat_theta*eta);
 
-T = 5e3;
-neg_Y_theta_Gau_need = zeros(N, T);
-neg_Y_phi_Gau_need = zeros(N, T);
-Y_Gau_need = zeros(N, T);
+T = 1000;
+E_theta_wo_coef_Gau_need = zeros(N, T);
+E_phi_wo_coef_Gau_need = zeros(N, T);
 DA_theta = zeros(N, M);
 DA_phi = zeros(N, M);
 D_thetaA = zeros(N, M);
-DA = zeros(N, M);
 
 for t = 1:T
     
@@ -57,7 +53,6 @@ for t = 1:T
         DA_theta(j, :) = std_vec(j)*A_part_theta(j, :);
         DA_phi(j, :) = std_vec(j)*A_part_phi(j, :);
         D_thetaA(j, :) = std_vec_theta(j)*A(j, :);
-        DA(j, :) = std_vec(j)*A(j, :);
     end
     c = zeros(M, 1);
     st = 1;
@@ -67,18 +62,16 @@ for t = 1:T
         c(range) = sigma_j(index_j)*randn(Npix(index_j), 1);
         st = st+Npix(index_j);
     end
-    neg_Y_theta_Gau_need(:, t) = (D_thetaA+DA_theta)*c*1e3;
-    neg_Y_phi_Gau_need(:, t) = DA_phi*c*1e3;
-    Y_Gau_need(:, t) = DA*c*1e3;
+    E_theta_wo_coef_Gau_need(:, t) = (D_thetaA+DA_theta)*c*1e3;
+    E_phi_wo_coef_Gau_need(:, t) = DA_phi*c*1e3;
     
 end
 
 % the "4" comes from the stretching
 % sin(\theta')/sin(\theta)
 R = 6.5*1e6;
-E_theta_Gau_need = -4*neg_Y_theta_Gau_need/R;
+E_theta_Gau_need = -4*E_theta_wo_coef_Gau_need/R;
 factor = sin(theta_vec*4)./sin(theta_vec);
-E_phi_Gau_need = -repmat(factor, 1, T).*neg_Y_phi_Gau_need/R;
-relative_energy_Gau_need = (4*neg_Y_theta_Gau_need).^2+neg_Y_phi_Gau_need.^2;
+E_phi_Gau_need = -repmat(factor, 1, T).*E_phi_wo_coef_Gau_need/R;
 
 save('sim_energy_Gau_need.mat', 'E_theta_Gau_need', 'E_phi_Gau_need')
