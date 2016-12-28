@@ -32,3 +32,5 @@ real/*.mat
 !ns.mat
 
 *.eps
+
+real/prelim/.Rhistory
