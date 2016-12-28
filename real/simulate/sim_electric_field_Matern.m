@@ -30,7 +30,7 @@ cov_mat_Matern = get_cov_nonsta_Matern(beta, r, b_mat);
 cov_mat_Matern_noise = cov_mat_Matern+1e-6*eye(N);
 
 % figure
-T = 5e3;
+T = 1000;
 Y_sim_Matern = mvnrnd(zeros(T, N), cov_mat_Matern_noise)*1000;
 
 HX = theta(1, :);
