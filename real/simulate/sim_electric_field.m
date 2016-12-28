@@ -1,10 +1,13 @@
+clear
+
 % R is the radius of the ionosphere
 
 load('theta_phi_R.mat')
-load('deriv_B_spline.mat')
+load('ns.mat')
+load('ns_deriv.mat')
 load('mat_A.mat')
 load('mat_A_part.mat')
-load('post_samples_real_new_resid_j24_pen_B_spline_cubic_2knots_aurora_n4000_sigma_j_sq_0.01_0.0002_nu4_long_init0.mat')
+load('post_samples_real_exp3.mat')
 
 % set seed
 rng(1)
@@ -21,15 +24,13 @@ theta_vec = theta(:);
 
 % simulate
 % non-stationary variance function
-knots = [0 0 0 0 40/180 80/180 1 1 1 1]*pi;
-[b_mat, ~] = bspline_basismatrix(4, knots, theta_vec*4);
-b_mat(:, 1) = 1;
+b_mat = kron(b_mat, ones(size(theta, 1), 1));
+b_mat = [ones(length(theta_vec), 1) b_mat];
 
 % discard burn-in period
-burn_in = 1500;
-post_samples_eta = post_samples.eta(:, burn_in+1:end);
-post_samples_sigma_j = sqrt([1; 0.01; 0.0002]);
-post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(burn_in+1:end));
+post_samples_eta = post_samples.eta(:, 2001:3000);
+post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 2001:3000));
+post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(2001:3000));
 
 % num of posterior samples
 n_sample = size(post_samples_eta, 2);
@@ -42,52 +43,49 @@ std_vec = exp(b_mat*post_samples_eta);
 A = A(361:(N-360), :);
 [N, M] = size(A);
 
-b_mat_theta = kron(bS, ones(360, 1));
-% the first column should be zero
-b_mat_theta(:, 1) = 0;
+b_mat_theta = kron(b_mat_deriv, ones(size(theta, 1), 1));
+b_mat_theta = [zeros(length(theta_vec), 1) b_mat_theta];
 std_vec_theta = exp(b_mat*post_samples_eta).*(b_mat_theta*post_samples_eta);
 
-T = 5e3;
-neg_Y_theta = zeros(N, T);
-neg_Y_phi = zeros(N, T);
-Y = zeros(N, T);
+T = 1000;
+E_theta_wo_coef = zeros(N, T);
+E_phi_wo_coef = zeros(N, T);
 DA_theta = zeros(N, M);
 DA_phi = zeros(N, M);
 D_thetaA = zeros(N, M);
-DA = zeros(N, M);
 
 samples = randsample(n_sample, T, true);
 
 for t = 1:T
+    
+    if mod(t, 10)==0
+        t
+    end
     
     i = samples(t);
     for j = 1:N
         DA_theta(j, :) = std_vec(j, i)*A_part_theta(j, :);
         DA_phi(j, :) = std_vec(j, i)*A_part_phi(j, :);
         D_thetaA(j, :) = std_vec_theta(j, i)*A(j, :);
-        DA(j, :) = std_vec(j, i)*A(j, :);
     end
     c = zeros(M, 1);
     st = 1;
     for j = j_min:j_max
         index_j = j-j_min+1;
         range = st:st+Npix(index_j)-1;
-        c(range) = post_samples_sigma_j(index_j)*trnd(nu, Npix(index_j), 1);
+        c(range) = post_samples_sigma_j(index_j, i)*trnd(nu, Npix(index_j), 1);
         st = st+Npix(index_j);
     end
-    neg_Y_theta(:, t) = (D_thetaA+DA_theta)*c*1e3;
-    neg_Y_phi(:, t) = DA_phi*c*1e3;
-    Y(:, t) = DA*c*1e3;
+    E_theta_wo_coef(:, t) = (D_thetaA+DA_theta)*c*1e3;
+    E_phi_wo_coef(:, t) = DA_phi*c*1e3;
     
 end
 
 % the "4" comes from the stretching
 % sin(\theta')/sin(\theta)
 R = 6.5*1e6;
-E_theta = -4*neg_Y_theta/R;
+E_theta = -4*E_theta_wo_coef/R;
 factor = sin(theta_vec*4)./sin(theta_vec);
-E_phi = -repmat(factor, 1, T).*neg_Y_phi/R;
-relative_energy = (4*neg_Y_theta).^2+neg_Y_phi.^2;
+E_phi = -repmat(factor, 1, T).*E_phi_wo_coef/R;
 
-%save('sim_energy.mat', 'E_theta', 'E_phi')
-save('sim_field.mat', 'Y')
+save('sim_energy.mat', 'E_theta', 'E_phi')
