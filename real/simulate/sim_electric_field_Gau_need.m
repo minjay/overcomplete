@@ -1,3 +1,5 @@
+clear
+
 % R is the radius of the ionosphere
 
 load('theta_phi_R.mat')
@@ -48,6 +50,10 @@ DA_phi = zeros(N, M);
 D_thetaA = zeros(N, M);
 
 for t = 1:T
+    
+    if mod(t, 10)==0
+        t
+    end
     
     for j = 1:N
         DA_theta(j, :) = std_vec(j)*A_part_theta(j, :);
