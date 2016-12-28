@@ -50,7 +50,6 @@ end
 % compute integrated energy for non-Gaussian and Gaussian needlet models
 R = 6.5*1e6;
 tot_area = 4*pi*R^2;
-T = size(energy, 2);
 int_energy_need = zeros(1, T);
 int_energy_Gau_need = zeros(1, T);
 int_energy_Matern = zeros(1, T);
@@ -65,6 +64,9 @@ end
 
 % compute integrated energy for large scale component
 energy_large_scale_one = reshape(energy_large_scale, size(phi));
+% dividing by 1e9 is due to the unit giga
+% since the areaquad function only gives a fraction of the unit sphere's area ranging from 0 to 1,
+% we need to multiply back the total area
 int_energy_large_scale = sum(mean(energy_large_scale_one, 1).*area_theta)*tot_area/1e9;
 
 int_energy_need = int_energy_need*tot_area/1e9;
