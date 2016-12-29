@@ -1,3 +1,5 @@
+clear
+
 load('data_EOF_regr_new.mat')
 % load beta_hat fitted with good init values
 load('beta_hat_good_init.mat')
