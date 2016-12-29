@@ -105,6 +105,9 @@ PatchInLegend = findobj(lg, 'type', 'patch');
 set(PatchInLegend, 'facea', 0.5)
 legend boxoff
 set(gca, 'FontSize', 14)
-xlim([0 max(int_energy_need)/2])
 xlabel('Integrated Joule heating rate (GW)')
 ylabel('Density')
+% truncate
+xlim([0 20])
+
+print -painters -depsc int_Joule_hist.eps
