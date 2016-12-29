@@ -58,3 +58,5 @@ for i = 1:length(ax)
     xlabel(ax(end, i), labels{i})
     ylabel(ax(i, 1), labels{i})
 end
+
+print -painters -depsc scatter_plot_real.eps
