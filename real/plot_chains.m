@@ -60,3 +60,25 @@ for i = 1:length(ax)
 end
 
 print -painters -depsc scatter_plot_real.eps
+
+subplot = @(m,n,p) subtightplot (m, n, p, [0.125 0.075], [0.075 0.05], [0.075 0.02]);
+
+% autocorr
+for i = 1:4
+    subplot(2, 4, i)
+    autocorr(post_samples.eta(i, 2001:3000))
+    axis tight
+    title(['\eta_', num2str(i-1)])
+end
+subplot(2, 4, 5)
+autocorr(post_samples.sigma_j_sq(2, 2001:3000))
+axis tight
+title('\sigma_3^2')
+subplot(2, 4, 6)
+autocorr(post_samples.sigma_j_sq(3, 2001:3000))
+axis tight
+title('\sigma_4^2')
+subplot(2, 4, 7)
+autocorr(post_samples.tau_sq_inv(2001:3000))
+axis tight
+title('1/\tau^2')
