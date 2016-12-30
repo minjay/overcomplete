@@ -8,7 +8,7 @@ load('data_EOF_regr_new.mat')
 resid = resid_all(1, :);
 
 figure
-subplot = @(m,n,p) subtightplot (m, n, p, [0.1 0.05], [0.05 0.05], [0.05 0.02]);
+subplot = @(m,n,p) subtightplot (m, n, p, [0.1 0.075], [0.05 0.05], [0.05 0.02]);
 
 for i = 1:4
     subplot(2, 4, i)
