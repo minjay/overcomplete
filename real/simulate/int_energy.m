@@ -99,7 +99,7 @@ plot(xs, f, 'g', 'LineWidth', 2)
 axis tight
 y_range = get(gca, 'ylim');
 h = plot([int_energy_large_scale int_energy_large_scale], y_range, 'k', 'LineWidth', 2);
-lg = legend([b1 b2 b3 h], {'Gau-Matern', 'Gau-need', 'nonGau-need', 'large-scale'},...
+lg = legend([b1 b2 b3 h], {'Gau-Matern', 'Gau-need', 'AXING-need', 'large-scale'},...
     'location', 'northeast');
 PatchInLegend = findobj(lg, 'type', 'patch');
 set(PatchInLegend, 'facea', 0.5)
