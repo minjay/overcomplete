@@ -66,4 +66,4 @@ phi_rot = phi+pi/2;
 h = mypolar_grid([0 2*pi], [0 45]);
 delete(h)
 hold on
-scatter(x_samples, y_samples, 20, 'o')
+scatter(x_samples, y_samples, 20, 'bo')
