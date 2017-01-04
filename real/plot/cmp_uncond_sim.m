@@ -29,7 +29,7 @@ for t = 1:4
     text(-50, -50, sprintf('Min\n%2.1f',min(cf(:))),'FontName','times','Fontsize',10)
     text(30, -50, sprintf('Max\n%2.1f [kV]',max(cf(:))),'FontName','times','Fontsize',10)
     if t==1
-        ylabel('nonGau-need')
+        ylabel('AXING-need')
     end
 end
 h = colorbar;
@@ -75,3 +75,5 @@ end
 h = colorbar;
 colormap(jet)
 set(h, 'Position', [.925 0.075 .025 .2]);
+
+print -painters -depsc cmp_uncond_sim.eps
