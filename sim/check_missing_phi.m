@@ -55,3 +55,15 @@ for j = j_min:j_max
     title(['j = ', num2str(j)])
     st = st+Npix;
 end
+
+
+load('post_samples_missing_phi.mat')
+
+theta = theta/4;
+phi_rot = phi+pi/2;
+[x_samples, y_samples] = pol2cart(phi_rot, theta/pi*180);
+
+h = mypolar_grid([0 2*pi], [0 45]);
+delete(h)
+hold on
+scatter(x_samples, y_samples, 20, 'o')
