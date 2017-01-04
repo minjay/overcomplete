@@ -3,7 +3,7 @@ function boxplot_group(data, g1, g2, name)
 % name is the name of the plot
 
 bh = boxplot(data, {g1, g2}, 'colorgroup', g2, 'factorgap', 5, 'factorseparator', 1,...
-    'Labels', {'nonGau', 'Gau', 'Matern','nonGau', 'Gau', 'Matern', 'nonGau', 'Gau', 'Matern'});
+    'Labels', {'AXING', 'Gau', 'Matern','AXING', 'Gau', 'Matern', 'AXING', 'Gau', 'Matern'});
 set(bh(6, :), 'LineWidth', 1.5)
 
 set(gca, 'FontSize', 12)

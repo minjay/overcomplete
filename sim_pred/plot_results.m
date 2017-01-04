@@ -26,24 +26,24 @@ g2 = g2(:);
 
 % plot MAE_in
 figure
-boxplot_group(MAE_in, g1, g2, 'MAE (long-range)')
+boxplot_group(MAE_in, g1, g2, '(b) MAE (long-range)')
 
 % plot MAE_out
 figure
-boxplot_group(MAE_out, g1, g2, 'MAE (short-range)')
+boxplot_group(MAE_out, g1, g2, '(a) MAE (short-range)')
 
 % plot MSPE_in
 figure
-boxplot_group(MSPE_in, g1, g2, 'MSPE (long-range)')
+boxplot_group(MSPE_in, g1, g2, '(d) MSPE (long-range)')
 
 % plot MSPE_out
 figure
-boxplot_group(MSPE_out, g1, g2, 'MSPE (short-range)')
+boxplot_group(MSPE_out, g1, g2, '(c) MSPE (short-range)')
 
 % plot CRPS_in
 figure
-boxplot_group(CRPS_in, g1, g2, 'CRPS (long-range)')
+boxplot_group(CRPS_in, g1, g2, '(f) CRPS (long-range)')
 
 % plot CRPS_out
 figure
-boxplot_group(CRPS_out, g1, g2, 'CRPS (short-range)')
+boxplot_group(CRPS_out, g1, g2, '(e) CRPS (short-range)')
