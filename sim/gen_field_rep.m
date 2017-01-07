@@ -1,8 +1,13 @@
+clear
+clc
+
+load('mat_A_sim.mat')
+
 rng(1)
 
 % parameter specification
 nu = 2.5;
-alpha = 4;
+alpha = 3;
 
 res = 500;
 
@@ -70,7 +75,8 @@ for j = j_min:j_max
     axis tight
     axis off
     caxis([-cmax cmax])
-    title(['Simulated field, j=', num2str(j), ', nonGaussian, \nu=', num2str(nu)], 'FontSize', 12)
+    colormap(jet)
+    title(['j=', num2str(j), ', nonGaussian, \nu=', num2str(nu)], 'FontSize', 12)
     subplot('position', [0.1 0.05 0.7 0.4])
     pcolor(HX, HY, reshape(f_gauss, size(phi_mat)));
     shading interp
@@ -78,7 +84,8 @@ for j = j_min:j_max
     axis tight
     axis off
     caxis([-cmax cmax])
-    title(['Simulated field, j=', num2str(j), ', Gaussian'], 'FontSize', 12)
+    colormap(jet)
+    title(['j=', num2str(j), ', Gaussian'], 'FontSize', 12)
     h = colorbar;
     set(h, 'Position', [0.85 0.05 0.05 0.9]);
 end
@@ -95,7 +102,8 @@ axis equal
 axis tight
 axis off
 caxis([-cmax cmax])
-title(['Simulated field, sum, nonGaussian', ', \nu=', num2str(nu)], 'FontSize', 12)
+colormap(jet)
+title(['Sum, nonGaussian', ', \nu=', num2str(nu)], 'FontSize', 12)
 subplot('position', [0.1 0.05 0.7 0.4])
 pcolor(HX, HY, reshape(f_gauss, size(phi_mat)));
 shading interp
@@ -103,7 +111,8 @@ axis equal
 axis tight
 axis off
 caxis([-cmax cmax])
-title('Simulated field, sum, Gaussian', 'FontSize', 12)
+colormap(jet)
+title('Sum, Gaussian', 'FontSize', 12)
 h = colorbar;
 set(h, 'Position', [0.85 0.05 0.05 0.9]);
 
