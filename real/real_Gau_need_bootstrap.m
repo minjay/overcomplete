@@ -49,7 +49,7 @@ cov_mat = get_cov_Gaussian_needlet(beta, b_mat, Npix, A)+tau^2*eye(n);
 R = 200;
 Y = mvnrnd(zeros(1, n), cov_mat, R);
 
-lb = [-10*ones(1, r+1) 0 0 1e-3];
+lb = [-10*ones(1, r+1) 0 0 1e-2];
 ub = [10*ones(1, r+1) 1 1 Inf];
 
 beta_fit_all = zeros(R, length(beta_hat));
