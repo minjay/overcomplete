@@ -6,6 +6,7 @@ addpath(genpath('/home/minjay/nonsta_matern'))
 addpath(genpath('/home/minjay/bspline'))
 
 load('data_EOF_regr_new.mat')
+load('post_samples_exp2.mat')
 % work on the data at the first time point
 resid = resid_all(2, :);
 
@@ -48,7 +49,7 @@ r = size(b_mat, 2)-1;
 Y = pot_samples/1e3;
 
 % get init values for MCMC
-beta_init = [zeros(1, r+1) 0.1^2 0.01^2 1e-2];
+beta_init = beta_hat;
 negloglik1 = @(beta_all) negloglik_Gaussian_needlet(beta_all, b_mat, Y, Npix, A);
 
 lb = [-10*ones(1, r+1) 0 0 1e-3];
