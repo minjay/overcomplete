@@ -7,7 +7,7 @@ addpath(genpath('/home/minjay/bspline'))
 
 load('data_EOF_regr_new.mat')
 % work on the data at the first time point
-resid = resid_all(1, :);
+resid = resid_all(2, :);
 
 rng(1)
 
@@ -56,4 +56,4 @@ ub = [10*ones(1, r+1) 1 1 Inf];
 
 [beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, true);
 
-save('post_samples_exp2.mat', 'beta_hat')
+save('post_samples_exp2_other_time_points.mat', 'beta_hat')
