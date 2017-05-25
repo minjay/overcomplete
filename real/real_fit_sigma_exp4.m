@@ -1,3 +1,6 @@
+% test the effect of nu
+% nu=3
+
 addpath(genpath('/home/minjay/NeedMat'))
 addpath(genpath('/home/minjay/overcomplete'))
 addpath(genpath('/home/minjay/div_curl'))
@@ -29,7 +32,7 @@ phi_samples = phi_vec(index);
 B = 2;
 j_min = 2;
 j_max = 4;
-nu = 4;
+nu = 3;
 
 % design matrix A
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta_samples*4, phi_samples);
@@ -96,4 +99,4 @@ maxNumCompThreads(32);
 
 post_samples = Gibbs_sampler_AM_rep_inter(model, data, params, tuning, options);
 
-save('post_samples_real_exp3.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples', 'beta_hat')
+save('post_samples_real_exp3_nu3.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples', 'beta_hat')
