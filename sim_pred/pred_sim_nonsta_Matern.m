@@ -74,6 +74,7 @@ cp_50_out = mean(cp_50(index_pred_out));
 cp_50_in = mean(cp_50(index_pred_in));
 
 % quantiles
+n_index_pred = length(index_pred);
 QS_95_all = zeros(N, 1);
 QS_05_all = zeros(N, 1);
 for i = 1:n_index_pred
