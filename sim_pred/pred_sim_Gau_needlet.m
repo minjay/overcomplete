@@ -1,6 +1,7 @@
 function [MSPE_out, MSPE_in, MAE_out, MAE_in, CRPS_out, CRPS_in,...
     avg_len_90_out, avg_len_90_in, avg_len_50_out, avg_len_50_in,...
-    cp_90_out, cp_90_in, cp_50_out, cp_50_in] = ...
+    cp_90_out, cp_90_in, cp_50_out, cp_50_in, QS_95_out, QS_95_in,...
+    QS_05_out, QS_05_in] = ...
     pred_sim_Gau_needlet(name, beta_hat, index, index_region)
 
 load(['data_sim_', name, '.mat'])
@@ -73,5 +74,18 @@ cp_90_in = mean(cp_90(index_pred_in));
 cp_50 = Y>=Y_lb_50 & Y<=Y_ub_50;
 cp_50_out = mean(cp_50(index_pred_out));
 cp_50_in = mean(cp_50(index_pred_in));
+
+% quantiles
+n_index_pred = length(index_pred);
+QS_95_all = zeros(N, 1);
+QS_05_all = zeros(N, 1);
+for i = 1:n_index_pred
+    QS_95_all(index_pred(i)) = QS(0.95, Y(index_pred(i)), Y_ub_90(index_pred(i)));
+    QS_05_all(index_pred(i)) = QS(0.05, Y(index_pred(i)), Y_lb_90(index_pred(i)));
+end
+QS_95_out = mean(QS_95_all(index_pred_out));
+QS_95_in = mean(QS_95_all(index_pred_in));
+QS_05_out = mean(QS_05_all(index_pred_out));
+QS_05_in = mean(QS_05_all(index_pred_in));
 
 end
