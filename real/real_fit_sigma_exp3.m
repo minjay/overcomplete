@@ -72,7 +72,7 @@ mu_init = zeros(r+1, 1);
 Sigma_init = eye(r+1);
 lambda = 0.005;
 % the number of MCMC iterations
-T = 6e5+1e4;
+T = 1e6;
 % the length of the burn-in period
 burn_in = 0;
 % the length of the thinning interval
