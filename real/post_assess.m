@@ -27,6 +27,7 @@ T = en-st+1;
 Ac = A*post_samples.c(:, st:en);
 Y_pred_all = zeros(N, T);
 std_vec_all = exp(b_mat*post_samples.eta(:, st:en));
+rng(1)
 err_all = randn(1, T).*(1./sqrt(post_samples.tau_sq_inv(st:en)));
 
 for t = 1:T
