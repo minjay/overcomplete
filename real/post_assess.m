@@ -35,6 +35,26 @@ end
 
 Y_pred_need = mean(Y_pred_all, 2);
 
+% get quantiles
+index_pred = setdiff(1:size(A, 1), index);
+Y_lb_90 = quantile(Y_pred_all(index_pred, :), 0.05, 2);
+Y_ub_90 = quantile(Y_pred_all(index_pred, :), 0.95, 2);
+Y = resid(index_pred)';
+n_index_pred = length(index_pred);
+% quantiles
+QS_95_all = zeros(n_index_pred, 1);
+QS_05_all = zeros(n_index_pred, 1);
+for i = 1:n_index_pred
+    QS_95_all(i) = QS(0.95, Y(i), Y_ub_90(i));
+    QS_05_all(i) = QS(0.05, Y(i), Y_lb_90(i));
+end
+
+mean((Y-Y_pred_need(index_pred)).^2)
+mean(abs(Y-Y_pred_need(index_pred)))
+max(Y-Y_pred_need(index_pred))
+mean(QS_95_all)
+mean(QS_05_all)
+
 figure
 Y_err_need = resid'-Y_pred_need;
 plot_pot_with_obs(reshape(Y_err_need, size(phi)), phi, theta, phi_samples, theta_samples, 1000)
