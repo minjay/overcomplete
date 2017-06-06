@@ -7,14 +7,14 @@ load('ns.mat')
 load('ns_deriv.mat')
 load('mat_A.mat')
 load('mat_A_part.mat')
-load('post_samples_real_exp3.mat')
+load('post_samples_real_exp3_nu2dot5.mat')
 
 % set seed
 rng(1)
 
 % parameter setting
 % d.f.
-nu = 4;
+nu = 2.5;
 % j's
 j_min = 2;
 j_max = 4;
@@ -28,9 +28,9 @@ b_mat = kron(b_mat, ones(size(theta, 1), 1));
 b_mat = [ones(length(theta_vec), 1) b_mat];
 
 % discard burn-in period
-post_samples_eta = post_samples.eta(:, 2001:3000);
-post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 2001:3000));
-post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(2001:3000));
+post_samples_eta = post_samples.eta(:, 3001:2:5000);
+post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 3001:2:5000));
+post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(3001:2:5000));
 
 % num of posterior samples
 n_sample = size(post_samples_eta, 2);
