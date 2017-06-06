@@ -4,11 +4,11 @@ clear
 load('data_EOF_regr_new.mat')
 % load pre-computed design matrix
 load('mat_A.mat')
-load('post_samples_real_exp3.mat')
+load('post_samples_real_exp3_nu2dot5.mat')
 
 % parameter setting
 % d.f.
-nu = 4;
+nu = 2.5;
 % j's
 j_min = 2;
 j_max = 4;
@@ -23,9 +23,9 @@ b_mat = kron(b_mat, ones(size(theta, 1), 1));
 b_mat = [ones(length(theta_vec), 1) b_mat];
 
 % discard burn-in period
-post_samples_eta = post_samples.eta(:, 2001:3000);
-post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 2001:3000));
-post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(2001:3000));
+post_samples_eta = post_samples.eta(:, 3001:2:5000);
+post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 3001:2:5000));
+post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(3001:2:5000));
 
 % num of posterior samples
 n_sample = size(post_samples_eta, 2);
@@ -41,9 +41,12 @@ A = A(361:(N-360), :);
 T = 4;
 Y = zeros(N, T);
 Y_comp = zeros(3, N, T);
-rng(1)
 
+rng(1)
 samples = randsample(n_sample, T, true);
+
+rng(2)
+T_sim = trnd(nu, M, T);
 
 for t = 1:T
     
@@ -57,7 +60,7 @@ for t = 1:T
     for j = j_min:j_max
         index_j = j-j_min+1;
         range = st:st+Npix(index_j)-1;
-        c(range) = post_samples_sigma_j(index_j, i)*trnd(nu, Npix(index_j), 1);
+        c(range) = post_samples_sigma_j(index_j, i)*T_sim(range, t);
         st = st+Npix(index_j);
         Y_comp(j-j_min+1, :, t) = DA(:, range)*c(range);     
     end
@@ -90,6 +93,9 @@ set(h, 'Position', [.85 1-0.2-0.04 .025 .2]);
 
 for j = j_min:j_max
     cmax = max(max(abs(Y_comp(j-j_min+1, :, :))));
+    if j==j_max
+        cmax = 1.5;
+    end
     for t = 1:T
         subplot(4, 4, (j-j_min+1)*T+t)
         cf = reshape(Y_comp(j-j_min+1, :, t), size(phi));
