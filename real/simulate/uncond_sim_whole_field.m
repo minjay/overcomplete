@@ -4,12 +4,12 @@ clear
 load('data_EOF_regr_new.mat')
 % load pre-computed design matrix
 load('mat_A.mat')
-load('post_samples_real_exp3.mat')
+load('post_samples_real_exp3_nu2dot5.mat')
 load('post_samples_exp2.mat')
 
 % parameter setting
 % d.f.
-nu = 4;
+nu = 2.5;
 % j's
 j_min = 2;
 j_max = 4;
@@ -27,17 +27,18 @@ m = size(b_mat, 2)-1;
 beta_z = beta_hat(1:end-1);
 tau_z = beta_hat(end);
 sigma_sq_z = [1 beta_z(m+2:end)];
+eta_z = beta_z(1:m+1);
 
 % discard burn-in period
-post_samples_eta = post_samples.eta(:, 2001:3000);
-post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 2001:3000));
-post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(2001:3000));
+post_samples_eta = post_samples.eta(:, 3001:2:5000);
+post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 3001:2:5000));
+post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(3001:2:5000));
 
 % num of posterior samples
 n_sample = size(post_samples_eta, 2);
 
 % posterior samples of std_vec
-std_vec = exp(b_mat*post_samples_eta);
+std_vec_t = exp(b_mat*post_samples_eta);
 
 % subset A
 [N, M] = size(A);
@@ -59,12 +60,18 @@ T_sim = trnd(nu, M, T);
 
 err_sim = randn(N, T);
 
+std_vec_z = exp(b_mat*reshape(eta_z, m+1, 1)); 
+DA_z = zeros(N, M);
+for j = 1:N
+    DA_z(j, :) = std_vec_z(j)*A(j, :);
+end
+
 for t = 1:T
     
     i = samples(t);
-    DA = zeros(N, M);
+    DA_t = zeros(N, M);
     for j = 1:N
-        DA(j, :) = std_vec(j, i)*A(j, :);
+        DA_t(j, :) = std_vec_t(j, i)*A(j, :);
     end
     c_z = zeros(M, 1);
     c_t = zeros(M, 1);
@@ -76,8 +83,8 @@ for t = 1:T
         c_t(range) = post_samples_sigma_j(index_j, i)*T_sim(range, t);
         st = st+Npix(index_j);
     end
-    Y_z(:, t) = (DA*c_z+tau_z*err_sim(:, t))*1e3;
-    Y_t(:, t) = (DA*c_t+post_samples_tau(i)*err_sim(:, t))*1e3;
+    Y_z(:, t) = (DA_z*c_z+tau_z*err_sim(:, t))*1e3;
+    Y_t(:, t) = (DA_t*c_t+post_samples_tau(i)*err_sim(:, t))*1e3;
 
 end
 
