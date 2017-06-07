@@ -55,6 +55,7 @@ DA_phi = zeros(N, M);
 D_thetaA = zeros(N, M);
 
 samples = randsample(n_sample, T, true);
+T_sim = trnd(nu, M, T);
 
 for t = 1:T
     
@@ -73,7 +74,7 @@ for t = 1:T
     for j = j_min:j_max
         index_j = j-j_min+1;
         range = st:st+Npix(index_j)-1;
-        c(range) = post_samples_sigma_j(index_j, i)*trnd(nu, Npix(index_j), 1);
+        c(range) = post_samples_sigma_j(index_j, i)*T_sim(range, t);
         st = st+Npix(index_j);
     end
     E_theta_wo_coef(:, t) = (D_thetaA+DA_theta)*c*1e3;
