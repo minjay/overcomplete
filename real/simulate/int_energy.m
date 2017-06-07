@@ -79,30 +79,28 @@ map = brewermap(3, 'Set1');
 figure
 hold on
 
-xs = linspace(0, max(int_energy_need), 200);
+xs = linspace(0, max(int_energy_need), 300);
 width = xs(2)-xs(1);
 [nele, xs] = hist(int_energy_Matern, xs);
 b1 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(1, :));
 b1.FaceAlpha = 0.5;
 [f, xs] = ksdensity(int_energy_Matern, xs);
-plot(xs, f, 'r', 'LineWidth', 2)
+l1 = plot(xs, f, 'r:', 'LineWidth', 2);
 [nele, xs] = hist(int_energy_Gau_need, xs);
 b2 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(2, :));
 b2.FaceAlpha = 0.5;
 [f, xs] = ksdensity(int_energy_Gau_need, xs);
-plot(xs, f, 'b', 'LineWidth', 2)
+l2 = plot(xs, f, 'b-.', 'LineWidth', 2);
 [nele, xs] = hist(int_energy_need, xs);
 b3 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(3, :));
 b3.FaceAlpha = 0.5;
 [f, xs] = ksdensity(int_energy_need, xs);
-plot(xs, f, 'g', 'LineWidth', 2)
+l3 = plot(xs, f, 'g--', 'LineWidth', 2);
 axis tight
 y_range = get(gca, 'ylim');
 h = plot([int_energy_large_scale int_energy_large_scale], y_range, 'k', 'LineWidth', 2);
-lg = legend([b1 b2 b3 h], {'Gau-Matern', 'Gau-need', 'AXING-need', 'large-scale'},...
+lg = legend([l1 l2 l3 h], {'Gau-Matern', 'Gau-need', 'AXING-need', 'large-scale'},...
     'location', 'northeast');
-PatchInLegend = findobj(lg, 'type', 'patch');
-set(PatchInLegend, 'facea', 0.5)
 legend boxoff
 set(gca, 'FontSize', 14)
 xlabel('Integrated Joule heating rate (GW)')
