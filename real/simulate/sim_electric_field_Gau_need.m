@@ -49,6 +49,8 @@ DA_theta = zeros(N, M);
 DA_phi = zeros(N, M);
 D_thetaA = zeros(N, M);
 
+Z_sim = randn(M, T);
+
 for t = 1:T
     
     if mod(t, 10)==0
@@ -65,7 +67,7 @@ for t = 1:T
     for j = j_min:j_max
         index_j = j-j_min+1;
         range = st:st+Npix(index_j)-1;
-        c(range) = sigma_j(index_j)*randn(Npix(index_j), 1);
+        c(range) = sigma_j(index_j)*Z_sim(range, t);
         st = st+Npix(index_j);
     end
     E_theta_wo_coef_Gau_need(:, t) = (D_thetaA+DA_theta)*c*1e3;
