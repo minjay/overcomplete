@@ -3,9 +3,9 @@
 clear
 clc
 
-load('post_samples_real_exp3.mat')
+load('post_samples_real_exp3_nu2dot5.mat')
 
-range = 2001:3000;
+range = 3001:2:5000;
 eta = post_samples.eta(:, range);
 sigma_j = sqrt(post_samples.sigma_j_sq(:, range));
 tau = 1./sqrt(post_samples.tau_sq_inv(range));
