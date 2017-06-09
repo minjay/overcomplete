@@ -7,14 +7,14 @@ load('ns.mat')
 load('ns_deriv.mat')
 load('mat_A.mat')
 load('mat_A_part.mat')
-load('post_samples_real_exp3_nu2dot5.mat')
+load('post_samples_real_exp3_nu3.mat')
 
 % set seed
 rng(1)
 
 % parameter setting
 % d.f.
-nu = 2.5;
+nu = 3;
 % j's
 j_min = 2;
 j_max = 4;
@@ -89,4 +89,4 @@ E_theta = -4*E_theta_wo_coef/R;
 factor = sin(theta_vec*4)./sin(theta_vec);
 E_phi = -repmat(factor, 1, T).*E_phi_wo_coef/R;
 
-save('sim_energy.mat', 'E_theta', 'E_phi')
+save('sim_energy_nu3.mat', 'E_theta', 'E_phi')
