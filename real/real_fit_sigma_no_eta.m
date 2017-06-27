@@ -12,11 +12,11 @@ resid = resid_all(1, :);
 rng(1)
 
 % sampling
-n = 4000;
+N = 4000;
 theta_vec = theta(:);
 phi_vec = phi(:);
 w = sin(theta_vec*4);
-[pot_samples, index] = datasample(resid', n, 'Replace', false,...
+[pot_samples, index] = datasample(resid', N, 'Replace', false,...
     'Weights', w);
 theta_samples = theta_vec(index);
 phi_samples = phi_vec(index);
@@ -40,7 +40,7 @@ M = size(A, 2);
 load('ns.mat')
 b_mat_full = kron(b_mat, ones(size(theta, 1), 1));
 b_mat = b_mat_full(index, :);
-b_mat = [ones(n, 1) b_mat];
+b_mat = [ones(N, 1) b_mat];
 
 r = size(b_mat, 2)-1;
 
@@ -57,7 +57,7 @@ c_init = zeros(M, TT);
 % V
 V_inv_init = ones(M, 1); 
 % sigma_j_sq
-sigma_j_sq_init = [1 beta_hat(end-2:end-1)'];
+sigma_j_sq_init = [1; beta_hat(end-2:end-1)'];
 % eta
 eta = beta_hat(1:r+1)';
 std_vec = exp(b_mat*eta);
@@ -66,7 +66,7 @@ for i = 1:N
     DA(i, :) = std_vec(i)*A(i, :);
 end
 DATDA = DA'*DA;
-DATY = DA'*T;
+DATY = DA'*Y;
 % tau
 tau_init = beta_hat(end);
 tau_sq_inv_init = 1/tau_init^2;
@@ -79,12 +79,12 @@ thin = 1000;
 % the length of the interval to report progress
 n_report = 100;
 
-model = struct('A', DA, 'DATDA', DATDA, 'DATY', DATY, 'b_mat', b_mat, 'nu', nu);
+model = struct('DA', DA, 'DATDA', DATDA, 'DATY', DATY, 'b_mat', b_mat, 'nu', nu);
 
 data = struct('Y', Y, 'Npix', Npix);
 
 params = struct('c', c_init, 'V', V_inv_init, 'sigma_j_sq', sigma_j_sq_init,...
-    'eta', eta_init, 'tau_sigma_sq', tau_sigma_sq, 'tau', tau_sq_inv_init);
+    'tau', tau_sq_inv_init);
 
 options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report, 'save', true);
 
