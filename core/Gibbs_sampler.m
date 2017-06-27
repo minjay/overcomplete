@@ -1,0 +1,169 @@
+function post_samples = Gibbs_sampler(model, data, params, options)
+% GIBBS_SAMPLER_AM    The adaptive Metropolis-within-Gibbs sampler.
+%
+%   post_samples = Gibbs_sampler_AM(model, data, params, tuning, options);
+%
+% Inputs:
+%   model - the model
+%       model.A - the design matrix of the model, a N-by-M matrix
+%       model.fj_sq - f(j)^2, a M-by-1 vector, the index corresponds to
+%       psi_jk
+%       model.b_mat - the design matrix of the function b, a N-by-(r+1)
+%       matrix, each row corresponds to one location
+%       model.nu - the number of degrees of freedom
+%   data - the data
+%       data.Y - the observed values, a N-by-1 vector
+%       data.Npix - the number of spherical needlets at each frequency, a
+%       (j_max-j_min+1)-by-1 vector
+%   params - the initial values of the parameters
+%       params.c - the initial value of c, a M-by-1 vector
+%       params.V - the initial value of V^{-1}, a M-by-1 vector
+%       params.eta = {eta_init, tau_sigma_sq, tau_eta_sq}
+%           eta_init - the initial value of eta, a (r+1)-by-1 vector
+%           tau_sigma_sq - the parameter tau_sigma_sq
+%           tau_eta_sq - the parameter tau_eta_sq
+%       params.tau - the initial value of 1/tau^2
+%   tuning - the tuning parameters of the adaptive Metropolis
+%       tuning.mu - the initial value of mu
+%       (see Andrieu and Thoms, 2008, Algorithm 4)
+%       tuning.Sigma - the initial value of Sigma
+%       tuning.lambda - the initial value of lambda
+%   options - the MCMC options
+%       options.T - the number of MCMC iterations
+%       options.burn_in - the length of the burn-in period
+%       options.thin - the length of the thinning interval
+%       options.n_report - the length of the interval to report progress
+%       options.save - whether save intermediate results
+% Outputs:
+%   post_samples - the posterior samples after discarding the samples in the
+%   burn-in period and thinning
+%       post_samples.c - the posterior samples of c, a M-by-sample_size
+%       matrix
+%       post_samples.V_inv - the posterior samples of V^{-1}, a
+%       M-by-sample_size matrix
+%       post_samples.tau_sq_inv - the posterior samples of 1/tau^2, a
+%       1-by-sample_size vector
+%       post_samples.eta - the posterior samples of eta, a
+%       (r+1)-by-sample_size matrix
+%
+% Author: Minjie Fan, 2015
+
+tic
+
+% init
+DA = model.DA;
+DATDA = model.DATDA;
+DATY = model.DATY;
+nu = model.nu;
+
+Y = data.Y;
+Npix = data.Npix;
+
+c = params.c;
+TT = size(c, 2);
+V_inv = params.V;
+sigma_j_sq = params.sigma_j_sq;
+tau_sq_inv = params.tau;
+
+T = options.T;
+burn_in = options.burn_in;
+thin = options.thin;
+n_report = options.n_report;
+
+len_j = length(Npix);
+st = zeros(len_j, 1);
+en = zeros(len_j, 1);
+for j = 1:len_j
+    st(j) = sum(Npix(1:j))-Npix(j)+1;
+    en(j) = sum(Npix(1:j));
+end
+
+[N, M] = size(DA);
+
+fj_sq = zeros(M, 1);
+for j = 1:len_j
+    range = st(j):en(j);
+    fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
+end
+
+sample_size = floor((T-burn_in)/thin);
+post_samples_c = zeros(M, TT, sample_size);
+post_samples_V_inv = zeros(M, sample_size);
+post_samples_sigma_j_sq = zeros(len_j, sample_size);
+post_samples_tau_sq_inv = zeros(1, sample_size);
+
+for t = 1:T 
+    
+    % sample c
+    for j = 1:len_j  
+        z = randn(Npix(j), TT);
+        range = st(j):en(j);
+        not_range = [1:st(j)-1, en(j)+1:M];
+        Sigma_inv = tau_sq_inv*DATDA(range, range)+diag(V_inv(range));
+        R = chol(Sigma_inv);
+        z = z+R'\(DATY(range)-DATDA(range, not_range)*c(not_range, :))*tau_sq_inv;
+        c(range, :) = R\z;
+    end
+    
+    % sample V
+    shape = (nu+TT)/2;
+    scale = 2./(sum(c.^2, 2)+nu*fj_sq);
+    V_inv = gamrnd(shape, scale);
+    
+    % sample sigma_j
+    shape = nu*Npix/2;
+    scale = zeros(len_j, 1);
+    for j = 1:len_j
+        range = st(j):en(j);
+        scale(j) = 1/sum(V_inv(range));
+    end
+    scale = 2/nu*scale;
+    sigma_j_sq = gamrnd(shape, scale);
+    for j = 1:len_j
+        range = st(j):en(j);
+        fj_sq(range) = sigma_j_sq(j)*ones(Npix(j), 1);
+    end
+    
+    % sample tau
+    shape = N*TT/2;
+    DAc = DA*c;
+    diff_vec = Y(:)-DAc(:);
+    quad_form = diff_vec'*diff_vec; 
+    scale = 2/quad_form;
+    tau_sq_inv = gamrnd(shape, scale);
+    
+    % print to the screen
+    if mod(t, n_report)==0
+        if floor(t/n_report)==1
+            disp('--------------------------------------------')
+        end
+        fprintf('Sampled: %d of %d\n', t, T)
+        disp('--------------------------------------------')
+    end
+    
+    % save
+    t_diff = t-burn_in;
+    if t_diff>0 && mod(t_diff, thin)==0
+        index = t_diff/thin;
+        post_samples_c(:, :, index) = c;
+        post_samples_V_inv(:, index) = V_inv;
+        post_samples_sigma_j_sq(:, index) = sigma_j_sq;
+        post_samples_tau_sq_inv(index) = tau_sq_inv;
+    end
+    
+    if options.save && mod(t, 1e4)==0
+        post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
+        'sigma_j_sq', post_samples_sigma_j_sq, 'tau_sq_inv',...
+        post_samples_tau_sq_inv);
+        save('post_samples_real_inter.mat', 'post_samples')
+    end
+    
+end
+
+post_samples = struct('c', post_samples_c, 'V_inv', post_samples_V_inv,...
+    'sigma_j_sq', post_samples_sigma_j_sq, 'tau_sq_inv',...
+    post_samples_tau_sq_inv);
+
+toc
+
+end
