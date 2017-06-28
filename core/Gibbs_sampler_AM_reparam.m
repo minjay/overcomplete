@@ -96,8 +96,8 @@ r = length(eta)-1;
 % optimal acceptance rate
 % see Gelman et al., 1996
 rates = [0.441 0.352 0.316 0.279 0.275 0.266 0.261 0.255 0.261 0.267 0.234];
-if r+1<=10
-    target_acc_rate = rates(r+1);
+if r<=10
+    target_acc_rate = rates(r);
 else
     target_acc_rate = rates(end);
 end
