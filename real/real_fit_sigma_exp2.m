@@ -48,11 +48,11 @@ r = size(b_mat, 2)-1;
 Y = pot_samples/1e3;
 
 % get init values for MCMC
-beta_init = [zeros(1, r+1) 0.1^2 0.01^2 1e-2];
+beta_init = [zeros(1, r) 1 0.1^2 0.01^2 1e-2];
 negloglik1 = @(beta_all) negloglik_Gaussian_needlet(beta_all, b_mat, Y, Npix, A);
 
-lb = [-10*ones(1, r+1) 0 0 1e-3];
-ub = [10*ones(1, r+1) 1 1 Inf];
+lb = [-10*ones(1, r) 0 0 0 1e-3];
+ub = [10*ones(1, r) 10 10 10 Inf];
 
 [beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, true);
 
