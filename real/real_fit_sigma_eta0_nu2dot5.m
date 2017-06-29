@@ -93,4 +93,4 @@ maxNumCompThreads(32);
 
 post_samples = Gibbs_sampler_AM_reparam(model, data, params, tuning, options);
 
-save('post_samples_real_reparam_nu2do5.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples', 'beta_hat')
+save('post_samples_real_reparam_nu2dot5.mat', 'post_samples', 'Npix', 'index', 'theta_samples', 'phi_samples', 'beta_hat')
