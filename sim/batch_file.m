@@ -24,7 +24,7 @@ j_min = 2;
 j_max = 3;
 alpha = 3;
 
-sigma_j = B.^(-alpha/2*(j_min:j_max));
+sigma_j = B.^(-alpha/2*(j_min:j_max))*10;
 
 rng(eta_seed)
 knots = [0 0 0 0 0.5 1 1 1 1]*pi;
