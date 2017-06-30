@@ -67,8 +67,8 @@ for rep = 1:R
     beta_init = [zeros(1, r) 1 0.1^2 1e-2];
     negloglik1 = @(beta_all) negloglik_Gaussian_needlet(beta_all, b_mat, Y, Npix, A);
 
-    lb = [-10*ones(1, r) 0 0 0 1e-3];
-    ub = [10*ones(1, r) 1 1 1 Inf];
+    lb = [-10*ones(1, r) 0 0 1e-3];
+    ub = [10*ones(1, r) 1 1 Inf];
 
     [beta_hat, f_min] = Gaussian_needlet_fit(negloglik1, beta_init, lb, ub, false);
 
