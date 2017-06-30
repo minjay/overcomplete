@@ -34,8 +34,7 @@ j_max = 3;
 [Npix, ~, A] = get_A_ss(B, j_min, j_max, theta, phi);
 [N, M] = size(A);
 
-sigma_j = B.^(-alpha/2*(j_min:j_max));
-sigma_j = sigma_j/sigma_j(1);
+sigma_j = B.^(-alpha/2*(j_min:j_max))*10;
 
 % non-stationary variance function
 knots = [0 0 0 0 0.5 1 1 1 1]*pi;
@@ -46,7 +45,7 @@ b_mat(:, 1) = 1;
 r = size(b_mat, 2)-1;
 
 rng(2)
-eta = randn(r+1, 1);
+eta = [0; randn(r, 1)];
 std_vec = exp(b_mat*eta);
 DA = zeros(N, M);
 for i = 1:N
