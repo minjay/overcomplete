@@ -108,7 +108,7 @@ for rep = 1:R
 
     tuning = struct('mu', mu_init, 'Sigma', Sigma_init, 'lambda', lambda);
 
-    options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report);
+    options = struct('T', T, 'burn_in', burn_in, 'thin', thin, 'n_report', n_report, 'save', false);
 
     post_samples = Gibbs_sampler_AM_reparam(model, data, params, tuning, options);
     
