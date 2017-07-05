@@ -1,5 +1,12 @@
 clear
 
+addpath(genpath('/home/minjay/NeedMat'))
+addpath(genpath('/home/minjay/overcomplete'))
+addpath(genpath('/home/minjay/div_curl'))
+addpath(genpath('/home/minjay/model_output'))
+addpath(genpath('/home/minjay/nonsta_matern'))
+addpath(genpath('/home/minjay/bspline'))
+
 % R is the radius of the ionosphere
 
 load('theta_phi_R.mat')
@@ -7,7 +14,7 @@ load('ns.mat')
 load('ns_deriv.mat')
 load('mat_A.mat')
 load('mat_A_part.mat')
-load('post_samples_real_exp3.mat')
+load('post_samples_real_reparam_nu4.mat')
 
 % set seed
 rng(1)
@@ -25,13 +32,13 @@ theta_vec = theta(:);
 b_mat = kron(b_mat, ones(size(theta, 1), 1));
 b_mat = [ones(length(theta_vec), 1) b_mat];
 
-m = size(b_mat, 2);
+m = size(b_mat, 2)-1;
 
 % posterior samples of std_vec
-eta = beta_hat(1:m)';
+eta = [0; beta_hat(1:m)'];
 std_vec = exp(b_mat*eta);
 
-sigma_j = [1 sqrt(beta_hat(m+1:end-1))];
+sigma_j = sqrt(beta_hat(m+1:end-1)');
 
 % subset A
 [N, M] = size(A);
