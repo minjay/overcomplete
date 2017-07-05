@@ -1,5 +1,12 @@
 clear
 
+addpath(genpath('/home/minjay/NeedMat'))
+addpath(genpath('/home/minjay/overcomplete'))
+addpath(genpath('/home/minjay/div_curl'))
+addpath(genpath('/home/minjay/model_output'))
+addpath(genpath('/home/minjay/nonsta_matern'))
+addpath(genpath('/home/minjay/bspline'))
+
 % R is the radius of the ionosphere
 
 load('theta_phi_R.mat')
@@ -7,7 +14,7 @@ load('ns.mat')
 load('ns_deriv.mat')
 load('mat_A.mat')
 load('mat_A_part.mat')
-load('post_samples_real_exp3_nu2dot5.mat')
+load('post_samples_real_reparam_nu2dot5.mat')
 
 % set seed
 rng(1)
@@ -27,10 +34,11 @@ theta_vec = theta(:);
 b_mat = kron(b_mat, ones(size(theta, 1), 1));
 b_mat = [ones(length(theta_vec), 1) b_mat];
 
+range = 2001:3000;
 % discard burn-in period
-post_samples_eta = post_samples.eta(:, 3001:2:5000);
-post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 3001:2:5000));
-post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(3001:2:5000));
+post_samples_eta = post_samples.eta(:, range);
+post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, range));
+post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(range));
 
 % num of posterior samples
 n_sample = size(post_samples_eta, 2);
