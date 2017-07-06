@@ -97,4 +97,4 @@ E_theta = -4*E_theta_wo_coef/R;
 factor = sin(theta_vec*4)./sin(theta_vec);
 E_phi = -repmat(factor, 1, T).*E_phi_wo_coef/R;
 
-save('sim_energy.mat', 'E_theta', 'E_phi')
+save('sim_energy_nu2dot5.mat', 'E_theta', 'E_phi')
