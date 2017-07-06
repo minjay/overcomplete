@@ -5,6 +5,8 @@ load('post_samples_real_reparam_nu4.mat')
 % load data
 load('data_EOF_regr_new.mat')
 Y = resid_all(1, :)';
+n = length(index);
+Y_samples = Y(index);
 
 load('mat_A.mat')
 [N, M] = size(A);
