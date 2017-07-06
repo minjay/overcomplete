@@ -2,6 +2,8 @@
 
 function [MSPE, MAE, CRPS, QS_95, QS_05] = post_assess_eta0(name)
 
+rng(1) 
+
 % load fitted result
 load(['post_samples_real_reparam_nu', name, '.mat'])
 
