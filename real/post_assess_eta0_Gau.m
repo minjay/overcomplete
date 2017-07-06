@@ -1,3 +1,10 @@
+addpath(genpath('/home/minjay/NeedMat'))
+addpath(genpath('/home/minjay/overcomplete'))
+addpath(genpath('/home/minjay/div_curl'))
+addpath(genpath('/home/minjay/model_output'))
+addpath(genpath('/home/minjay/nonsta_matern'))
+addpath(genpath('/home/minjay/bspline'))
+
 clear
 
 load('post_samples_real_reparam_nu4.mat')
@@ -64,3 +71,5 @@ for i = 1:n_index_pred
 end
 QS_95 = mean(QS_95_all(index_pred));
 QS_05 = mean(QS_05_all(index_pred));
+
+save('post_assess_Gau.mat', 'MSPE', 'MAE', 'CRPS', 'QS_95', 'QS_05')
