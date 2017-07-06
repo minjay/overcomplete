@@ -59,18 +59,18 @@ boxplot_group(CRPS_in, g1, g2, '(f) CRPS (long-range)')
 figure
 boxplot_group(CRPS_out, g1, g2, '(e) CRPS (short-range)')
 
-% plot QS_95_in
-figure
-boxplot_group(QS_95_in, g1, g2, '(h) QS 95% (long-range)')
-
-% plot QS_95_out
-figure
-boxplot_group(QS_95_out, g1, g2, '(g) QS 95% (short-range)')
-
 % plot QS_05_in
 figure
-boxplot_group(QS_05_in, g1, g2, '(j) QS 5% (long-range)')
+boxplot_group(QS_05_in, g1, g2, '(h) QS 5% (long-range)')
 
 % plot QS_05_out
 figure
-boxplot_group(QS_05_out, g1, g2, '(i) QS 5% (short-range)')
+boxplot_group(QS_05_out, g1, g2, '(g) QS 5% (short-range)')
+
+% plot QS_95_in
+figure
+boxplot_group(QS_95_in, g1, g2, '(j) QS 95% (long-range)')
+
+% plot QS_95_out
+figure
+boxplot_group(QS_95_out, g1, g2, '(i) QS 95% (short-range)')
