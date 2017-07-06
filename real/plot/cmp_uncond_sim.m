@@ -17,7 +17,7 @@ phi_rot = phi+pi/2;
 [x, y] = pol2cart(phi_rot, theta/pi*180);
 
 % plot nonGau-need
-cmax = 8;
+cmax = max(abs(Y_sim_need(:)));
 for t = 1:4
     subplot(3, 4, t)
     cf = reshape(Y_sim_need(t, :), size(phi));
