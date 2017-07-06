@@ -9,7 +9,7 @@ load(['post_samples_real_reparam_nu', name, '.mat'])
 
 % load data
 load('data_EOF_regr_new.mat')
-Y = resid_all(1, :)';
+Y = resid_all(1, :)'/1e3;
 
 load('mat_A.mat')
 [N, M] = size(A);
