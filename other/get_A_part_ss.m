@@ -1,10 +1,13 @@
-function [Npix, grid_points, A] = get_A_part_ss(angle, B, j_min, j_max, theta, phi)
-%GET_A_SS   Computes the design matrix A when the grid is the symmetric
+function [Npix, grid_points, A_part] = get_A_part_ss(angle, B, j_min, j_max, theta, phi)
+%GET_A_PART_SS   Computes the design matrix A_partial when the grid is the symmetric
 %spherical t-design.
 %
-%   [Npix, grid_points, A] = get_A_ss(B, j_min, j_max, theta, phi);
+%   [Npix, grid_points, A_part] = get_A_part_ss(angle, B, j_min, j_max, theta, phi);
 %
 % Inputs:
+%   angle - a string, either 'theta' or 'phi'; 'theta':
+%   \partial(\psi_jk)/\partial(theta); 'phi':
+%   1/sin(\theta)*\partial(\psi_jk)/\partial(\phi)
 %   B - the parameter
 %   j_min - the minimal frequency
 %   j_max - the maximal frequency
@@ -16,7 +19,7 @@ function [Npix, grid_points, A] = get_A_part_ss(angle, B, j_min, j_max, theta, p
 %   (j_max-j_min+1)-by-1 vector
 %   grid_points - the location of the grid points at each frequency in R^3,
 %   (j_max-j_min+1)-by-1 cell
-%   A - the design matrix, N-by-M matrix
+%   A_part - the design matrix, N-by-M matrix
 %
 % Author: Minjie Fan, 2015
 
@@ -38,7 +41,7 @@ for j = j_min:j_max
 end
 
 M = sum(Npix);
-A = zeros(N, M);
+A_part = zeros(N, M);
 dist = zeros(N, 1);
 index_col = 0;
 
@@ -60,7 +63,7 @@ for j = j_min:j_max
             dist(i) = max(dist(i), -1);
         end
         P_prime = p_polynomial_prime( N, l_max, dist );
-        A(:, index_col) = spneedlet_part_eval_fast(angle, B, j, bl_vector, P_prime,...
+        A_part(:, index_col) = spneedlet_part_eval_fast(angle, B, j, bl_vector, P_prime,...
             theta, phi, xyz_xi, sqrt_lambda);
     end
 end
