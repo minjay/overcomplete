@@ -19,7 +19,7 @@ for i = 1:4
     line([i-0.4 i+0.4], [eta(i+1) eta(i+1)], 'LineWidth', 1.5, 'LineStyle', '--', 'Color', 'k')
 end
 title('\eta')
-set(gca, 'FontSize', 12)
+set(gca, 'FontSize', 14)
 
 subplot('position', [0.1 0.1 0.6 0.375])
 fitted = exp(b_mat*eta_est_all);
@@ -36,7 +36,7 @@ xlabel('Co-latitude (rad)')
 ylabel('Standard deviation')
 legend('Pointwise median', 'True', '5% pointwise quantile',...
     '95% pointwise quantile', 'Location', 'Best')
-set(gca, 'FontSize', 12)
+set(gca, 'FontSize', 14)
 
 subplot('position', [0.7 0.575 0.25 0.375])
 bh = boxplot(sigma_j_est_all', 'widths', 0.4, 'Labels', {'2', '3'});
@@ -45,13 +45,14 @@ for i = 1:2
     line([i-0.4 i+0.4], [sigma_j(i) sigma_j(i)], 'LineWidth', 1.5, 'LineStyle', '--', 'Color', 'k')
 end
 title('\sigma')
-set(gca, 'FontSize', 12)
+set(gca, 'FontSize', 14)
 
 subplot('position', [0.8 0.1 0.15 0.375])
 bh = boxplot(tau_est_all', 'widths', 0.4, 'Labels', {''});
 set(bh(6, :), 'linewidth', 1.5)
 line([1-0.4 1+0.4], [tau tau], 'LineWidth', 1.5, 'LineStyle', '--', 'Color', 'k')
 title('\tau')
-set(gca, 'FontSize', 12)
+set(gca, 'FontSize', 14)
 
-suptitle('(a)')
+h = suptitle('(a)');
+set(h, 'FontSize', 20)
