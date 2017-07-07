@@ -1,7 +1,7 @@
 clear
 
 % obtained by script sim_electric_field.m
-load('sim_energy.mat')
+load('sim_energy_nu3.mat')
 % obtained by script sim_electric_field_Gau_need.m
 load('sim_energy_Gau_need.mat')
 % obtained by script sim_electric_field_Matern.m
@@ -79,23 +79,23 @@ map = brewermap(3, 'Set1');
 figure
 hold on
 
-xs = linspace(0, max(int_energy_need), 300);
+xs = linspace(0, max(int_energy_need), 200);
 width = xs(2)-xs(1);
 [nele, xs] = hist(int_energy_Matern, xs);
-b1 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(1, :));
+b1 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(3, :));
 b1.FaceAlpha = 0.5;
 [f, xs] = ksdensity(int_energy_Matern, xs);
-l1 = plot(xs, f, 'r:', 'LineWidth', 2);
+l1 = plot(xs, f, 'g:', 'LineWidth', 2);
 [nele, xs] = hist(int_energy_Gau_need, xs);
 b2 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(2, :));
 b2.FaceAlpha = 0.5;
 [f, xs] = ksdensity(int_energy_Gau_need, xs);
 l2 = plot(xs, f, 'b-.', 'LineWidth', 2);
 [nele, xs] = hist(int_energy_need, xs);
-b3 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(3, :));
+b3 = bar(xs-width/2, nele/T/width, 1, 'FaceColor', map(1, :));
 b3.FaceAlpha = 0.5;
 [f, xs] = ksdensity(int_energy_need, xs);
-l3 = plot(xs, f, 'g--', 'LineWidth', 2);
+l3 = plot(xs, f, 'r--', 'LineWidth', 2);
 axis tight
 y_range = get(gca, 'ylim');
 h = plot([int_energy_large_scale int_energy_large_scale], y_range, 'k', 'LineWidth', 2);
@@ -107,5 +107,10 @@ xlabel('Integrated Joule heating rate (GW)')
 ylabel('Density')
 % truncate
 xlim([0 20])
+
+ps = [10 25 50 75 90 95 99];
+prctile(int_energy_need, ps)
+prctile(int_energy_Matern, ps)
+prctile(int_energy_Gau_need, ps)
 
 print -painters -depsc int_Joule_hist.eps
