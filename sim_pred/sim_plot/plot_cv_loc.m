@@ -37,6 +37,6 @@ plot(xh,yh,'k');
 axis tight
 axis off
 
-legend('Observed locations', 'Short-range predicted locations', 'Long-range predicted locations',...
-    'Location', 'SouthOutside')
-set(gca, 'FontSize', 12)
+%legend('Observed locations', 'Short-range predicted locations', 'Long-range predicted locations',...
+%    'Location', 'SouthOutside')
+%set(gca, 'FontSize', 16)

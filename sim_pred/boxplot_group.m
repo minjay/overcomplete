@@ -6,14 +6,14 @@ bh = boxplot(data, {g1, g2}, 'colorgroup', g2, 'factorgap', 5, 'factorseparator'
     'Labels', {'AXING', 'Gau', 'Matern','AXING', 'Gau', 'Matern', 'AXING', 'Gau', 'Matern'});
 set(bh(6, :), 'LineWidth', 1.5)
 
-set(gca, 'FontSize', 12)
+set(gca, 'FontSize', 16)
 
 annotation('textbox', [0.2 0.8 0.08 0.08], 'String', '\nu = 2.5', 'FitBoxToText', 'on',...
-    'FontSize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+    'FontSize', 16, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
 annotation('textbox', [0.475 0.8 0.08 0.08], 'String', '\nu = 3', 'FitBoxToText', 'on',...
-    'FontSize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+    'FontSize', 16, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
 annotation('textbox', [0.75 0.8 0.08 0.08], 'String', '\nu = 4', 'FitBoxToText', 'on',...
-    'FontSize', 12, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
+    'FontSize', 16, 'HorizontalAlignment', 'center', 'VerticalAlignment', 'middle');
 title(name)
 
 end
