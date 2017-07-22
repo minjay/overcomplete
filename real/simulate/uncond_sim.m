@@ -4,11 +4,11 @@ clear
 load('data_EOF_regr_new.mat')
 % load pre-computed design matrix
 load('mat_A.mat')
-load('post_samples_real_exp3_nu2dot5.mat')
+load('post_samples_real_reparam_nu3.mat')
 
 % parameter setting
 % d.f.
-nu = 2.5;
+nu = 3;
 % j's
 j_min = 2;
 j_max = 4;
@@ -23,9 +23,10 @@ b_mat = kron(b_mat, ones(size(theta, 1), 1));
 b_mat = [ones(length(theta_vec), 1) b_mat];
 
 % discard burn-in period
-post_samples_eta = post_samples.eta(:, 3001:2:5000);
-post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, 3001:2:5000));
-post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(3001:2:5000));
+range = 2001:3000;
+post_samples_eta = post_samples.eta(:, range);
+post_samples_sigma_j = sqrt(post_samples.sigma_j_sq(:, range));
+post_samples_tau = 1./sqrt(post_samples.tau_sq_inv(range));
 
 % num of posterior samples
 n_sample = size(post_samples_eta, 2);
