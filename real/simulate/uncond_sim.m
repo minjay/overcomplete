@@ -94,9 +94,6 @@ set(h, 'Position', [.85 1-0.2-0.04 .025 .2]);
 
 for j = j_min:j_max
     cmax = max(max(abs(Y_comp(j-j_min+1, :, :))));
-    if j==j_max
-        cmax = 1.5;
-    end
     for t = 1:T
         subplot(4, 4, (j-j_min+1)*T+t)
         cf = reshape(Y_comp(j-j_min+1, :, t), size(phi));
