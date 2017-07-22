@@ -44,10 +44,15 @@ Y = zeros(N, T);
 Y_comp = zeros(3, N, T);
 
 rng(1)
-samples = randsample(n_sample, T, true);
+samples = randsample(n_sample, 9, true);
+samples = samples(5:8);
 
 rng(2)
-T_sim = trnd(nu, M, T);
+T_sim = trnd(nu, M, 9);
+T_sim = T_sim(:, 5:8);
+
+err_sim = randn(N, 9);
+err_sim = err_sim(:, 5:8);
 
 for t = 1:T
     
@@ -65,7 +70,7 @@ for t = 1:T
         st = st+Npix(index_j);
         Y_comp(j-j_min+1, :, t) = DA(:, range)*c(range);     
     end
-    Y(:, t) = (DA*c+post_samples_tau(i)*randn(N, 1));
+    Y(:, t) = DA*c+post_samples_tau(i)*err_sim(:, t);
 
 end
 
