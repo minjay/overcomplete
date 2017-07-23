@@ -9,7 +9,7 @@ theta_vec = theta(:);
 phi_vec = phi(:);
 
 width = pi/2;
-lat_low = 20/180*pi;
+lat_low = 25/180*pi;
 
 rng(1)
 
