@@ -72,12 +72,12 @@ scatter(x_samples, y_samples, 20, 'bo')
 phi_grid(phi_grid<0) = phi_grid(phi_grid<0)+2*pi;
 theta_grid = pi/2-theta_grid;
 
-theta_j = theta_grid(index(72))/4;
-phi_j_rot = phi_grid(index(72))+pi/2;
+theta_j = theta_grid(index(63))/4;
+phi_j_rot = phi_grid(index(63))+pi/2;
 [x_j, y_j] = pol2cart(phi_j_rot, theta_j/pi*180);
 scatter(x_j, y_j, 20, 'r*')
 
 figure
 st = st-Npix;
 cj = squeeze(post_samples.c(st:end, :, 501:end));
-plot(cj(index(72), :))
+plot(cj(index(63), :))
