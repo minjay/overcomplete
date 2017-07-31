@@ -81,3 +81,11 @@ figure
 st = st-Npix;
 cj = squeeze(post_samples.c(st:end, :, 501:end));
 plot(cj(index(63), :))
+
+figure
+[f1, xi] = ksdensity(cj(index(63), :));
+f2 = normpdf(xi, 0, sigma_j(2));
+plot(xi, f1, 'b', 'LineWidth', 1.5)
+hold on
+plot(xi, f2, 'r', 'LineWidth', 1.5)
+legend('Posterior distribution', 'Prior distribution')
