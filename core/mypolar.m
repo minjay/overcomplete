@@ -1,4 +1,4 @@
-function hpol = mypolar(theta,rho,x,y,cf,vmag)
+function [] = mypolar(theta,rho,x,y,cf,vmag)
 %POLAR  Polar coordinate plot.
 %   POLAR(THETA, RHO) makes a plot using polar coordinates of
 %   the angle THETA, in radians, versus the radius RHO.
@@ -153,19 +153,6 @@ set(cax, 'DefaultTextFontAngle', fAngle , ...
     'DefaultTextFontWeight', fWeight, ...
     'DefaultTextUnits',fUnits );
 
-% transform data to Cartesian coordinates.
-xx = rho.*cos(theta);
-yy = rho.*sin(theta);
-
-% plot data on top of grid
-if strcmp(line_style,'auto')
-    q = plot(xx,yy);
-else
-    q = plot(xx,yy,line_style);
-end
-if nargout > 0
-    hpol = q;
-end
 if ~hold_state
     set(gca,'dataaspectratio',[1 1 1]), axis off; set(cax,'NextPlot',next);
 end
